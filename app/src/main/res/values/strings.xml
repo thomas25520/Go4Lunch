@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Go4Lunch</string>
+    <string name="login_background_subtitle">Find a nice restaurants and invite your co-workers for lunch !</string>
+    <string name="go4lunch_title">Go4Lunch</string>
 </resources>
