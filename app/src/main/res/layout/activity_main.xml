@@ -48,6 +48,22 @@
         app:itemIconTint="@color/colorWhite"
         app:itemTextColor="@color/colorWhite"
         app:menu="@menu/main_activity_menu_drawer"
-        tools:visibility="visible" />
+        tools:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/image_navigation_drawer"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/user_picture"
+                android:src="@drawable/ic_logogo4lunch_white" />
+        </RelativeLayout>
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

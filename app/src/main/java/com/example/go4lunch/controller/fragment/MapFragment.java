@@ -27,7 +27,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragment_maps_view);
         if (mapFragment != null)
             mapFragment.getMapAsync(this);
-
         return v;
     }
 
@@ -40,6 +39,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         // Add a marker in Sydney and move the camera

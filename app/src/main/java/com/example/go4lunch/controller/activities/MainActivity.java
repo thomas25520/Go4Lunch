@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mMapFragment = new MapFragment();
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.activity_main_frame_layout, mMapFragment)
+                    .replace(R.id.activity_main_frame_layout, mMapFragment)
                     .commit();
         }
     }
@@ -91,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle Navigation Item Click
         switch (item.getItemId()) {
             case R.id.activity_main_drawer_lunch:
-                break;
+//                break;
             case R.id.activity_main_drawer_logout:
-                break;
+//                break;
             case R.id.activity_main_drawer_settings:
-                break;
+//                break;
             default:
                 break;
         }

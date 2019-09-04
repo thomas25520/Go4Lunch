@@ -14,7 +14,7 @@
         tools:layout_editor_absoluteY="25dp" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/image_navigation_drawer"
         android:layout_width="57dp"
         android:layout_height="50dp"
         android:layout_marginStart="12dp"
@@ -22,7 +22,7 @@
         android:contentDescription="@string/user_picture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:src="@drawable/ic_no_profile_image" />
 
     <TextView
         android:id="@+id/textView5"
@@ -33,7 +33,7 @@
         android:text="@string/first_name"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
-        app:layout_constraintStart_toEndOf="@+id/imageView3" />
+        app:layout_constraintStart_toEndOf="@+id/image_navigation_drawer" />
 
     <TextView
         android:id="@+id/textView6"
@@ -52,8 +52,8 @@
         android:layout_marginStart="8dp"
         android:text="@string/e_mail"
         android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-        app:layout_constraintStart_toEndOf="@+id/imageView3" />
+        app:layout_constraintBottom_toBottomOf="@+id/image_navigation_drawer"
+        app:layout_constraintStart_toEndOf="@+id/image_navigation_drawer" />
 
     <TextView
         android:id="@+id/textView3"
