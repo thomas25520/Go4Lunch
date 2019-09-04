@@ -1,4 +1,4 @@
-package com.example.go4lunch.activity;
+package com.example.go4lunch.controller.activities;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,14 +9,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.controller.fragment.MapFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
+    private Fragment mMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureNavigationDrawer();
         configureDrawerLayout();
         setToolbar();
+
+        this.configureAndShowFragment();
+    }
+
+    private void configureAndShowFragment() {
+        mMapFragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
+        if (mMapFragment == null) {
+            mMapFragment = new MapFragment();
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.activity_main_frame_layout, mMapFragment)
+                    .commit();
+        }
     }
 
     // Configure NavigationDrawer
@@ -75,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle Navigation Item Click
         switch (item.getItemId()) {
             case R.id.activity_main_drawer_lunch:
-//                break;
+                break;
             case R.id.activity_main_drawer_logout:
-//                break;
+                break;
             case R.id.activity_main_drawer_settings:
-//                break;
+                break;
             default:
                 break;
         }
