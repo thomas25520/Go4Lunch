@@ -32,5 +32,9 @@
     <string name="star_3">star_3</string>
     <string name="star_2">star_2</string>
     <string name="star_one">star_one</string>
+    <string name="restaurant_detail_image">restaurant_detail_image</string>
+    <string name="call">CALL</string>
+    <string name="like">LIKE</string>
+    <string name="website">WEBSITE</string>
 
 </resources>
