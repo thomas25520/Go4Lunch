@@ -16,6 +16,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/activity_restaurant_informations"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_restaurant_image" />
+
+    <TextView
+        android:id="@+id/activity_restaurant_text_restaurant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/restaurant"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/activity_restaurant_informations" />
+
+    <TextView
+        android:id="@+id/activity_restaurant_text_adress"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/adress"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_restaurant_informations"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
         android:id="@+id/activity_restaurant_star_1"
         android:layout_width="20dp"
@@ -85,40 +117,6 @@
         android:src="@drawable/ic_web"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_restaurant_informations" />
-
-
-    <TextView
-        android:id="@+id/activity_restaurant_informations"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_restaurant_image" />
-
-
-    <TextView
-        android:id="@+id/activity_restaurant_text_restaurant_name"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/restaurant"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/activity_restaurant_informations" />
-
-    <TextView
-        android:id="@+id/activity_restaurant_text_adress"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/adress"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_restaurant_informations"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/call"
