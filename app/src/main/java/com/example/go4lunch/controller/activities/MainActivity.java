@@ -10,38 +10,38 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.controller.fragment.ListViewFragment;
 import com.example.go4lunch.controller.fragment.MapFragment;
+import com.example.go4lunch.controller.fragment.WorkmatesFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
-    private Fragment mMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setToolbar();
         configureNavigationDrawer();
         configureDrawerLayout();
-        setToolbar();
-
-        this.configureAndShowFragment();
+        initBottomNavigationView();
     }
 
-    private void configureAndShowFragment() {
-        mMapFragment = getSupportFragmentManager().findFragmentById(R.id.activity_main_frame_layout);
-        if (mMapFragment == null) {
-            mMapFragment = new MapFragment();
-
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_main_frame_layout, mMapFragment)
-                    .commit();
-        }
+    // Set Toolbar
+    private void setToolbar() {
+        Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("I'm hungry!");
     }
 
     // Configure NavigationDrawer
@@ -53,15 +53,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Configure Drawer Layout
     private void configureDrawerLayout() {
         mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
-    }
-
-    // Set Toolbar
-    private void setToolbar() {
-        Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("I'm hungry!");
     }
 
     @Override
@@ -78,14 +69,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.activity_main_toolbar_search_btn:
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    // select item on Navigation drawer
+    //     select item on Navigation drawer
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle Navigation Item Click
@@ -101,5 +90,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void initBottomNavigationView() {
+        BottomNavigationView navigation = findViewById(R.id.activity_main_bottom_navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        showFragment(new MapFragment()); // Start with this fragment, Without, no fragment display at stat.
+    }
+
+    // Listener for BottomNavigation
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = item -> {
+        switch (item.getItemId()) {
+            case R.id.map_view:
+                showFragment(new MapFragment());
+                return true;
+            case R.id.list_view:
+                showFragment(new ListViewFragment());
+                return true;
+            case R.id.workmates:
+                showFragment(new WorkmatesFragment());
+                return true;
+        }
+        return false;
+    };
+
+    // Display fragment
+    private void showFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.activity_main_frame_layout, fragment)
+                .commit();
     }
 }
