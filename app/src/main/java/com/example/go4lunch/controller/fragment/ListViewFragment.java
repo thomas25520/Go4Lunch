@@ -20,4 +20,12 @@ public class ListViewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_list_view, container, false);
     }
+
+//    private RecyclerView mRecyclerView;
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.fragment_list_view);
+//        mRecyclerView = (RecyclerView)findViewById(R.id.activity_restaurant_recyclerView);
+//    }
 }

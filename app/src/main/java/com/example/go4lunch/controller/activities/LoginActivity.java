@@ -19,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this); // allow butterKnife on activity
     }
 
-    @OnClick(R.id.textView2) // butterKnife use
+    @OnClick(R.id.activity_login_app_name) // butterKnife use
     public void startMainActivity() {
         startActivity(new Intent(this, MainActivity.class));
     }
