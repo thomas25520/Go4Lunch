@@ -19,9 +19,12 @@ import java.util.List;
 public class ListViewRecyclerAdapter extends RecyclerView.Adapter<ListViewViewHolder> {
 
     private List<Restaurant> mRestaurantList;
+    private ListViewRecyclerHolderListener<Restaurant, ListViewViewHolder> mListViewRecyclerHolderListener;
 
-    public ListViewRecyclerAdapter (List<Restaurant> restaurantList) {
+
+    public ListViewRecyclerAdapter (List<Restaurant> restaurantList, ListViewRecyclerHolderListener listener) {
         this.mRestaurantList = restaurantList;
+        this.mListViewRecyclerHolderListener = listener;
     }
 
     @NonNull
@@ -46,6 +49,11 @@ public class ListViewRecyclerAdapter extends RecyclerView.Adapter<ListViewViewHo
         holder.mRestaurantNumberOfPersonVote.setText(restaurant.getUserVote());
 
         Picasso.get().load(mRestaurantList.get(position).getPictureUrl()).into(holder.mRestaurantPicture);
+        holder.itemView.setOnClickListener(v -> mListViewRecyclerHolderListener.onItemClicked(holder, restaurant, position));
+    }
+
+    public void setListener(ListViewRecyclerHolderListener listener) {
+        this.mListViewRecyclerHolderListener = listener;
     }
 
     @Override

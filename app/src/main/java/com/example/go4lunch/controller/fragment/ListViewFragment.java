@@ -1,5 +1,6 @@
 package com.example.go4lunch.controller.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.controller.activities.RestaurantDetails;
 import com.example.go4lunch.controller.data.Restaurant;
 import com.example.go4lunch.controller.recycler.ListViewRecyclerAdapter;
+import com.example.go4lunch.controller.recycler.ListViewRecyclerHolderListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +55,34 @@ public class ListViewFragment extends Fragment {
     }
 
     private void configureRecyclerView() {
-        mAdapter = new ListViewRecyclerAdapter(mRestaurantList);
+        ListViewRecyclerHolderListener listViewRecyclerHolderListener= new ListViewRecyclerHolderListener() {
+            @Override
+            public void onItemClicked(RecyclerView.ViewHolder viewHolder, Object item, int pos) {
+                Restaurant restaurant = (Restaurant) item;
+                Intent intent = new Intent(getContext(), RestaurantDetails.class);
+
+                intent.putExtra("name", restaurant.getName());
+                intent.putExtra("origin", restaurant.getName());
+                intent.putExtra("address", restaurant.getName());
+                intent.putExtra("opening", restaurant.getName());
+                intent.putExtra("hours", restaurant.getName());
+                intent.putExtra("distance", restaurant.getName());
+                intent.putExtra("userVote", restaurant.getName());
+                intent.putExtra("pictureUrl", restaurant.getName());
+
+                startActivity(intent);
+            }
+        };
+
+        mAdapter = new ListViewRecyclerAdapter(mRestaurantList, listViewRecyclerHolderListener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
+
+//        mAdapter.setListener(listViewRecyclerHolderListener);
+        mAdapter.setListener(listViewRecyclerHolderListener);
+
     }
 }

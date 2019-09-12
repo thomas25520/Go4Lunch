@@ -34,6 +34,7 @@
         </activity>
         <activity android:name=".controller.activities.MainActivity" />
         <activity android:name=".controller.fragment.MapFragment" />
+        <activity android:name=".controller.activities.RestaurantDetails" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
