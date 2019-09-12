@@ -76,7 +76,7 @@
         app:layout_constraintStart_toEndOf="@+id/activity_restaurant_star_2"
         app:layout_constraintTop_toTopOf="@+id/activity_restaurant_informations" />
 
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/activity_restaurant_participation_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_restaurant_like_logo" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_restaurant_recyclerView"
+        android:id="@+id/activity_restaurant_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"

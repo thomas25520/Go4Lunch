@@ -8,24 +8,54 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.controller.data.Restaurant;
+import com.example.go4lunch.controller.recycler.ListViewRecyclerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dutru Thomas on 06/09/2019.
  */
 public class ListViewFragment extends Fragment {
 
+    private ListViewRecyclerAdapter mAdapter;
+    private List<Restaurant> mRestaurantList = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_list_view, container, false);
+        View listViewFragment = inflater.inflate(R.layout.fragment_list_view, container, false);
+        mRecyclerView = listViewFragment.findViewById(R.id.fragment_list_view_recycler);
+
+        configureRecyclerView();
+        initData();
+
+        return listViewFragment;
     }
 
-//    private RecyclerView mRecyclerView;
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.fragment_list_view);
-//        mRecyclerView = (RecyclerView)findViewById(R.id.activity_restaurant_recyclerView);
-//    }
+    private void initData() {
+        Restaurant restaurant = new Restaurant("Thommy","Français", "sombacour", "OPEN", "21:00","0", "0", "https://upload.wikimedia.org/wikipedia/commons/c/c9/Sombacour_-_vue_1.JPG");
+        mRestaurantList.add(restaurant);
+        restaurant = new Restaurant("Les granges de Fred","Français", "sombacour", "OPEN", "18:30", "0", "0", "https://upload.wikimedia.org/wikipedia/commons/3/3b/Sombacour_-_Mont-calvaire_-_vue_2.JPG");
+        mRestaurantList.add(restaurant);
+        restaurant = new Restaurant("Les Délices de Manamis","International", "sombacour", "OPEN", "18:30", "450", "36", "https://cdn-s-www.estrepublicain.fr/images/3A72D60E-2D51-49B6-BB8F-34989E66179F/LER_22/incendie-au-lieu-dit-le-souillot-a-la-chapelle-d-huin-1522764351.jpg");
+        mRestaurantList.add(restaurant);
+        restaurant = new Restaurant("Le kosovar","kosovo", "sombacour", "OPEN", "19:00","250", "6", "https://www.communes.com/images/orig/franche-comte/doubs/sombacour_25520/Sombacour_11027_calvaire.jpg");
+        mRestaurantList.add(restaurant);
+    }
+
+    private void configureRecyclerView() {
+        mAdapter = new ListViewRecyclerAdapter(mRestaurantList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
+    }
 }
