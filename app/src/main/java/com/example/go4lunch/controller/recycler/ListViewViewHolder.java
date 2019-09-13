@@ -29,10 +29,6 @@ public class ListViewViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.fragment_list_view_item_star_3) ImageView mRestaurantStar3;
     @BindView(R.id.fragment_list_view_item_restaurant_picture) ImageView mRestaurantPicture;
 
-    public TextView mRestaurantPicturUrl;
-
-    // FIXME: 10/09/2019 Add other binds
-
     public ListViewViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

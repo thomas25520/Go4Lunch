@@ -31,7 +31,6 @@ public class ListViewFragment extends Fragment {
     private List<Restaurant> mRestaurantList = new ArrayList<>();
     private RecyclerView mRecyclerView;
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View listViewFragment = inflater.inflate(R.layout.fragment_list_view, container, false);
@@ -55,23 +54,15 @@ public class ListViewFragment extends Fragment {
     }
 
     private void configureRecyclerView() {
-        ListViewRecyclerHolderListener listViewRecyclerHolderListener= new ListViewRecyclerHolderListener() {
-            @Override
-            public void onItemClicked(RecyclerView.ViewHolder viewHolder, Object item, int pos) {
-                Restaurant restaurant = (Restaurant) item;
-                Intent intent = new Intent(getContext(), RestaurantDetails.class);
+        ListViewRecyclerHolderListener listViewRecyclerHolderListener= (viewHolder, item, pos) -> {
+            Restaurant restaurant = (Restaurant) item;
+            Intent intent = new Intent(getContext(), RestaurantDetails.class);
 
-                intent.putExtra("name", restaurant.getName());
-                intent.putExtra("origin", restaurant.getName());
-                intent.putExtra("address", restaurant.getName());
-                intent.putExtra("opening", restaurant.getName());
-                intent.putExtra("hours", restaurant.getName());
-                intent.putExtra("distance", restaurant.getName());
-                intent.putExtra("userVote", restaurant.getName());
-                intent.putExtra("pictureUrl", restaurant.getName());
+            intent.putExtra("name", restaurant.getName());
+            intent.putExtra("address", restaurant.getAddress());
+            intent.putExtra("pictureUrl", restaurant.getPictureUrl());
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         };
 
         mAdapter = new ListViewRecyclerAdapter(mRestaurantList, listViewRecyclerHolderListener);
@@ -80,9 +71,6 @@ public class ListViewFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
-
-//        mAdapter.setListener(listViewRecyclerHolderListener);
         mAdapter.setListener(listViewRecyclerHolderListener);
-
     }
 }
