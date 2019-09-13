@@ -36,5 +36,7 @@
     <string name="call">CALL</string>
     <string name="like">LIKE</string>
     <string name="website">WEBSITE</string>
+    <string name="is_eating">is eating</string>
+    <string name="firstname">frstname</string>
 
 </resources>
