@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,16 +41,18 @@ public class WorkmatesFragment extends Fragment {
     }
 
     private void initData() {
-        Workmates workmates = new Workmates("Thomas", "is eating","French", "Les granges de fred", "https://resize-europe1.lanmedia.fr/r/622,311,forcex,center-middle/img/var/europe1/storage/images/europe1/international/selon-trump-lassaillant-de-new-york-est-une-personne-tres-malade-3479963/44980487-1-fre-FR/Selon-Trump-l-assaillant-de-New-York-est-une-personne-tres-malade.jpg");
+        Workmates workmates = new Workmates("Thomas", "is eating","French", "(Les granges de fred)", "https://specials-images.forbesimg.com/imageserve/5d766e5b44f2b20008040867/960x0.jpg?fit=scale");
         mWorkmatesList.add(workmates);
     }
 
     private void configureRecyclerView() {
         mAdapter = new WorkmatesRecyclerAdapter(mWorkmatesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), ((LinearLayoutManager) mLayoutManager).getOrientation()); // Make line between item elements
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mRecyclerView.setAdapter(mAdapter);
     }
 }

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_menu_24px);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("I'm hungry!");
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.i_m_hungry);
     }
 
     // Configure NavigationDrawer
@@ -104,12 +104,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.map_view:
                 showFragment(new MapFragment());
+                Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.i_m_hungry);
                 return true;
             case R.id.list_view:
                 showFragment(new ListViewFragment());
+                Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.i_m_hungry);
                 return true;
             case R.id.workmates:
                 showFragment(new WorkmatesFragment());
+                Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.available_workmates);
                 return true;
         }
         return false;

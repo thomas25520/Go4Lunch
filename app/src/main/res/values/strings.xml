@@ -41,9 +41,10 @@
 
 <!--    WORKMATES-->
     <string name="is_eating">is eating</string>
-    <string name="firstname">frstname</string>
 
 <!--    OHERS-->
     <string name="participation_btn_info_user_true">Good! You joined these workmates to eat.</string>
     <string name="participation_btn_info_user_false">You leave these workmates to eat.</string>
+    <string name="available_workmates">Available workmates</string>
+    <string name="i_m_hungry">I\'m hungry!</string>
 </resources>
