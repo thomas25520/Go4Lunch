@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:title="bottom_navigation_item_selected_color_change_checked_true"
+            android:state_checked="true"
+            android:color="@color/colorPrimary" />
+        <item
+            android:title="bottom_navigation_item_selected_color_change_checked_true"
+            android:state_checked="false"
+            android:color="@color/colorDark" />
+</selector>

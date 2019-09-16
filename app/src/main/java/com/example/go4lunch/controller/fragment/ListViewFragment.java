@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,10 +68,12 @@ public class ListViewFragment extends Fragment {
 
         mAdapter = new ListViewRecyclerAdapter(mRestaurantList, listViewRecyclerHolderListener);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), ((LinearLayoutManager) mLayoutManager).getOrientation()); // Make line between item elements
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mAdapter.setListener(listViewRecyclerHolderListener);
     }
 }
