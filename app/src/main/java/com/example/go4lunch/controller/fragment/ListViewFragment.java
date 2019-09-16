@@ -61,6 +61,7 @@ public class ListViewFragment extends Fragment {
 
             intent.putExtra("name", restaurant.getName());
             intent.putExtra("address", restaurant.getAddress());
+            intent.putExtra("origin", restaurant.getOrigin());
             intent.putExtra("pictureUrl", restaurant.getPictureUrl());
 
             startActivity(intent);

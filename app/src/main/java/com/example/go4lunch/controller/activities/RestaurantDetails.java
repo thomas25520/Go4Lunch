@@ -21,6 +21,7 @@ public class RestaurantDetails extends AppCompatActivity {
 
     @BindView(R.id.activity_restaurant_details_name) TextView mRestaurantName;
     @BindView(R.id.activity_restaurant_details_address) TextView mRestaurantAddress;
+    @BindView(R.id.activity_restaurant_details_origin) TextView mRestaurantOrigin;
     @BindView(R.id.activity_restaurant_details_picture) ImageView mRestaurantPicture;
 
     @Override
@@ -34,6 +35,7 @@ public class RestaurantDetails extends AppCompatActivity {
     private void initViews() {
         mRestaurantName.setText(getIntent().getStringExtra("name"));
         mRestaurantAddress.setText(getIntent().getStringExtra("address"));
+        mRestaurantOrigin.setText(getIntent().getStringExtra("origin"));
 
         Picasso.get().load(getIntent().getStringExtra("pictureUrl")).into(mRestaurantPicture);
     }
