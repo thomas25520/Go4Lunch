@@ -48,7 +48,9 @@ public class LoginActivity extends AppCompatActivity {
                         .createSignInIntentBuilder()
                         .setTheme(R.style.LoginTheme)
                         .setAvailableProviders(
-                                Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build()))
+                                Arrays.asList(
+                                        new AuthUI.IdpConfig.EmailBuilder().build(), // Sign in with mail
+                                        new AuthUI.IdpConfig.GoogleBuilder().build())) // Sign in with google
                         .setIsSmartLockEnabled(false, true)
                         .build(),
                 RC_SIGN_IN);
