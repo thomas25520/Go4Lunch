@@ -42,7 +42,11 @@
 <!--    WORKMATES-->
     <string name="is_eating">is eating</string>
 
-<!--    OHERS-->
+    <!--    FACEBOOK -->
+    <string name="facebook_application_id" translatable="false">3019484981460119</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb3019484981460119</string>
+
+    <!--    OHERS-->
     <string name="participation_btn_info_user_true">Good! You joined these workmates to eat.</string>
     <string name="participation_btn_info_user_false">You leave these workmates to eat.</string>
     <string name="available_workmates">Available workmates</string>
@@ -51,4 +55,5 @@
     <string name="error_authentication_canceled">Error authentication canceled</string>
     <string name="error_no_internet">Error no internet</string>
     <string name="error_unknown_error">Error unknown error</string>
+
 </resources>

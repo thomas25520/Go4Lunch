@@ -29,16 +29,10 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this); // allow butterKnife on activity
     }
 
-//    @OnClick(R.id.activity_login_app_name) // butterKnife use
-//    public void startMainActivity() {
-//        startActivity(new Intent(this, MainActivity.class));
-//    }
-
     @OnClick(R.id.activity_login_connect_btn)
     public void onClickLoginButton() {
         // 3 - Launch Sign-In Activity when user clicked on Login Button
         this.startSignInActivity();
-
     }
 
     // 2 - Launch Sign-In Activity
@@ -50,7 +44,8 @@ public class LoginActivity extends AppCompatActivity {
                         .setAvailableProviders(
                                 Arrays.asList(
                                         new AuthUI.IdpConfig.EmailBuilder().build(), // Sign in with mail
-                                        new AuthUI.IdpConfig.GoogleBuilder().build())) // Sign in with google
+                                        new AuthUI.IdpConfig.GoogleBuilder().build(), // Sign in with google
+                                        new AuthUI.IdpConfig.FacebookBuilder().build()))// Sign in with facebook
                         .setIsSmartLockEnabled(false, true)
                         .build(),
                 RC_SIGN_IN);
