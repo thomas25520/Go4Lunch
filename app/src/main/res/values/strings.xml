@@ -22,7 +22,7 @@
     <string name="bottom_navigation_menu_workmates">Workmates</string>
     <string name="title_activity_maps">Map</string>
 
-<!--    RESTAURANT-->
+    <!--    RESTAURANT-->
     <string name="restaurant_image_item_list">restaurant_image_item_list</string>
     <string name="restaurant">Restaurant Name</string>
     <string name="origin">origin</string>
@@ -39,7 +39,7 @@
     <string name="like">LIKE</string>
     <string name="website">WEBSITE</string>
 
-<!--    WORKMATES-->
+    <!--    WORKMATES-->
     <string name="is_eating">is eating</string>
 
     <!--    FACEBOOK -->
@@ -55,5 +55,8 @@
     <string name="error_authentication_canceled">Error authentication canceled</string>
     <string name="error_no_internet">Error no internet</string>
     <string name="error_unknown_error">Error unknown error</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

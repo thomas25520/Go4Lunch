@@ -25,31 +25,84 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        onClickLoginButton();
         ButterKnife.bind(this); // allow butterKnife on activity
     }
 
-    @OnClick(R.id.activity_login_connect_btn)
-    public void onClickLoginButton() {
+    @OnClick(R.id.activity_login_connect_btn_mail)
+    public void onClickMailButton() {
         // 3 - Launch Sign-In Activity when user clicked on Login Button
-        this.startSignInActivity();
+        this.startSignInActivityWithMail();
     }
 
-    // 2 - Launch Sign-In Activity
-    private void startSignInActivity(){
+    @OnClick(R.id.activity_login_connect_btn_facebook)
+    public void onClickFacebookButton() {
+        // 3 - Launch Sign-In Activity when user clicked on Login Button
+        this.startSignInActivityWithFacebook();
+    }
+
+    @OnClick(R.id.activity_login_connect_btn_google)
+    public void onClickGoogleButton() {
+        // 3 - Launch Sign-In Activity when user clicked on Login Button
+        this.startSignInActivityWithGoogle();
+    }
+
+//    @OnClick(R.id.activity_login_connect_btn_twitter)
+//    public void onClickTweeterButton() {
+//        // 3 - Launch Sign-In Activity when user clicked on Login Button
+//        this.startSignInActivityWithTwitter();
+//    }
+
+    private void startSignInActivityWithMail(){
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setTheme(R.style.LoginTheme)
                         .setAvailableProviders(
                                 Arrays.asList(
-                                        new AuthUI.IdpConfig.EmailBuilder().build(), // Sign in with mail
-                                        new AuthUI.IdpConfig.GoogleBuilder().build(), // Sign in with google
+                                        new AuthUI.IdpConfig.EmailBuilder().build())) // Sign in with mail
+                        .setIsSmartLockEnabled(false, true)
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+    private void startSignInActivityWithFacebook(){
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setTheme(R.style.LoginTheme)
+                        .setAvailableProviders(
+                                Arrays.asList(
                                         new AuthUI.IdpConfig.FacebookBuilder().build()))// Sign in with facebook
                         .setIsSmartLockEnabled(false, true)
                         .build(),
                 RC_SIGN_IN);
     }
+
+    private void startSignInActivityWithGoogle(){
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setTheme(R.style.LoginTheme)
+                        .setAvailableProviders(
+                                Arrays.asList(
+                                        new AuthUI.IdpConfig.GoogleBuilder().build())) // Sign in with google
+                        .setIsSmartLockEnabled(false, true)
+                        .build(),
+                RC_SIGN_IN);
+    }
+
+//    private void startSignInActivityWithTwitter(){
+//        startActivityForResult(
+//                AuthUI.getInstance()
+//                        .createSignInIntentBuilder()
+//                        .setTheme(R.style.LoginTheme)
+//                        .setAvailableProviders(
+//                                Arrays.asList(
+//                                        new AuthUI.IdpConfig.TwitterBuilder().build())) // Sign in with mail
+//                        .setIsSmartLockEnabled(false, true)
+//                        .build(),
+//                RC_SIGN_IN);
+//    }
 
     // Method that handles response after SignIn Activity close
     private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data){
