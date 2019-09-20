@@ -46,13 +46,13 @@ public class LoginActivity extends AppCompatActivity {
         this.startSignInActivityWithGoogle();
     }
 
-//    @OnClick(R.id.activity_login_connect_btn_twitter)
-//    public void onClickTweeterButton() {
-//        // 3 - Launch Sign-In Activity when user clicked on Login Button
-//        this.startSignInActivityWithTwitter();
-//    }
+    @OnClick(R.id.activity_login_connect_btn_twitter)
+    public void onClickTweeterButton() {
+        // 3 - Launch Sign-In Activity when user clicked on Login Button
+        this.startSignInActivityWithTwitter();
+    }
 
-    private void startSignInActivityWithMail(){
+    private void startSignInActivityWithMail() {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                 RC_SIGN_IN);
     }
 
-    private void startSignInActivityWithFacebook(){
+    private void startSignInActivityWithFacebook() {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 RC_SIGN_IN);
     }
 
-    private void startSignInActivityWithGoogle(){
+    private void startSignInActivityWithGoogle() {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -91,21 +91,21 @@ public class LoginActivity extends AppCompatActivity {
                 RC_SIGN_IN);
     }
 
-//    private void startSignInActivityWithTwitter(){
-//        startActivityForResult(
-//                AuthUI.getInstance()
-//                        .createSignInIntentBuilder()
-//                        .setTheme(R.style.LoginTheme)
-//                        .setAvailableProviders(
-//                                Arrays.asList(
-//                                        new AuthUI.IdpConfig.TwitterBuilder().build())) // Sign in with mail
-//                        .setIsSmartLockEnabled(false, true)
-//                        .build(),
-//                RC_SIGN_IN);
-//    }
+    private void startSignInActivityWithTwitter() {
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setTheme(R.style.LoginTheme)
+                        .setAvailableProviders(
+                                Arrays.asList(
+                                        new AuthUI.IdpConfig.TwitterBuilder().build())) // Sign in with mail
+                        .setIsSmartLockEnabled(false, true)
+                        .build(),
+                RC_SIGN_IN);
+    }
 
     // Method that handles response after SignIn Activity close
-    private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data){
+    private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data) {
 
         IdpResponse response = IdpResponse.fromResultIntent(data);
 
