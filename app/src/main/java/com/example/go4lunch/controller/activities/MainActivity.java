@@ -1,8 +1,10 @@
 package com.example.go4lunch.controller.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import com.example.go4lunch.R;
 import com.example.go4lunch.controller.fragment.ListViewFragment;
 import com.example.go4lunch.controller.fragment.MapFragment;
 import com.example.go4lunch.controller.fragment.WorkmatesFragment;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        ButterKnife.bind(this); // allow butterKnife on activity
 
         setToolbar();
         configureNavigationDrawer();
@@ -48,6 +52,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureNavigationDrawer() {
         NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void logOut() {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(task -> {
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class)); // Start LoginActivity after logOut
+                    Toast.makeText(getApplicationContext(), R.string.log_out_message, Toast.LENGTH_LONG).show();
+                });
     }
 
     // Configure Drawer Layout
@@ -82,7 +95,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_lunch:
 //                break;
             case R.id.activity_main_drawer_logout:
-//                break;
+                logOut();
+                break;
             case R.id.activity_main_drawer_settings:
 //                break;
             default:
