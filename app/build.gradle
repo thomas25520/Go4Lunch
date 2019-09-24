@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
     implementation 'com.facebook.android:facebook-login:5.5.1'
     implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,12 +1,17 @@
 package com.example.go4lunch.controller.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -21,22 +26,77 @@ import com.example.go4lunch.controller.fragment.WorkmatesFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.Objects;
 
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
+    private TextView mUserName, mUserMailAddress;
+    private ImageView mUserProfilePicture;
+
+    // Get user connected info with FireBaseUI
+    @Nullable
+    protected FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
+
+    // Verify user is connected
+    protected Boolean isCurrentUserLogged(){ return (this.getCurrentUser() != null); }
+
+    private void updateUserInfoWhenConnecting() {
+
+        if (this.getCurrentUser() != null){
+
+//            Get picture URL from Firebase
+            if (this.getCurrentUser().getPhotoUrl() != null) {
+                imageCircleTransformationAndDisplayWithPicasso(mUserProfilePicture,getCurrentUser().getPhotoUrl());
+            }
+
+            if (getCurrentUser().getEmail() != null)
+            mUserMailAddress.setText(getCurrentUser().getEmail());
+
+            if (getCurrentUser().getDisplayName() != null)
+            mUserName.setText(getCurrentUser().getDisplayName());
+        }
+    }
+
+    /**
+     * used to display the profile picture of a user connected with firebaseUI like facebook, twitter ...
+     * @param imageView Image view where you would like to display the picture
+     * @param urlPictureToDisplay Url of the picture in Uri type
+     */
+    private void imageCircleTransformationAndDisplayWithPicasso (ImageView imageView, Uri urlPictureToDisplay) {
+        Transformation transformation = new RoundedTransformationBuilder()
+//                .borderColor(Color.BLACK)
+//                .borderWidthDp(0)
+                .cornerRadiusDp(30)
+                .oval(true)
+                .build();
+
+        Picasso.get()
+                .load(urlPictureToDisplay)
+                .fit()
+                .transform(transformation)
+                .into(imageView);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        ButterKnife.bind(this); // allow butterKnife on activity
+        ButterKnife.bind(this); // allow butterKnife on activity
 
         setToolbar();
         configureNavigationDrawer();
-        configureDrawerLayout();
         initBottomNavigationView();
+
+        if (isCurrentUserLogged())
+            updateUserInfoWhenConnecting();
     }
 
     // Set Toolbar
@@ -51,9 +111,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Configure NavigationDrawer
     private void configureNavigationDrawer() {
         NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
+        View headerView = navigationView.getHeaderView(0);
+
+        mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
+
+        // headerView is used to precise is NavDrawer header view, not principal view. Without crash because mUsers are null.
+        mUserName = headerView.findViewById(R.id.activity_main_nav_drawer_name);
+        mUserMailAddress = headerView.findViewById(R.id.activity_main_nav_drawer_email_address);
+        mUserProfilePicture = headerView.findViewById(R.id.activity_main_nav_drawer_user_profile_picture);
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    // Disconnect user, use on NavDrawer, LogOut button click
     public void logOut() {
         AuthUI.getInstance()
                 .signOut(this)
@@ -61,11 +131,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class)); // Start LoginActivity after logOut
                     Toast.makeText(getApplicationContext(), R.string.log_out_message, Toast.LENGTH_LONG).show();
                 });
-    }
-
-    // Configure Drawer Layout
-    private void configureDrawerLayout() {
-        mDrawerLayout = findViewById(R.id.activity_main_drawer_layout);
     }
 
     @Override
