@@ -31,74 +31,33 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.activity_login_connect_btn_mail)
     public void onClickMailButton() {
         // 3 - Launch Sign-In Activity when user clicked on Login Button
-        this.startSignInActivityWithMail();
+        this.startSignInActivity(new AuthUI.IdpConfig.EmailBuilder().build());
     }
 
     @OnClick(R.id.activity_login_connect_btn_facebook)
     public void onClickFacebookButton() {
         // 3 - Launch Sign-In Activity when user clicked on Login Button
-        this.startSignInActivityWithFacebook();
+        this.startSignInActivity(new AuthUI.IdpConfig.FacebookBuilder().build());
     }
 
     @OnClick(R.id.activity_login_connect_btn_google)
     public void onClickGoogleButton() {
         // 3 - Launch Sign-In Activity when user clicked on Login Button
-        this.startSignInActivityWithGoogle();
+        this.startSignInActivity(new AuthUI.IdpConfig.GoogleBuilder().build());
     }
 
     @OnClick(R.id.activity_login_connect_btn_twitter)
-    public void onClickTweeterButton() {
+    public void onClickTwitterButton() {
         // 3 - Launch Sign-In Activity when user clicked on Login Button
-        this.startSignInActivityWithTwitter();
+        this.startSignInActivity(new AuthUI.IdpConfig.TwitterBuilder().build());
     }
 
-    private void startSignInActivityWithMail() {
+    private void startSignInActivity(AuthUI.IdpConfig builder) {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setTheme(R.style.LoginTheme)
-                        .setAvailableProviders(
-                                Arrays.asList(
-                                        new AuthUI.IdpConfig.EmailBuilder().build())) // Sign in with mail
-                        .setIsSmartLockEnabled(false, true)
-                        .build(),
-                RC_SIGN_IN);
-    }
-
-    private void startSignInActivityWithFacebook() {
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setTheme(R.style.LoginTheme)
-                        .setAvailableProviders(
-                                Arrays.asList(
-                                        new AuthUI.IdpConfig.FacebookBuilder().build()))// Sign in with facebook
-                        .setIsSmartLockEnabled(false, true)
-                        .build(),
-                RC_SIGN_IN);
-    }
-
-    private void startSignInActivityWithGoogle() {
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setTheme(R.style.LoginTheme)
-                        .setAvailableProviders(
-                                Arrays.asList(
-                                        new AuthUI.IdpConfig.GoogleBuilder().build())) // Sign in with google
-                        .setIsSmartLockEnabled(false, true)
-                        .build(),
-                RC_SIGN_IN);
-    }
-
-    private void startSignInActivityWithTwitter() {
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setTheme(R.style.LoginTheme)
-                        .setAvailableProviders(
-                                Arrays.asList(
-                                        new AuthUI.IdpConfig.TwitterBuilder().build())) // Sign in with mail
+                        .setAvailableProviders(Arrays.asList(builder)) // Sign in with mail
                         .setIsSmartLockEnabled(false, true)
                         .build(),
                 RC_SIGN_IN);
