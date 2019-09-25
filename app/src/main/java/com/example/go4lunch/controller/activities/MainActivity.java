@@ -41,50 +41,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView mUserName, mUserMailAddress;
     private ImageView mUserProfilePicture;
 
-    // Get user connected info with FireBaseUI
-    @Nullable
-    protected FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
-
-    // Verify user is connected
-    protected Boolean isCurrentUserLogged(){ return (this.getCurrentUser() != null); }
-
-    private void updateUserInfoWhenConnecting() {
-
-        if (this.getCurrentUser() != null){
-
-//            Get picture URL from Firebase
-            if (this.getCurrentUser().getPhotoUrl() != null) {
-                imageCircleTransformationAndDisplayWithPicasso(mUserProfilePicture,getCurrentUser().getPhotoUrl());
-            }
-
-            if (getCurrentUser().getEmail() != null)
-            mUserMailAddress.setText(getCurrentUser().getEmail());
-
-            if (getCurrentUser().getDisplayName() != null)
-            mUserName.setText(getCurrentUser().getDisplayName());
-        }
-    }
-
-    /**
-     * used to display the profile picture of a user connected with firebaseUI like facebook, twitter ...
-     * @param imageView Image view where you would like to display the picture
-     * @param urlPictureToDisplay Url of the picture in Uri type
-     */
-    private void imageCircleTransformationAndDisplayWithPicasso (ImageView imageView, Uri urlPictureToDisplay) {
-        Transformation transformation = new RoundedTransformationBuilder()
-//                .borderColor(Color.BLACK)
-//                .borderWidthDp(0)
-                .cornerRadiusDp(30)
-                .oval(true)
-                .build();
-
-        Picasso.get()
-                .load(urlPictureToDisplay)
-                .fit()
-                .transform(transformation)
-                .into(imageView);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,5 +159,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager.beginTransaction()
                 .replace(R.id.activity_main_frame_layout, fragment)
                 .commit();
+    }
+
+    // Get user connected info with FireBaseUI
+    @Nullable
+    protected FirebaseUser getCurrentUser(){ return FirebaseAuth.getInstance().getCurrentUser(); }
+
+    // Verify user is connected
+    protected Boolean isCurrentUserLogged(){ return (this.getCurrentUser() != null); }
+
+    private void updateUserInfoWhenConnecting() {
+
+        if (this.getCurrentUser() != null){
+
+//            Get picture URL from Firebase
+            if (this.getCurrentUser().getPhotoUrl() != null) {
+                imageCircleTransformationAndDisplayWithPicasso(mUserProfilePicture,getCurrentUser().getPhotoUrl());
+            }
+
+            if (getCurrentUser().getEmail() != null)
+                mUserMailAddress.setText(getCurrentUser().getEmail());
+
+            if (getCurrentUser().getDisplayName() != null)
+                mUserName.setText(getCurrentUser().getDisplayName());
+        }
+    }
+
+    /**
+     * used to display the profile picture of a user connected with firebaseUI like facebook, twitter ...
+     * @param imageView Image view where you would like to display the picture
+     * @param urlPictureToDisplay Url of the picture in Uri type
+     */
+    private void imageCircleTransformationAndDisplayWithPicasso (ImageView imageView, Uri urlPictureToDisplay) {
+        Transformation transformation = new RoundedTransformationBuilder()
+//                .borderColor(Color.BLACK)
+//                .borderWidthDp(0)
+                .cornerRadiusDp(30)
+                .oval(true)
+                .build();
+
+        Picasso.get()
+                .load(urlPictureToDisplay)
+                .fit()
+                .transform(transformation)
+                .into(imageView);
     }
 }

@@ -52,6 +52,10 @@ public class LoginActivity extends AppCompatActivity {
         this.startSignInActivity(new AuthUI.IdpConfig.TwitterBuilder().build());
     }
 
+    /**
+     * Use to create sign in activity from firebase
+     * @param builder builder login provider
+     */
     private void startSignInActivity(AuthUI.IdpConfig builder) {
         startActivityForResult(
                 AuthUI.getInstance()
