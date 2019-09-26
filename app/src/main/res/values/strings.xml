@@ -54,7 +54,7 @@
     <string name="connection_succeed">Connection succeed</string>
     <string name="error_authentication_canceled">Error authentication canceled</string>
     <string name="error_no_internet">Error no internet</string>
-    <string name="error_unknown_error">Error unknown error</string>
+    <string name="unknown_error">Unknown error</string>
 
     <!--    OHERS-->
     <string name="participation_btn_info_user_true">Good! You joined these workmates to eat.</string>
@@ -62,6 +62,7 @@
     <string name="available_workmates">Available workmates</string>
     <string name="i_m_hungry">I\'m hungry!</string>
     <string name="log_out_message">You have logged out</string>
+    <string name="function_under_development">Function under development</string>
 
 
 </resources>
