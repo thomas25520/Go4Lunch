@@ -41,11 +41,11 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.firebaseui:firebase-ui-auth:6.0.2'
+    implementation 'com.firebaseui:firebase-ui-firestore:6.0.2'
     implementation 'com.facebook.android:facebook-android-sdk:5.5.1'
     implementation 'com.facebook.android:facebook-login:5.5.1'
     implementation 'com.twitter.sdk.android:twitter-core:3.1.1'
     implementation 'com.makeramen:roundedimageview:2.3.0'
-    implementation 'com.firebaseui:firebase-ui-firestore:6.0.2'
     implementation 'androidx.multidex:multidex:2.0.1'
 }
 

@@ -35,17 +35,8 @@
         android:id="@+id/fragment_workmates_item_is_eating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
         android:text="@string/is_eating"
-        android:textColor="@color/colorDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fragment_workmates_item_between_eating_and_origin"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/fragment_workmates_item_between_eating_and_origin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" - "
         android:textColor="@color/colorDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fragment_workmates_item_user_name"

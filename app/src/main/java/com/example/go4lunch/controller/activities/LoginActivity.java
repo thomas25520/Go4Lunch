@@ -23,8 +23,9 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
-    // 1 - Identifier for Sign-In Activity
+    // Identifier for Sign-In Activity
     private static final int RC_SIGN_IN = 123;
+
     private String mUserName, mUserMailAddress, mUserProfilePicture;
 
     @Nullable
@@ -39,25 +40,25 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_login_connect_btn_mail)
     public void onClickMailButton() {
-        // 3 - Launch Sign-In Activity when user clicked on Login Button
+        // Launch Sign-In Activity when user clicked on Login Button
         this.startSignInActivity(new AuthUI.IdpConfig.EmailBuilder().build());
     }
 
     @OnClick(R.id.activity_login_connect_btn_facebook)
     public void onClickFacebookButton() {
         // 3 - Launch Sign-In Activity when user clicked on Login Button
-        this.startSignInActivity(new AuthUI.IdpConfig.FacebookBuilder().build());
+        Toast.makeText(this, "Under developing", Toast.LENGTH_LONG).show();
+//  TODO: 30/09/2019 : Repair Login with Facebook : developer error to fix.
+//        this.startSignInActivity(new AuthUI.IdpConfig.FacebookBuilder().build());
     }
 
     @OnClick(R.id.activity_login_connect_btn_google)
     public void onClickGoogleButton() {
-        // 3 - Launch Sign-In Activity when user clicked on Login Button
         this.startSignInActivity(new AuthUI.IdpConfig.GoogleBuilder().build());
     }
 
     @OnClick(R.id.activity_login_connect_btn_twitter)
     public void onClickTwitterButton() {
-        // 3 - Launch Sign-In Activity when user clicked on Login Button
         this.startSignInActivity(new AuthUI.IdpConfig.TwitterBuilder().build());
     }
 

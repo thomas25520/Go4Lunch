@@ -23,8 +23,8 @@ public class ListViewRecyclerAdapter extends RecyclerView.Adapter<ListViewViewHo
 
 
     public ListViewRecyclerAdapter (List<Restaurant> restaurantList, ListViewRecyclerHolderListener listener) {
-        this.mRestaurantList = restaurantList;
-        this.mHolderListener = listener;
+        mRestaurantList = restaurantList;
+        mHolderListener = listener;
     }
 
     @NonNull

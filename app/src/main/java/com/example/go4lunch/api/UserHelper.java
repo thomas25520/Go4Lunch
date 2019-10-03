@@ -24,7 +24,7 @@ public class UserHelper {
     }
 
     // --- GET ---
-    public static Task<DocumentSnapshot> getUser(String email){
+    public static Task<DocumentSnapshot> getUser(String email) {
         return UserHelper.getUsersCollection().document(email).get();
     }
 
