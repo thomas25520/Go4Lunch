@@ -53,7 +53,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private double mLongitude;
 
     private FusedLocationProviderClient mFusedLocationClient;
-    private Place mPlace;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -111,7 +110,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void initPlaces(GoogleMap googleMap) {
         // Initialize the SDK
-        Places.initialize(Objects.requireNonNull(getContext()), String.valueOf("AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4"));
+        Places.initialize(Objects.requireNonNull(getContext()), String.valueOf("AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4")); // TODO: 10/10/2019 Secure the api key
         // Create a new Places client instance
         PlacesClient placesClient = Places.createClient(getContext());
         // Use fields to define the data types to return.
@@ -130,9 +129,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                 for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
                     if (Objects.requireNonNull(placeLikelihood.getPlace().getTypes()).toString().contains("RESTAURANT")) { // Display only Restaurant
-
-//                        Log.i("ABC", String.format("Place '%s' has likelihood: %f", placeLikelihood.getPlace(), placeLikelihood.getLikelihood()));
-//                        System.out.println("RESTAURANT TYPE : " +placeLikelihood.getPlace().getTypes());
 
                         LatLng restaurant = new LatLng(Objects.requireNonNull(placeLikelihood.getPlace().getLatLng()).latitude, placeLikelihood.getPlace().getLatLng().longitude);
 
