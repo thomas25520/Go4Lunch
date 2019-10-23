@@ -6,6 +6,8 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorTransparency">#00FFFFFF</color>
     <color name="colorDark">#000000</color>
+    <color name="color_red">#D50000</color>
+    <color name="color_green">#59B717</color>
     <color name="color_twitter">#00acee</color>
     <color name="color_facebook">#3B5998</color>
     <color name="color_google">#DB4A39</color>

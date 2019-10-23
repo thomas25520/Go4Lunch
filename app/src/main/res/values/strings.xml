@@ -27,7 +27,8 @@
     <string name="restaurant">Restaurant Name</string>
     <string name="origin">origin</string>
     <string name="address">address</string>
-    <string name="open">open</string>
+    <string name="open">OPEN</string>
+    <string name="close">CLOSE</string>
     <string name="hour">hour</string>
     <string name="meters">meters</string>
     <string name="x">(x)</string>
@@ -67,6 +68,7 @@
     <string name="log_out_message">You have logged out</string>
     <string name="function_under_development">Function under development</string>
     <string name="error_permission_map">error permission location</string>
+    <string name="no_restaurant_found">No restaurant around your position</string>
 
 
 </resources>

@@ -52,11 +52,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private double mLatitude;
     private double mLongitude;
 
+    public static LatLng mUserPosition;
+
     private FusedLocationProviderClient mFusedLocationClient;
+    private PlacesClient mPlacesClient;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_maps, container, false);
+        // Initialize the SDK
+        Places.initialize(Objects.requireNonNull(getContext()), getString(R.string.google_api_key));
+        // Create a new Places client instance
+        mPlacesClient = Places.createClient(Objects.requireNonNull(getContext()));
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragment_maps_map_view);
         if (mapFragment != null)
@@ -102,26 +110,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void moveCameraOnUser(GoogleMap googleMap) {
-        LatLng userPosition = new LatLng(mLatitude, mLongitude); // Get User Latitude and longitude position
-        googleMap.setMaxZoomPreference(18);
-        googleMap.setMinZoomPreference(15);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(userPosition)); // Move the camera to user position
+        mUserPosition = new LatLng(mLatitude, mLongitude); // Get User Latitude and longitude position
+        googleMap.setMaxZoomPreference(20);
+        googleMap.setMinZoomPreference(17);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(mUserPosition)); // Move the camera to user position
     }
 
     private void initPlaces(GoogleMap googleMap) {
-        // Initialize the SDK
-        Places.initialize(Objects.requireNonNull(getContext()), String.valueOf("AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4")); // TODO: 10/10/2019 Secure the api key
-        // Create a new Places client instance
-        PlacesClient placesClient = Places.createClient(getContext());
         // Use fields to define the data types to return.
         List<Place.Field> placeFields = Arrays.asList(
                 Place.Field.LAT_LNG,
                 Place.Field.TYPES,
+                Place.Field.ID,
                 Place.Field.NAME);
         // Use the builder to create a FindCurrentPlaceRequest.
         FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
 
-        Task<FindCurrentPlaceResponse> placeResponse = placesClient.findCurrentPlace(request);
+        Task<FindCurrentPlaceResponse> placeResponse = mPlacesClient.findCurrentPlace(request);
         placeResponse.addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 FindCurrentPlaceResponse response = task.getResult();
@@ -130,28 +135,27 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
                     if (Objects.requireNonNull(placeLikelihood.getPlace().getTypes()).toString().contains("RESTAURANT")) { // Display only Restaurant
 
-                        LatLng restaurant = new LatLng(Objects.requireNonNull(placeLikelihood.getPlace().getLatLng()).latitude, placeLikelihood.getPlace().getLatLng().longitude);
+                        LatLng placeLatLng = new LatLng(Objects.requireNonNull(placeLikelihood.getPlace().getLatLng()).latitude, placeLikelihood.getPlace().getLatLng().longitude);
 
-                        googleMap.addMarker(new MarkerOptions().position(restaurant)
-                                .icon(bitmapDescriptorFromVector(getContext(), R.drawable.ic_restaurant_marker))
+                        googleMap.addMarker(new MarkerOptions().position(placeLatLng)
+                                .icon(bitmapDescriptorFromVector(getContext()))
                                 .title(placeLikelihood.getPlace().getName()));
                     }
                 }
-
             } else {
                 Exception exception = task.getException();
                 if (exception instanceof ApiException) {
                     ApiException apiException = (ApiException) exception;
-                    Log.e("ABC", "Place not found: " + apiException.getMessage());
+                    Log.e("ERROR", "Place not found: " + apiException.getMessage());
                 }
             }
         });
     }
 
     // Convert vector image to bitmapDescriptor, here for marker icons on maps
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
-        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
-        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, R.drawable.ic_restaurant_marker);
+        Objects.requireNonNull(vectorDrawable).setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
