@@ -43,9 +43,9 @@
     <!--    WORKMATES-->
     <string name="is_eating">is eating</string>
 
-    <!--    FACEBOOK -->
-    <string name="facebook_application_id" translatable="false">3019484981460119</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fb3019484981460119</string>
+<!--    &lt;!&ndash;    FACEBOOK &ndash;&gt;-->
+<!--    <string name="facebook_application_id" translatable="false">3019484981460119</string>-->
+<!--    <string name="facebook_login_protocol_scheme" translatable="false">fb3019484981460119</string>-->
 
     <!--    TWITTER-->
     <string name="twitter_consumer_key" translatable="false">3sI4Kl5kaQUagM1YfUU0gpKzU</string>
@@ -58,7 +58,7 @@
     <string name="unknown_error">Unknown error</string>
 
 <!--    GOOGLE MAPS-->
-    <string name="google_maps_api_key" translatable="false">AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4</string>
+<!--    <string name="google_maps_api_key" translatable="false">AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4</string>-->
 
     <!--    OTHERS-->
     <string name="participation_btn_info_user_true">Good! You joined these workmates to eat.</string>
