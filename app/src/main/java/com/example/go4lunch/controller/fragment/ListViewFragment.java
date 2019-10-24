@@ -68,11 +68,7 @@ public class ListViewFragment extends Fragment {
         return listViewFragment;
     }
 
-//    private void initData() {
-//        Restaurant restaurant = new Restaurant("Thommy", "Français", "sombacour", true, "21:00", "0", "0", "https://upload.wikimedia.org/wikipedia/commons/c/c9/Sombacour_-_vue_1.JPG");
-//        mRestaurantList.add(restaurant);
-//    }
-
+    // Click on item on listView, put the extra for restaurantDetails
     ListViewRecyclerHolderListener listViewRecyclerHolderListener = (viewHolder, item, pos) -> {
         Restaurant restaurant = (Restaurant) item;
         Intent intent = new Intent(getContext(), RestaurantDetails.class);
@@ -134,6 +130,7 @@ public class ListViewFragment extends Fragment {
                 Place.Field.PHONE_NUMBER,
                 Place.Field.WEBSITE_URI,
                 Place.Field.USER_RATINGS_TOTAL,
+                Place.Field.RATING,
                 Place.Field.ADDRESS,
                 Place.Field.ADDRESS_COMPONENTS,
                 Place.Field.PHOTO_METADATAS,
@@ -150,14 +147,14 @@ public class ListViewFragment extends Fragment {
             String address = "" + place.getAddressComponents().asList().get(0).getName() + ", " + place.getAddressComponents().asList().get(1).getName() + ", " + place.getAddressComponents().asList().get(2).getName();
 
             // Get the photo metadata.
-            PhotoMetadata photoMetadata = Objects.requireNonNull(place.getPhotoMetadatas()).get(0);
+            PhotoMetadata photoMetadata = null;
+            if (place.getPhotoMetadatas() != null)
+            photoMetadata = place.getPhotoMetadatas().get(0);
 
             // Get the distance from a restaurant
             double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(place.getLatLng()));
             DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
             String distance = df.format(distanceFrom);
-
-        // TODO: 23/10/2019 get rating and display stars
 
             // Construct restaurant object
             Restaurant restaurant = new Restaurant(
@@ -167,6 +164,7 @@ public class ListViewFragment extends Fragment {
                     displayOpeningHoursForCurrentDay(Objects.requireNonNull(place.getOpeningHours()).getWeekdayText()),
                     distance,
                     Objects.requireNonNull(place.getUserRatingsTotal()).toString(),
+                    place.getRating(),
                     photoMetadata);
 
             mRestaurantList.add(restaurant);

@@ -81,6 +81,8 @@ public class ListViewRecyclerAdapter extends RecyclerView.Adapter<ListViewViewHo
             });
         }
 
+        holder.mRestaurantRatingBar.setRating((float) (restaurant.getUserRating() *3 )/5); // Rating() * 3 / 5 : To have same proportion of rating like 5 star, in 3 stars
+
         holder.itemView.setOnClickListener(v -> mHolderListener.onItemClicked(holder, restaurant, position));
     }
 
