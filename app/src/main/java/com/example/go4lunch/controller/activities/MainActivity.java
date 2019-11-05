@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.activity_main_toolbar_search_btn:
-                Toast.makeText(this, R.string.function_under_development, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "function_under_development", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -117,13 +117,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle Navigation Item Click
         switch (item.getItemId()) {
             case R.id.activity_main_drawer_lunch:
-                Toast.makeText(this, R.string.function_under_development, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "function_under_development", Toast.LENGTH_LONG).show();
                 break;
             case R.id.activity_main_drawer_logout:
                 logOut();
                 break;
             case R.id.activity_main_drawer_settings:
-                Toast.makeText(this, R.string.function_under_development, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "function_under_development", Toast.LENGTH_LONG).show();
                 break;
             default:
                 Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_LONG).show();

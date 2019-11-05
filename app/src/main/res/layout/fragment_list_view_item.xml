@@ -36,7 +36,6 @@
         android:id="@+id/fragment_list_view_item_restaurant_picture"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:contentDescription="@string/restaurant_image_item_list"
         android:src="@drawable/ic_no_camera"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +50,7 @@
         android:layout_marginTop="2dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="@string/restaurant"
+        android:text="restaurant"
         android:textStyle="bold"
         android:textColor="@color/colorDark"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +60,7 @@
         android:id="@+id/fragment_list_view_item_restaurant_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/address"
+        android:text="address"
         android:textColor="@color/colorDark"
         app:layout_constraintStart_toStartOf="@+id/fragment_list_view_item_restaurant_name"
         app:layout_constraintTop_toBottomOf="@+id/fragment_list_view_item_restaurant_name" />
@@ -82,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="2dp"
-        android:text="@string/hour"
+        android:text="hours"
         android:textColor="@color/colorDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/fragment_list_view_item_restaurant_is_open" />
@@ -94,7 +93,7 @@
         android:textColor="@color/colorDark"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
-        android:text="@string/meters"
+        android:text="meters"
         app:layout_constraintEnd_toStartOf="@+id/fragment_list_view_item_restaurant_picture"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -104,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="4dp"
-        android:text="@string/x"
+        android:text="x"
         android:textStyle="bold"
         android:textColor="@color/colorDark"
         app:layout_constraintEnd_toStartOf="@+id/fragment_list_view_item_restaurant_picture"

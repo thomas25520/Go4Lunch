@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="@string/restaurant"
+        android:text="restaurant"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toTopOf="@+id/activity_restaurant_details_address"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="@string/address"
+        android:text="address"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="@+id/activity_restaurant_details_informations_bloc"
         app:layout_constraintStart_toStartOf="@+id/activity_restaurant_details_name" />

@@ -1,20 +1,13 @@
 <resources>
     <!--    Login-->
-    <string name="app_name">Go4Lunch</string>
+    <string name="go4lunch">Go4Lunch</string>
     <string name="login_background_subtitle">Find a nice restaurants and invite your co-workers for lunch !</string>
-    <string name="go4lunch_title">Go4Lunch</string>
 
     <!--    Navigation drawer-->
     <string name="your_lunch">YOUR LUNCH</string>
     <string name="settings">SETTINGS</string>
     <string name="logout">LOGOUT</string>
-    <string name="app_logo_nav_drawer">app_logo_nav_drawer</string>
-    <string name="nav_drawer_header_picture">nav_drawer_header_picture</string>
     <string name="search">search</string>
-    <string name="first_name">first name</string>
-    <string name="name">NAME</string>
-    <string name="e_mail">e-mail address</string>
-    <string name="user_picture">user_picture</string>
 
     <!-- BOTTOM NAVIGATION VIEW -->
     <string name="bottom_navigation_menu_map_view">Map view</string>
@@ -23,18 +16,8 @@
     <string name="title_activity_maps">Map</string>
 
     <!--    RESTAURANT-->
-    <string name="restaurant_image_item_list">restaurant_image_item_list</string>
-    <string name="restaurant">Restaurant Name</string>
-    <string name="origin">origin</string>
     <string name="open">OPEN</string>
     <string name="close">CLOSE</string>
-    <string name="hour">hour</string>
-    <string name="meters">meters</string>
-    <string name="x">(x)</string>
-    <string name="star_3">star_3</string>
-    <string name="star_2">star_2</string>
-    <string name="star_one">star_one</string>
-    <string name="restaurant_detail_image">restaurant_detail_image</string>
     <string name="call">CALL</string>
     <string name="like">LIKE</string>
     <string name="website">WEBSITE</string>
@@ -60,22 +43,19 @@
     <string name="google_maps_api_key" translatable="false">AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4</string>
 
     <!--    OTHERS-->
-    <string name="participation_btn_info_user_true">Good! You joined these workmates to eat.</string>
-    <string name="participation_btn_info_user_false">You leave these workmates to eat.</string>
+    <string name="participation_btn_info_user_true">Good! You joined these workmates to eat</string>
+    <string name="participation_btn_info_user_false">You leave these workmates to eat</string>
     <string name="available_workmates">Available workmates</string>
     <string name="i_m_hungry">I\'m hungry!</string>
     <string name="log_out_message">You have logged out</string>
-    <string name="function_under_development">Function under development</string>
     <string name="error_permission_map">error permission location</string>
     <string name="no_restaurant_found">No restaurant around your position</string>
     <string name="call_this_restaurant">Are you sure you want to call this restaurant ?</string>
     <string name="alert_dialog_call_title">Call this restaurant ?</string>
-    <string name="go">GO!</string>
-    <string name="address" translatable="false">address</string>
+    <string name="go">GO !</string>
     <string name="go_to_website">Go to the website ?</string>
     <string name="no_phone_number_found">No phone number found</string>
     <string name="sorry">SORRY</string>
     <string name="no_website_available">No website available</string>
-
 
 </resources>

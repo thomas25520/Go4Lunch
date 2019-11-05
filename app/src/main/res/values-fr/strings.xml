@@ -1,46 +1,29 @@
 <resources>
     <!--    Login-->
-    <string name="app_name">Go4Lunch</string>
-    <string name="login_background_subtitle">Find a nice restaurants and invite your co-workers for lunch !</string>
-    <string name="go4lunch_title">Go4Lunch</string>
+    <string name="go4lunch">Go4Lunch</string>
+    <string name="login_background_subtitle">Trouvez un bon restaurant et invitez vos collègues à déjeuner !</string>
 
     <!--    Navigation drawer-->
-    <string name="your_lunch">YOUR LUNCH</string>
-    <string name="settings">SETTINGS</string>
-    <string name="logout">LOGOUT</string>
-    <string name="app_logo_nav_drawer">app_logo_nav_drawer</string>
-    <string name="nav_drawer_header_picture">nav_drawer_header_picture</string>
-    <string name="search">search</string>
-    <string name="first_name">first name</string>
-    <string name="name">NAME</string>
-    <string name="e_mail">e-mail address</string>
-    <string name="user_picture">user_picture</string>
+    <string name="your_lunch">VOTRE REPAS</string>
+    <string name="settings">OPTION</string>
+    <string name="logout">DECONNECTION</string>
+    <string name="search">Recherche</string>
 
     <!-- BOTTOM NAVIGATION VIEW -->
-    <string name="bottom_navigation_menu_map_view">Map view</string>
-    <string name="bottom_navigation_menu_list_view">List view</string>
-    <string name="bottom_navigation_menu_workmates">Workmates</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="bottom_navigation_menu_map_view">Carte</string>
+    <string name="bottom_navigation_menu_list_view">Liste</string>
+    <string name="bottom_navigation_menu_workmates">Collègue</string>
+    <string name="title_activity_maps">Carte</string>
 
     <!--    RESTAURANT-->
-    <string name="restaurant_image_item_list">restaurant_image_item_list</string>
-    <string name="restaurant">Restaurant Name</string>
-    <string name="origin">origin</string>
-    <string name="open">OPEN</string>
-    <string name="close">CLOSE</string>
-    <string name="hour">hour</string>
-    <string name="meters">meters</string>
-    <string name="x">(x)</string>
-    <string name="star_3">star_3</string>
-    <string name="star_2">star_2</string>
-    <string name="star_one">star_one</string>
-    <string name="restaurant_detail_image">restaurant_detail_image</string>
-    <string name="call">CALL</string>
-    <string name="like">LIKE</string>
-    <string name="website">WEBSITE</string>
+    <string name="open">OUVERT</string>
+    <string name="close">FERMER</string>
+    <string name="call">APPELER</string>
+    <string name="like">AIMER</string>
+    <string name="website">SITE WEB</string>
 
     <!--    WORKMATES-->
-    <string name="is_eating">is eating</string>
+    <string name="is_eating">mange</string>
 
     <!--    FACEBOOK -->
     <string name="facebook_application_id" translatable="false">3019484981460119</string>
@@ -51,27 +34,28 @@
     <string name="twitter_consumer_secret" translatable="false">Yse7FKJOgqBouYhWsx0EErSNbkF71vyhSh15LMVbFKv3EpoNBJ</string>
 
     <!--    LOG IN-->
-    <string name="connection_succeed">Connection succeed</string>
-    <string name="error_authentication_canceled">Error authentication canceled</string>
-    <string name="error_no_internet">Error no internet</string>
-    <string name="unknown_error">Unknown error</string>
+    <string name="connection_succeed">Connection : Succès</string>
+    <string name="error_authentication_canceled">Error : Authentification annulée</string>
+    <string name="error_no_internet">Pas de connection internet</string>
+    <string name="unknown_error">Erreur inconnu</string>
 
     <!--    GOOGLE MAPS-->
     <string name="google_maps_api_key" translatable="false">AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4</string>
 
     <!--    OTHERS-->
-    <string name="participation_btn_info_user_true">Good! You joined these workmates to eat.</string>
-    <string name="participation_btn_info_user_false">You leave these workmates to eat.</string>
-    <string name="available_workmates">Available workmates</string>
-    <string name="i_m_hungry">I\'m hungry!</string>
-    <string name="log_out_message">You have logged out</string>
-    <string name="function_under_development">Function under development</string>
-    <string name="error_permission_map">error permission location</string>
-    <string name="no_restaurant_found">No restaurant around your position</string>
-    <string name="call_this_restaurant">Are you sure you want to call this restaurant ?</string>
-    <string name="alert_dialog_call_title">CALL NOW</string>
-    <string name="go">GO!</string>
-    <string name="address" translatable="false">address</string>
-
+    <string name="participation_btn_info_user_true">Bien ! vous vous êtes joint à vos collègues pour manger</string>
+    <string name="participation_btn_info_user_false">Vous ne participez plus à ce repas</string>
+    <string name="available_workmates">collègue(s) disponibles</string>
+    <string name="i_m_hungry">J\'ai faim !</string>
+    <string name="log_out_message">Déconnecté</string>
+    <string name="error_permission_map">Pas de permission de localisation</string>
+    <string name="no_restaurant_found">Pas de restaurant autour de vous</string>
+    <string name="call_this_restaurant">Êtes-vous sûr de vouloir téléphoner au restaurant ?</string>
+    <string name="alert_dialog_call_title">APPELER MAINTENANT</string>
+    <string name="go">GO !</string>
+    <string name="go_to_website">Aller sur le site internet ?</string>
+    <string name="no_phone_number_found">Pas de numéro de téléphone</string>
+    <string name="sorry">DESOLER</string>
+    <string name="no_website_available">Pas de site internet</string>
 
 </resources>
