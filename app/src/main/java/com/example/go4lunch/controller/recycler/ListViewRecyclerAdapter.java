@@ -52,7 +52,7 @@ public class ListViewRecyclerAdapter extends RecyclerView.Adapter<ListViewViewHo
         holder.mRestaurantName.setText(restaurant.getName());
         holder.mRestaurantOpenHours.setText(restaurant.getHours());
 
-        if (restaurant.getOpening()) { // Display if restaurant is open or not
+        if (restaurant.isOpening()) { // Display if restaurant is open or not
             holder.mRestaurantIsOpen.setText(R.string.open);
             holder.mRestaurantIsOpen.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_green));
         } else {

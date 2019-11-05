@@ -72,10 +72,13 @@ public class ListViewFragment extends Fragment {
     ListViewRecyclerHolderListener listViewRecyclerHolderListener = (viewHolder, item, pos) -> {
         Restaurant restaurant = (Restaurant) item;
         Intent intent = new Intent(getContext(), RestaurantDetails.class);
-
         intent.putExtra("name", restaurant.getName());
         intent.putExtra("address", restaurant.getAddress());
-        intent.putExtra("pictureUrl", restaurant.getPhotoMetadata());
+        intent.putExtra("rating", restaurant.getUserRating());
+        intent.putExtra("picture", restaurant.getPhotoMetadata());
+        intent.putExtra("rating", restaurant.getUserRating());
+        intent.putExtra("phone", restaurant.getPhoneNumber());
+        intent.putExtra("website", restaurant.getWebsiteUrl());
 
         startActivity(intent);
     };
@@ -149,21 +152,28 @@ public class ListViewFragment extends Fragment {
             // Get the photo metadata.
             PhotoMetadata photoMetadata = null;
             if (place.getPhotoMetadatas() != null)
-            photoMetadata = place.getPhotoMetadatas().get(0);
+                photoMetadata = place.getPhotoMetadatas().get(0);
 
             // Get the distance from a restaurant
             double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(place.getLatLng()));
             DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
             String distance = df.format(distanceFrom);
 
-            // Construct restaurant object
+            // Get the website from a restaurant
+            String website;
+            if (place.getWebsiteUri() != null) { website = place.getWebsiteUri().toString();
+            } else { website = getString(R.string.no_website_available); }
+
+            // Construct the restaurant object
             Restaurant restaurant = new Restaurant(
                     place.getName(),
                     address,
-                    place.isOpen(),
-                    displayOpeningHoursForCurrentDay(Objects.requireNonNull(place.getOpeningHours()).getWeekdayText()),
                     distance,
-                    Objects.requireNonNull(place.getUserRatingsTotal()).toString(),
+                    place.getUserRatingsTotal().toString(),
+                    displayOpeningHoursForCurrentDay(place.getOpeningHours().getWeekdayText()),
+                    website,
+                    place.getPhoneNumber(),
+                    place.isOpen(),
                     place.getRating(),
                     photoMetadata);
 

@@ -6,9 +6,8 @@ import com.google.android.libraries.places.api.model.PhotoMetadata;
  * Created by Dutru Thomas on 10/09/2019.
  */
 public class Restaurant {
-
-    private String mName, mAddress, mDistance, mUserVote, mHours;
-    private boolean  mOpening;
+    private String mName, mAddress, mDistance, mUserVote, mHours, mWebsiteUrl, mPhoneNumber;
+    private boolean mOpening;
     private double mUserRating;
     private PhotoMetadata mPhotoMetadata;
 
@@ -19,9 +18,6 @@ public class Restaurant {
     public String getAddress() {
         return mAddress;
     }
-    public boolean getOpening() {
-        return mOpening;
-    }
     public String getDistance() {
         return mDistance;
     }
@@ -30,6 +26,15 @@ public class Restaurant {
     }
     public String getHours() {
         return mHours;
+    }
+    public String getWebsiteUrl() {
+        return mWebsiteUrl;
+    }
+    public String getPhoneNumber() {
+        return mPhoneNumber;
+    }
+    public boolean isOpening() {
+        return mOpening;
     }
     public double getUserRating() {
         return mUserRating;
@@ -45,9 +50,6 @@ public class Restaurant {
     public void setAddress(String address) {
         mAddress = address;
     }
-    public void setOpening(boolean opening) {
-        mOpening = opening;
-    }
     public void setDistance(String distance) {
         mDistance = distance;
     }
@@ -57,23 +59,32 @@ public class Restaurant {
     public void setHours(String hours) {
         mHours = hours;
     }
+    public void setWebsiteUrl(String websiteUrl) {
+        mWebsiteUrl = websiteUrl;
+    }
+    public void setPhoneNumber(String phoneNumber) {
+        mPhoneNumber = phoneNumber;
+    }
+    public void setOpening(boolean opening) {
+        mOpening = opening;
+    }
     public void setUserRating(double userRating) {
         mUserRating = userRating;
     }
-
     public void setPhotoMetadata(PhotoMetadata photoMetadata) {
         mPhotoMetadata = photoMetadata;
     }
 
-    // CONSTRUCTOR
-    public Restaurant(String name, String address, boolean opening, String hours, String distance, String userVote, Double rating, PhotoMetadata photoMetadata) {
+    public Restaurant(String name, String address, String distance, String userVote, String hours, String websiteUrl, String phoneNumber, boolean opening, double userRating, PhotoMetadata photoMetadata) {
         mName = name;
         mAddress = address;
-        mOpening = opening;
+        mDistance = distance;
+        mUserVote = userVote;
         mHours = hours;
-        mDistance = distance+ " m";
-        mUserVote = "(" +userVote+ ")";
-        mUserRating = rating;
+        mWebsiteUrl = websiteUrl;
+        mPhoneNumber = phoneNumber;
+        mOpening = opening;
+        mUserRating = userRating;
         mPhotoMetadata = photoMetadata;
     }
 }

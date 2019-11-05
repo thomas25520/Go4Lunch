@@ -56,7 +56,7 @@
     <string name="error_no_internet">Error no internet</string>
     <string name="unknown_error">Unknown error</string>
 
-<!--    GOOGLE MAPS-->
+    <!--    GOOGLE MAPS-->
     <string name="google_maps_api_key" translatable="false">AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4</string>
 
     <!--    OTHERS-->
@@ -69,13 +69,9 @@
     <string name="error_permission_map">error permission location</string>
     <string name="no_restaurant_found">No restaurant around your position</string>
     <string name="call_this_restaurant">Are you sure you want to call this restaurant ?</string>
-    <string name="alert_dialog_call_title">Call this restaurant ?</string>
+    <string name="alert_dialog_call_title">CALL NOW</string>
     <string name="go">GO!</string>
     <string name="address" translatable="false">address</string>
-    <string name="go_to_website">Go to the website ?</string>
-    <string name="no_phone_number_found">No phone number found</string>
-    <string name="sorry">SORRY</string>
-    <string name="no_website_available">No website available</string>
 
 
 </resources>
