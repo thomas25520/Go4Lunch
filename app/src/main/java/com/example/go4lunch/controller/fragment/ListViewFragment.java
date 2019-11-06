@@ -79,6 +79,7 @@ public class ListViewFragment extends Fragment {
         intent.putExtra("rating", restaurant.getUserRating());
         intent.putExtra("phone", restaurant.getPhoneNumber());
         intent.putExtra("website", restaurant.getWebsiteUrl());
+        intent.putExtra("restaurantId", restaurant.getId());
 
         startActivity(intent);
     };
@@ -138,6 +139,7 @@ public class ListViewFragment extends Fragment {
                 Place.Field.ADDRESS_COMPONENTS,
                 Place.Field.PHOTO_METADATAS,
                 Place.Field.UTC_OFFSET,
+                Place.Field.ID,
                 Place.Field.OPENING_HOURS);
 
         // Construct a request object, passing the place ID and fields array.
@@ -173,6 +175,7 @@ public class ListViewFragment extends Fragment {
                     displayOpeningHoursForCurrentDay(place.getOpeningHours().getWeekdayText()),
                     website,
                     place.getPhoneNumber(),
+                    place.getId(),
                     place.isOpen(),
                     place.getRating(),
                     photoMetadata);
