@@ -61,8 +61,8 @@ public class RestaurantDetails extends AppCompatActivity {
         mRestaurantName.setText(getIntent().getStringExtra("name"));
         mRestaurantAddress.setText(getIntent().getStringExtra("address"));
         // TODO: 24/10/2019 set rating of restaurant
-//        Float restaurantRating = getIntent().getParcelableExtra("rating");
-//        mRestaurantRatingBar.setRating(restaurantRating);
+        double restaurantRating = getIntent().getDoubleExtra("rating", 0);
+        mRestaurantRatingBar.setRating((float)restaurantRating *3 /5);
 
         PhotoMetadata restaurantPicture = getIntent().getParcelableExtra("picture");
 
