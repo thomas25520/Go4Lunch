@@ -110,7 +110,7 @@ public class RestaurantDetails extends AppCompatActivity {
 
         if (getIntent().getStringExtra("website").contains(getString(R.string.no_website_available))) {
             mRestaurantWebsiteUrl.setOnClickListener(v -> new AlertDialog.Builder(this)
-                    .setTitle("SORRY")
+                    .setTitle(R.string.sorry)
                     .setMessage(getIntent().getStringExtra("website"))
                     .setNegativeButton(R.string.close, null)
                     .show());
