@@ -25,22 +25,11 @@
     <!--    WORKMATES-->
     <string name="is_eating">mange</string>
 
-    <!--    FACEBOOK -->
-    <string name="facebook_application_id" translatable="false">3019484981460119</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fb3019484981460119</string>
-
-    <!--    TWITTER-->
-    <string name="twitter_consumer_key" translatable="false">3sI4Kl5kaQUagM1YfUU0gpKzU</string>
-    <string name="twitter_consumer_secret" translatable="false">Yse7FKJOgqBouYhWsx0EErSNbkF71vyhSh15LMVbFKv3EpoNBJ</string>
-
     <!--    LOG IN-->
     <string name="connection_succeed">Connection : Succès</string>
     <string name="error_authentication_canceled">Error : Authentification annulée</string>
     <string name="error_no_internet">Pas de connection internet</string>
     <string name="unknown_error">Erreur inconnu</string>
-
-    <!--    GOOGLE MAPS-->
-    <string name="google_maps_api_key" translatable="false">AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4</string>
 
     <!--    OTHERS-->
     <string name="participation_btn_info_user_true">Bien ! vous vous êtes joint à vos collègues pour manger</string>
@@ -57,5 +46,4 @@
     <string name="no_phone_number_found">Pas de numéro de téléphone</string>
     <string name="sorry">DESOLER</string>
     <string name="no_website_available">Pas de site internet</string>
-
 </resources>
