@@ -40,6 +40,7 @@ public class RestaurantDetails extends AppCompatActivity {
     @BindView(R.id.activity_restaurant_details_participation_btn) FloatingActionButton mParticipationBtn;
     @BindView(R.id.activity_restaurant_details_web_logo) ImageView mRestaurantWebsiteUrl;
     @BindView(R.id.activity_restaurant_details_call_logo) ImageView mRestaurantCallNumber;
+    @BindView(R.id.activity_restaurant_details_like_logo) ImageView mRestaurantLike;
 
     private PlacesClient mPlacesClient;
 
@@ -60,12 +61,10 @@ public class RestaurantDetails extends AppCompatActivity {
 
         mRestaurantName.setText(getIntent().getStringExtra("name"));
         mRestaurantAddress.setText(getIntent().getStringExtra("address"));
-        // TODO: 24/10/2019 set rating of restaurant
-//        Float restaurantRating = getIntent().getParcelableExtra("rating");
-//        mRestaurantRatingBar.setRating(restaurantRating);
+        double restaurantRating = getIntent().getDoubleExtra("rating", 0);
+        mRestaurantRatingBar.setRating((float)restaurantRating *3 /5);
 
         PhotoMetadata restaurantPicture = getIntent().getParcelableExtra("picture");
-
         if (restaurantPicture == null) { // Handle error if no pictureUrl and display a fix default image
             mRestaurantPicture.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_no_camera));
         } else {
@@ -114,7 +113,6 @@ public class RestaurantDetails extends AppCompatActivity {
                     .setMessage(getIntent().getStringExtra("website"))
                     .setNegativeButton(R.string.close, null)
                     .show());
-
         } else {
             Intent intentForWebsite = new Intent(RestaurantDetails.this, WebViewActivity.class);
             intentForWebsite.putExtra("website",getIntent().getStringExtra("website")); // Pass intent again for display on WebViewActivity.
@@ -126,6 +124,14 @@ public class RestaurantDetails extends AppCompatActivity {
                     .setNegativeButton(R.string.close, null)
                     .show());
         }
+
+        // Redirect user on google maps page, user can write a notice and vote.
+        mRestaurantLike.setOnClickListener(v -> {
+            String linkForGmToLike = "https://www.google.com/maps/place/?q=place_id:" + getIntent().getStringExtra("restaurantId");
+            Intent intentForWebsite = new Intent(RestaurantDetails.this, WebViewActivity.class);
+            intentForWebsite.putExtra("website", linkForGmToLike); // Pass intent again for display on WebViewActivity.
+            startActivity(intentForWebsite);
+        });
     }
 
     // Handle back button press
@@ -143,24 +149,22 @@ public class RestaurantDetails extends AppCompatActivity {
         // TODO: 16/09/2019 When API user is implemented dont forget to save btn position in function of user participation
         // Give user participation states to the lunch
         mParticipationBtn.setOnClickListener(v -> {
+            if (participationBtnState.get()) {
+                mParticipationBtn.setImageResource(R.drawable.ic_check);
+                participationBtnState.set(false);
+                Snackbar.make(v, R.string.participation_btn_info_user_false, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
 
-                    if (participationBtnState.get()) {
-                        mParticipationBtn.setImageResource(R.drawable.ic_check);
-                        participationBtnState.set(false);
-                        Snackbar.make(v, R.string.participation_btn_info_user_false, Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+                // FIXME: 16/09/2019 Here delete user from the list of participant to the lunch
+            }
+            else {
+                mParticipationBtn.setImageResource(R.drawable.ic_cancel);
+                participationBtnState.set(true);
+                Snackbar.make(v, R.string.participation_btn_info_user_true, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
 
-                        // FIXME: 16/09/2019 Here delete user from the list of participant to the lunch
-                    }
-                    else {
-                        mParticipationBtn.setImageResource(R.drawable.ic_cancel);
-                        participationBtnState.set(true);
-                        Snackbar.make(v, R.string.participation_btn_info_user_true, Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-
-                        // FIXME: 16/09/2019 Here add user to the list of participant to the lunch
-
-                    }
+                // FIXME: 16/09/2019 Here add user to the list of participant to the lunch
+            }
         });
     }
 }

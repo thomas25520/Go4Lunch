@@ -6,7 +6,7 @@ import com.google.android.libraries.places.api.model.PhotoMetadata;
  * Created by Dutru Thomas on 10/09/2019.
  */
 public class Restaurant {
-    private String mName, mAddress, mDistance, mUserVote, mHours, mWebsiteUrl, mPhoneNumber;
+    private String mName, mAddress, mDistance, mUserVote, mHours, mWebsiteUrl, mPhoneNumber, mId;
     private boolean mOpening;
     private double mUserRating;
     private PhotoMetadata mPhotoMetadata;
@@ -42,6 +42,9 @@ public class Restaurant {
     public PhotoMetadata getPhotoMetadata() {
         return mPhotoMetadata;
     }
+    public String getId() {
+        return mId;
+    }
 
     // SETTER
     public void setName(String name) {
@@ -74,8 +77,11 @@ public class Restaurant {
     public void setPhotoMetadata(PhotoMetadata photoMetadata) {
         mPhotoMetadata = photoMetadata;
     }
+    public void setId(String id) {
+        mId = id;
+    }
 
-    public Restaurant(String name, String address, String distance, String userVote, String hours, String websiteUrl, String phoneNumber, boolean opening, double userRating, PhotoMetadata photoMetadata) {
+    public Restaurant(String name, String address, String distance, String userVote, String hours, String websiteUrl, String phoneNumber, String id, boolean opening, double userRating, PhotoMetadata photoMetadata) {
         mName = name;
         mAddress = address;
         mDistance = distance;
@@ -83,6 +89,7 @@ public class Restaurant {
         mHours = hours;
         mWebsiteUrl = websiteUrl;
         mPhoneNumber = phoneNumber;
+        mId = id;
         mOpening = opening;
         mUserRating = userRating;
         mPhotoMetadata = photoMetadata;
