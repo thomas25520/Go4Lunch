@@ -27,7 +27,8 @@
     <string name="restaurant">Restaurant Name</string>
     <string name="origin">origin</string>
     <string name="address">address</string>
-    <string name="open">open</string>
+    <string name="open">OPEN</string>
+    <string name="close">CLOSE</string>
     <string name="hour">hour</string>
     <string name="meters">meters</string>
     <string name="x">(x)</string>
@@ -42,9 +43,9 @@
     <!--    WORKMATES-->
     <string name="is_eating">is eating</string>
 
-    <!--    FACEBOOK -->
-    <string name="facebook_application_id" translatable="false">3019484981460119</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fb3019484981460119</string>
+<!--    &lt;!&ndash;    FACEBOOK &ndash;&gt;-->
+<!--    <string name="facebook_application_id" translatable="false">3019484981460119</string>-->
+<!--    <string name="facebook_login_protocol_scheme" translatable="false">fb3019484981460119</string>-->
 
     <!--    TWITTER-->
     <string name="twitter_consumer_key" translatable="false">3sI4Kl5kaQUagM1YfUU0gpKzU</string>
@@ -54,14 +55,20 @@
     <string name="connection_succeed">Connection succeed</string>
     <string name="error_authentication_canceled">Error authentication canceled</string>
     <string name="error_no_internet">Error no internet</string>
-    <string name="error_unknown_error">Error unknown error</string>
+    <string name="unknown_error">Unknown error</string>
 
-    <!--    OHERS-->
+<!--    GOOGLE MAPS-->
+<!--    <string name="google_maps_api_key" translatable="false">AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4</string>-->
+
+    <!--    OTHERS-->
     <string name="participation_btn_info_user_true">Good! You joined these workmates to eat.</string>
     <string name="participation_btn_info_user_false">You leave these workmates to eat.</string>
     <string name="available_workmates">Available workmates</string>
     <string name="i_m_hungry">I\'m hungry!</string>
     <string name="log_out_message">You have logged out</string>
+    <string name="function_under_development">Function under development</string>
+    <string name="error_permission_map">error permission location</string>
+    <string name="no_restaurant_found">No restaurant around your position</string>
 
 
 </resources>
