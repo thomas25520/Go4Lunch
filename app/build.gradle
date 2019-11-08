@@ -17,6 +17,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            // Secure the api keys
+            // Google maps
+            buildConfigField 'String', "GoogleMapsApiKey", google_maps_api_key // For JAVA use : BuildConfig.GoogleMapsApiKey
+            resValue 'string', "google_maps_api_key", google_maps_api_key // For resource xml ; @string/google_maps_api_key
+            // Facebook login
+            resValue 'string', "facebook_application_id", facebook_application_id
+            resValue 'string', "facebook_login_protocol_scheme", facebook_login_protocol_scheme
+//             Twitter login
+            resValue 'string', "twitter_consumer_key", twitter_consumer_key
+            resValue 'string', "twitter_consumer_secret", twitter_consumer_secret
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -52,7 +64,6 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.1.0'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
     implementation "com.google.maps.android:android-maps-utils:0.6.1"
-
 }
 
 apply plugin: 'com.google.gms.google-services'
