@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="@color/colorAccent"
-        android:contentDescription="@string/restaurant_detail_image"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,52 +29,68 @@
     <TextView
         android:id="@+id/activity_restaurant_details_name"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/restaurant"
         android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/activity_restaurant_details_address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/activity_restaurant_details_informations_bloc" />
 
     <TextView
+        android:id="@+id/activity_restaurant_details_origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:text="@string/origin"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintStart_toStartOf="@+id/activity_restaurant_details_name"
+        app:layout_constraintTop_toTopOf="@+id/activity_restaurant_details_informations_bloc" />
+
+    <TextView
+        android:id="@+id/activity_restaurant_details_restaurant_linker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" restaurant - "
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_restaurant_details_origin"
+        app:layout_constraintStart_toEndOf="@+id/activity_restaurant_details_origin" />
+
+    <TextView
         android:id="@+id/activity_restaurant_details_address"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
         android:text="@string/address"
         android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_restaurant_details_informations_bloc"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/activity_restaurant_details_origin"
+        app:layout_constraintStart_toEndOf="@+id/activity_restaurant_details_restaurant_linker" />
 
     <ImageView
         android:id="@+id/activity_restaurant_details_star_1"
         android:layout_width="20dp"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
         android:src="@drawable/ic_star"
-        app:layout_constraintStart_toEndOf="@+id/activity_restaurant_details_name"
-        app:layout_constraintTop_toTopOf="@+id/activity_restaurant_details_informations_bloc" />
+        app:layout_constraintBottom_toBottomOf="@+id/activity_restaurant_details_name"
+        app:layout_constraintStart_toEndOf="@+id/activity_restaurant_details_name" />
 
     <ImageView
         android:id="@+id/activity_restaurant_details_star_2"
         android:layout_width="20dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:src="@drawable/ic_star"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_restaurant_details_star_1"
         app:layout_constraintStart_toEndOf="@+id/activity_restaurant_details_star_1"
-        app:layout_constraintTop_toTopOf="@+id/activity_restaurant_details_informations_bloc" />
+        tools:layout_editor_absoluteY="260dp" />
 
     <ImageView
         android:id="@+id/activity_restaurant_details_star_3"
         android:layout_width="20dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:src="@drawable/ic_star"
-        app:layout_constraintStart_toEndOf="@+id/activity_restaurant_details_star_2"
-        app:layout_constraintTop_toTopOf="@+id/activity_restaurant_details_informations_bloc" />
+        app:layout_constraintBottom_toBottomOf="@+id/activity_restaurant_details_star_1"
+        app:layout_constraintStart_toEndOf="@+id/activity_restaurant_details_star_2" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/activity_restaurant_details_participation_btn"
@@ -83,6 +99,7 @@
         android:layout_marginTop="230dp"
         android:layout_marginEnd="10dp"
         android:src="@drawable/ic_check"
+        android:backgroundTint="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="@+id/activity_restaurant_details_picture"
         app:layout_constraintTop_toTopOf="@+id/activity_restaurant_details_picture" />
 
