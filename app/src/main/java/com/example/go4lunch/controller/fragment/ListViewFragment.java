@@ -70,13 +70,18 @@ public class ListViewFragment extends Fragment {
         return listViewFragment;
     }
 
+    // Click on item on listView, put the extra for restaurantDetails
     ListViewRecyclerHolderListener listViewRecyclerHolderListener = (viewHolder, item, pos) -> {
         Restaurant restaurant = (Restaurant) item;
         Intent intent = new Intent(getContext(), RestaurantDetails.class);
-
         intent.putExtra("name", restaurant.getName());
         intent.putExtra("address", restaurant.getAddress());
-        intent.putExtra("pictureUrl", restaurant.getPhotoMetadata());
+        intent.putExtra("rating", restaurant.getUserRating());
+        intent.putExtra("picture", restaurant.getPhotoMetadata());
+        intent.putExtra("rating", restaurant.getUserRating());
+        intent.putExtra("phone", restaurant.getPhoneNumber());
+        intent.putExtra("website", restaurant.getWebsiteUrl());
+        intent.putExtra("restaurantId", restaurant.getId());
 
         startActivity(intent);
     };
@@ -131,10 +136,12 @@ public class ListViewFragment extends Fragment {
                 Place.Field.PHONE_NUMBER,
                 Place.Field.WEBSITE_URI,
                 Place.Field.USER_RATINGS_TOTAL,
+                Place.Field.RATING,
                 Place.Field.ADDRESS,
                 Place.Field.ADDRESS_COMPONENTS,
                 Place.Field.PHOTO_METADATAS,
                 Place.Field.UTC_OFFSET,
+                Place.Field.ID,
                 Place.Field.OPENING_HOURS);
 
         // Construct a request object, passing the place ID and fields array.
@@ -147,23 +154,32 @@ public class ListViewFragment extends Fragment {
             String address = "" + place.getAddressComponents().asList().get(0).getName() + ", " + place.getAddressComponents().asList().get(1).getName() + ", " + place.getAddressComponents().asList().get(2).getName();
 
             // Get the photo metadata.
-            PhotoMetadata photoMetadata = Objects.requireNonNull(place.getPhotoMetadatas()).get(0);
+            PhotoMetadata photoMetadata = null;
+            if (place.getPhotoMetadatas() != null)
+                photoMetadata = place.getPhotoMetadatas().get(0);
 
             // Get the distance from a restaurant
             double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(place.getLatLng()));
             DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
             String distance = df.format(distanceFrom);
 
-        // TODO: 23/10/2019 get rating and display stars
+            // Get the website from a restaurant
+            String website;
+            if (place.getWebsiteUri() != null) { website = place.getWebsiteUri().toString();
+            } else { website = getString(R.string.no_website_available); }
 
-            // Construct restaurant object
+            // Construct the restaurant object
             Restaurant restaurant = new Restaurant(
                     place.getName(),
                     address,
-                    place.isOpen(),
-                    displayOpeningHoursForCurrentDay(Objects.requireNonNull(place.getOpeningHours()).getWeekdayText()),
                     distance,
-                    Objects.requireNonNull(place.getUserRatingsTotal()).toString(),
+                    place.getUserRatingsTotal().toString(),
+                    displayOpeningHoursForCurrentDay(place.getOpeningHours().getWeekdayText()),
+                    website,
+                    place.getPhoneNumber(),
+                    place.getId(),
+                    place.isOpen(),
+                    place.getRating(),
                     photoMetadata);
 
             mRestaurantList.add(restaurant);

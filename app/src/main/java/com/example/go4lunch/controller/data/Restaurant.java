@@ -1,17 +1,14 @@
 package com.example.go4lunch.controller.data;
 
-import android.widget.ImageView;
-
 import com.google.android.libraries.places.api.model.PhotoMetadata;
 
 /**
  * Created by Dutru Thomas on 10/09/2019.
  */
 public class Restaurant {
-
-    private String mName, mAddress, mDistance, mUserVote, mHours;
-    private ImageView mStar1, mStar2, mStar3; // FIXME: 11/09/2019 Stars is gone while user no vote + algo todo
-    private boolean  mOpening;
+    private String mName, mAddress, mDistance, mUserVote, mHours, mWebsiteUrl, mPhoneNumber, mId;
+    private boolean mOpening;
+    private double mUserRating;
     private PhotoMetadata mPhotoMetadata;
 
     // GETTER
@@ -20,9 +17,6 @@ public class Restaurant {
     }
     public String getAddress() {
         return mAddress;
-    }
-    public boolean getOpening() {
-        return mOpening;
     }
     public String getDistance() {
         return mDistance;
@@ -33,17 +27,23 @@ public class Restaurant {
     public String getHours() {
         return mHours;
     }
-    public ImageView getStar1() {
-        return mStar1;
+    public String getWebsiteUrl() {
+        return mWebsiteUrl;
     }
-    public ImageView getStar2() {
-        return mStar2;
+    public String getPhoneNumber() {
+        return mPhoneNumber;
     }
-    public ImageView getStar3() {
-        return mStar3;
+    public boolean isOpening() {
+        return mOpening;
+    }
+    public double getUserRating() {
+        return mUserRating;
     }
     public PhotoMetadata getPhotoMetadata() {
         return mPhotoMetadata;
+    }
+    public String getId() {
+        return mId;
     }
 
     // SETTER
@@ -52,9 +52,6 @@ public class Restaurant {
     }
     public void setAddress(String address) {
         mAddress = address;
-    }
-    public void setOpening(boolean opening) {
-        mOpening = opening;
     }
     public void setDistance(String distance) {
         mDistance = distance;
@@ -65,27 +62,36 @@ public class Restaurant {
     public void setHours(String hours) {
         mHours = hours;
     }
-    public void setStar1(ImageView star1) {
-        mStar1 = star1;
+    public void setWebsiteUrl(String websiteUrl) {
+        mWebsiteUrl = websiteUrl;
     }
-    public void setStar2(ImageView star2) {
-        mStar2 = star2;
+    public void setPhoneNumber(String phoneNumber) {
+        mPhoneNumber = phoneNumber;
     }
-    public void setStar3(ImageView star3) {
-        mStar3 = star3;
+    public void setOpening(boolean opening) {
+        mOpening = opening;
+    }
+    public void setUserRating(double userRating) {
+        mUserRating = userRating;
     }
     public void setPhotoMetadata(PhotoMetadata photoMetadata) {
         mPhotoMetadata = photoMetadata;
     }
+    public void setId(String id) {
+        mId = id;
+    }
 
-    // CONSTRUCTOR
-    public Restaurant (String name, String address, boolean opening, String hours, String distance, String userVote, PhotoMetadata photoMetadata) {
+    public Restaurant(String name, String address, String distance, String userVote, String hours, String websiteUrl, String phoneNumber, String id, boolean opening, double userRating, PhotoMetadata photoMetadata) {
         mName = name;
         mAddress = address;
-        mOpening = opening;
+        mDistance = distance;
+        mUserVote = userVote;
         mHours = hours;
-        mDistance = distance+ " m";
-        mUserVote = "(" +userVote+ ")";
+        mWebsiteUrl = websiteUrl;
+        mPhoneNumber = phoneNumber;
+        mId = id;
+        mOpening = opening;
+        mUserRating = userRating;
         mPhotoMetadata = photoMetadata;
     }
 }

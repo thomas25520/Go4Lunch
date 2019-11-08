@@ -62,7 +62,6 @@
                 android:layout_height="200dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
-                android:contentDescription="@string/user_picture"
                 android:src="@drawable/ic_logogo4lunch_white" />
         </RelativeLayout>
 

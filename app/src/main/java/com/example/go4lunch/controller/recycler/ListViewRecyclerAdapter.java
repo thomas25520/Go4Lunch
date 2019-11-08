@@ -52,7 +52,7 @@ public class ListViewRecyclerAdapter extends RecyclerView.Adapter<ListViewViewHo
         holder.mRestaurantName.setText(restaurant.getName());
         holder.mRestaurantOpenHours.setText(restaurant.getHours());
 
-        if (restaurant.getOpening()) { // Display if restaurant is open or not
+        if (restaurant.isOpening()) { // Display if restaurant is open or not
             holder.mRestaurantIsOpen.setText(R.string.open);
             holder.mRestaurantIsOpen.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_green));
         } else {
@@ -80,6 +80,8 @@ public class ListViewRecyclerAdapter extends RecyclerView.Adapter<ListViewViewHo
                 }
             });
         }
+
+        holder.mRestaurantRatingBar.setRating((float) (restaurant.getUserRating() *3 )/5); // Rating() * 3 / 5 : To have same proportion of rating like 5 star, in 3 stars
 
         holder.itemView.setOnClickListener(v -> mHolderListener.onItemClicked(holder, restaurant, position));
     }

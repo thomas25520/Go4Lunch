@@ -1,0 +1,61 @@
+<resources>
+    <!--    Login-->
+    <string name="go4lunch">Go4Lunch</string>
+    <string name="login_background_subtitle">Trouvez un bon restaurant et invitez vos collègues à déjeuner !</string>
+
+    <!--    Navigation drawer-->
+    <string name="your_lunch">VOTRE REPAS</string>
+    <string name="settings">OPTION</string>
+    <string name="logout">DECONNECTION</string>
+    <string name="search">Recherche</string>
+
+    <!-- BOTTOM NAVIGATION VIEW -->
+    <string name="bottom_navigation_menu_map_view">Carte</string>
+    <string name="bottom_navigation_menu_list_view">Liste</string>
+    <string name="bottom_navigation_menu_workmates">Collègue</string>
+    <string name="title_activity_maps">Carte</string>
+
+    <!--    RESTAURANT-->
+    <string name="open">OUVERT</string>
+    <string name="close">FERMER</string>
+    <string name="call">APPELER</string>
+    <string name="like">AIMER</string>
+    <string name="website">SITE WEB</string>
+
+    <!--    WORKMATES-->
+    <string name="is_eating">mange</string>
+
+    <!--    FACEBOOK -->
+    <string name="facebook_application_id" translatable="false">3019484981460119</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb3019484981460119</string>
+
+    <!--    TWITTER-->
+    <string name="twitter_consumer_key" translatable="false">3sI4Kl5kaQUagM1YfUU0gpKzU</string>
+    <string name="twitter_consumer_secret" translatable="false">Yse7FKJOgqBouYhWsx0EErSNbkF71vyhSh15LMVbFKv3EpoNBJ</string>
+
+    <!--    LOG IN-->
+    <string name="connection_succeed">Connection : Succès</string>
+    <string name="error_authentication_canceled">Error : Authentification annulée</string>
+    <string name="error_no_internet">Pas de connection internet</string>
+    <string name="unknown_error">Erreur inconnu</string>
+
+    <!--    GOOGLE MAPS-->
+    <string name="google_maps_api_key" translatable="false">AIzaSyA5AiL719efOapJiyfgf-RSBq7BN6FWDM4</string>
+
+    <!--    OTHERS-->
+    <string name="participation_btn_info_user_true">Bien ! vous vous êtes joint à vos collègues pour manger</string>
+    <string name="participation_btn_info_user_false">Vous ne participez plus à ce repas</string>
+    <string name="available_workmates">collègue(s) disponibles</string>
+    <string name="i_m_hungry">J\'ai faim !</string>
+    <string name="log_out_message">Déconnecté</string>
+    <string name="error_permission_map">Pas de permission de localisation</string>
+    <string name="no_restaurant_found">Pas de restaurant autour de vous</string>
+    <string name="call_this_restaurant">Êtes-vous sûr de vouloir téléphoner au restaurant ?</string>
+    <string name="alert_dialog_call_title">APPELER MAINTENANT</string>
+    <string name="go">GO !</string>
+    <string name="go_to_website">Aller sur le site internet ?</string>
+    <string name="no_phone_number_found">Pas de numéro de téléphone</string>
+    <string name="sorry">DESOLER</string>
+    <string name="no_website_available">Pas de site internet</string>
+
+</resources>
