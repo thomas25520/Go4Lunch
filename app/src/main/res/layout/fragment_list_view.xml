@@ -2,10 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite" >
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_main_fragment_list_recycler"
+        android:id="@+id/fragment_list_view_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical" />
