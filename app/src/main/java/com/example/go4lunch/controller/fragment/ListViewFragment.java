@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.api.ApiKeyManager;
 import com.example.go4lunch.controller.activities.RestaurantDetails;
 import com.example.go4lunch.controller.data.Restaurant;
 import com.example.go4lunch.controller.recycler.ListViewRecyclerAdapter;
@@ -49,6 +50,7 @@ public class ListViewFragment extends Fragment {
     private RecyclerView mRecyclerView;
 
     private PlacesClient mPlacesClient;
+    private ApiKeyManager mApiKeyManager = new ApiKeyManager();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class ListViewFragment extends Fragment {
         mRecyclerView = listViewFragment.findViewById(R.id.fragment_list_view_recycler);
 
         // Initialize the SDK
-        Places.initialize(Objects.requireNonNull(getContext()), getString(R.string.google_api_key));
+        Places.initialize(Objects.requireNonNull(getContext()), mApiKeyManager.getGoogleMapsApiKey());
         // Create a new Places client instance
         mPlacesClient = Places.createClient(Objects.requireNonNull(getContext()));
         // Location Services
