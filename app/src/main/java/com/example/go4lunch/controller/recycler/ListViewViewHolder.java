@@ -17,7 +17,6 @@ import butterknife.ButterKnife;
 public class ListViewViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.fragment_list_view_item_restaurant_name) TextView mRestaurantName;
-    @BindView(R.id.fragment_list_view_item_restaurant_origin) TextView mRestaurantOrigin;
     @BindView(R.id.fragment_list_view_item_restaurant_address) TextView mRestaurantAddress;
     @BindView(R.id.fragment_list_view_item_restaurant_hours) TextView mRestaurantOpenHours;
     @BindView(R.id.fragment_list_view_item_restaurant_is_open) TextView mRestaurantIsOpen;

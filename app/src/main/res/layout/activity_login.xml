@@ -44,4 +44,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_login_app_logo" />
 
+    <Button
+        android:id="@+id/activity_login_connect_btn_mail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/color_mail"
+        android:drawableStart="@drawable/ic_envelope"
+        android:text="Sign in with mail"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_welcome_message" />
+
+    <Button
+        android:id="@+id/activity_login_connect_btn_facebook"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Sign in with facebook"
+        android:backgroundTint="@color/color_facebook"
+        android:drawableStart="@drawable/ic_facebook"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="@+id/activity_login_connect_btn_mail"
+        app:layout_constraintStart_toStartOf="@+id/activity_login_connect_btn_mail"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_connect_btn_mail" />
+
+    <Button
+        android:id="@+id/activity_login_connect_btn_google"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Sign in with google"
+        android:backgroundTint="@color/color_google"
+        android:drawableStart="@drawable/ic_gmail"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="@+id/activity_login_connect_btn_facebook"
+        app:layout_constraintStart_toStartOf="@+id/activity_login_connect_btn_facebook"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_connect_btn_facebook" />
+
+    <Button
+        android:id="@+id/activity_login_connect_btn_twitter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Sign in with twitter"
+        android:backgroundTint="@color/color_twitter"
+        android:drawableStart="@drawable/ic_twitter"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="@+id/activity_login_connect_btn_google"
+        app:layout_constraintStart_toStartOf="@+id/activity_login_connect_btn_google"
+        app:layout_constraintTop_toBottomOf="@+id/activity_login_connect_btn_google" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

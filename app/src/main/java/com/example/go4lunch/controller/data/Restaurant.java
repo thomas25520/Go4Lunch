@@ -2,25 +2,26 @@ package com.example.go4lunch.controller.data;
 
 import android.widget.ImageView;
 
+import com.google.android.libraries.places.api.model.PhotoMetadata;
+
 /**
  * Created by Dutru Thomas on 10/09/2019.
  */
 public class Restaurant {
 
-    private String mName, mOrigin, mAddress, mOpening, mDistance, mUserVote, mHours, mPictureUrl;
-    private ImageView mStar1, mStar2, mStar3, mPicture; // FIXME: 11/09/2019 Stars is gone while user no vote + algo todo
+    private String mName, mAddress, mDistance, mUserVote, mHours;
+    private ImageView mStar1, mStar2, mStar3; // FIXME: 11/09/2019 Stars is gone while user no vote + algo todo
+    private boolean  mOpening;
+    private PhotoMetadata mPhotoMetadata;
 
     // GETTER
     public String getName() {
         return mName;
     }
-    public String getOrigin() {
-        return mOrigin;
-    }
     public String getAddress() {
         return mAddress;
     }
-    public String getOpening() {
+    public boolean getOpening() {
         return mOpening;
     }
     public String getDistance() {
@@ -41,24 +42,18 @@ public class Restaurant {
     public ImageView getStar3() {
         return mStar3;
     }
-    public String getPictureUrl() {
-        return mPictureUrl;
-    }
-    public ImageView getPicture() {
-        return mPicture;
+    public PhotoMetadata getPhotoMetadata() {
+        return mPhotoMetadata;
     }
 
     // SETTER
     public void setName(String name) {
         mName = name;
     }
-    public void setOrigin(String origin) {
-        mOrigin = origin;
-    }
     public void setAddress(String address) {
         mAddress = address;
     }
-    public void setOpening(String opening) {
+    public void setOpening(boolean opening) {
         mOpening = opening;
     }
     public void setDistance(String distance) {
@@ -79,22 +74,18 @@ public class Restaurant {
     public void setStar3(ImageView star3) {
         mStar3 = star3;
     }
-    public void setPictureUrl(String pictureUrl) {
-        mPictureUrl = pictureUrl;
-    }
-    public void setPicture(ImageView picture) {
-        mPicture = picture;
+    public void setPhotoMetadata(PhotoMetadata photoMetadata) {
+        mPhotoMetadata = photoMetadata;
     }
 
     // CONSTRUCTOR
-    public Restaurant (String name, String origin, String address, String opening, String hours, String distance, String userVote, String pictureUrl) {
+    public Restaurant (String name, String address, boolean opening, String hours, String distance, String userVote, PhotoMetadata photoMetadata) {
         mName = name;
-        mOrigin = origin;
         mAddress = address;
         mOpening = opening;
         mHours = hours;
         mDistance = distance+ " m";
         mUserVote = "(" +userVote+ ")";
-        mPictureUrl = pictureUrl;
+        mPhotoMetadata = photoMetadata;
     }
 }

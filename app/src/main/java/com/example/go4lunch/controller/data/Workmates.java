@@ -1,22 +1,21 @@
 package com.example.go4lunch.controller.data;
 
-import android.widget.ImageView;
-
 /**
  * Created by Dutru Thomas on 13/09/2019.
  */
 public class Workmates {
-    private ImageView mUserPicture;
     private String mUserFirstName, mUserIsEating, mRestaurantOrigin, mRestaurantName, mUserPictureUrl;
 
     // GETTER
-    public ImageView getUserPicture() {
-        return mUserPicture;
-    }
     public String getUserFirstName() {
         return mUserFirstName;
     }
     public String getUserIsEating() {
+        if(mUserIsEating.equals("false")) {// No display "false" if user eat anywhere
+            setUserIsEating("");
+        } else {
+            setUserIsEating("- is eating"); // Display "is eating" if user eat on restaurant
+        }
         return mUserIsEating;
     }
     public String getRestaurantOrigin() {
@@ -30,9 +29,6 @@ public class Workmates {
     }
 
     // SETTER
-    public void setUserPicture(ImageView userPicture) {
-        mUserPicture = userPicture;
-    }
     public void setUserFirstName(String userFirstName) {
         mUserFirstName = userFirstName;
     }
