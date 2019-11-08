@@ -53,7 +53,8 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:contentDescription="@string/restaurant_image_item_list"
-        android:src="@drawable/ic_no_profile_image"
+        android:src="@drawable/ic_no_camera"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -73,24 +74,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fragment_list_view_item_restaurant_origin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:text="@string/origin"
-        android:textColor="@color/colorDark"
-        app:layout_constraintStart_toStartOf="@+id/fragment_list_view_item_restaurant_name"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_list_view_item_restaurant_name" />
-
-    <TextView
         android:id="@+id/fragment_list_view_item_restaurant_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
         android:text="@string/address"
         android:textColor="@color/colorDark"
-        app:layout_constraintStart_toEndOf="@+id/fragment_list_view_item_restaurant_origin"
+        app:layout_constraintStart_toStartOf="@+id/fragment_list_view_item_restaurant_name"
         app:layout_constraintTop_toBottomOf="@+id/fragment_list_view_item_restaurant_name" />
 
     <TextView
