@@ -44,9 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_login_connect_btn_facebook)
     public void onClickFacebookButton() {
-        Toast.makeText(this, "Under developing", Toast.LENGTH_LONG).show();
-//  TODO: 30/09/2019 : Repair Login with Facebook : developer error to fix.
-//        this.startSignInActivity(new AuthUI.IdpConfig.FacebookBuilder().build());
+        this.startSignInActivity(new AuthUI.IdpConfig.FacebookBuilder().build());
     }
 
     @OnClick(R.id.activity_login_connect_btn_google)
