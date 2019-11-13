@@ -137,9 +137,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                         LatLng placeLatLng = new LatLng(Objects.requireNonNull(placeLikelihood.getPlace().getLatLng()).latitude, placeLikelihood.getPlace().getLatLng().longitude);
 
-                        googleMap.addMarker(new MarkerOptions().position(placeLatLng)
-                                .icon(bitmapDescriptorFromVector(getContext()))
-                                .title(placeLikelihood.getPlace().getName()));
+                        if(getContext() != null) { // Prevent application crash if switch too fast between map and list
+                            googleMap.addMarker(new MarkerOptions().position(placeLatLng)
+                                    .icon(bitmapDescriptorFromVector(getContext()))
+                                    .title(placeLikelihood.getPlace().getName()));
+                        }
                     }
                 }
             } else {
