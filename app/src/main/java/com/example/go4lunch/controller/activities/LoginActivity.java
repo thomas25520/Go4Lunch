@@ -15,17 +15,15 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
-
     // Identifier for Sign-In Activity
     private static final int RC_SIGN_IN = 123;
-
     private String mUserName, mUserMailAddress, mUserProfilePicture;
 
     @Nullable
@@ -46,10 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_login_connect_btn_facebook)
     public void onClickFacebookButton() {
-        // 3 - Launch Sign-In Activity when user clicked on Login Button
-        Toast.makeText(this, "Under developing", Toast.LENGTH_LONG).show();
-//  TODO: 30/09/2019 : Repair Login with Facebook : developer error to fix.
-//        this.startSignInActivity(new AuthUI.IdpConfig.FacebookBuilder().build());
+        this.startSignInActivity(new AuthUI.IdpConfig.FacebookBuilder().build());
     }
 
     @OnClick(R.id.activity_login_connect_btn_google)
@@ -63,16 +58,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Use to create sign in activity from firebase
-     * @param builder builder login provider
+     * Use to create sign in activity from Firebase
+     * @param builder builder for login provider
      */
     private void startSignInActivity(AuthUI.IdpConfig builder) {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
                         .setTheme(R.style.LoginTheme)
-                        .setAvailableProviders(Arrays.asList(builder)) // Sign in with mail
-                        .setIsSmartLockEnabled(false, true)
+                        .setAvailableProviders(Collections.singletonList(builder)) // Set several providers
+                        .setIsSmartLockEnabled(true, true)
                         .build(),
                 RC_SIGN_IN);
     }
