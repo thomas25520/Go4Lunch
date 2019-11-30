@@ -112,6 +112,8 @@ public class ListViewFragment extends Fragment {
                 assert response != null;
 
                 for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
+                    System.out.println(placeLikelihood.getPlace());
+
                     if (placeLikelihood.getPlace().getTypes().toString().contains("RESTAURANT")) { // Display only Restaurant
                         getRestaurantDetails(placeLikelihood.getPlace().getId());
                     }
@@ -161,25 +163,58 @@ public class ListViewFragment extends Fragment {
             // Get the distance from a restaurant
             double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(place.getLatLng()));
             DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
-            String distance = df.format(distanceFrom);
+            String distance = df.format(distanceFrom) + " m";
 
             // Get the website from a restaurant
             String website;
             if (place.getWebsiteUri() != null) { website = place.getWebsiteUri().toString();
             } else { website = getString(R.string.no_website_available); }
 
+            // Get the opening hours of the day
+            String openingHours;
+            if (place.getOpeningHours() != null) {
+                openingHours = displayOpeningHoursForCurrentDay(place.getOpeningHours().getWeekdayText());
+            } else {
+                openingHours = "";
+            }
+
+            // Get user rating total
+            String userRatingTotal;
+            if (place.getUserRatingsTotal() != null) {
+                userRatingTotal = "(" + place.getUserRatingsTotal().toString() + ")";
+            } else {
+                userRatingTotal = "(0)";
+            }
+
+            // Get restaurant is open
+            boolean isOpen;
+            if (place.isOpen() != null) {
+                isOpen = place.isOpen();
+            } else {
+                isOpen = false;
+            }
+
+            // Place rating
+            Double rating;
+            if (place.getRating() != null) {
+                rating = place.getRating();
+            } else {
+                rating = 0.0;
+            }
+
+
             // Construct the restaurant object
             Restaurant restaurant = new Restaurant(
                     place.getName(),
                     address,
                     distance,
-                    place.getUserRatingsTotal().toString(),
-                    displayOpeningHoursForCurrentDay(place.getOpeningHours().getWeekdayText()),
+                    userRatingTotal,
+                    openingHours,
                     website,
                     place.getPhoneNumber(),
                     place.getId(),
-                    place.isOpen(),
-                    place.getRating(),
+                    isOpen,
+                    rating,
                     photoMetadata);
 
             mRestaurantList.add(restaurant);
@@ -189,6 +224,7 @@ public class ListViewFragment extends Fragment {
                 Toast.makeText(getContext(), R.string.no_restaurant_found, Toast.LENGTH_LONG).show();
 
         }).addOnFailureListener((exception) -> {
+            System.out.println(exception.getMessage());
             if (exception instanceof ApiException) {
                 ApiException apiException = (ApiException) exception;
                 int statusCode = apiException.getStatusCode();

@@ -54,13 +54,13 @@ public class WorkmatesRecyclerAdapter extends RecyclerView.Adapter<WorkmatesView
                 .oval(true)
                 .build();
 
-        Picasso.get()
-                .load(urlPictureToDisplay)
-                .fit()
-                .transform(transformation)
-                .into(imageView);
+        if(!urlPictureToDisplay.isEmpty())
+            Picasso.get()
+                    .load(urlPictureToDisplay)
+                    .fit()
+                    .transform(transformation)
+                    .into(imageView);
     }
-
 
     @Override
     public int getItemCount() {
