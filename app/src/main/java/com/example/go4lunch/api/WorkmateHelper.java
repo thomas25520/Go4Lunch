@@ -1,0 +1,64 @@
+package com.example.go4lunch.api;
+
+import com.example.go4lunch.data.Workmate;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+/**
+ * Created by Dutru Thomas on 24/09/2019.
+ */
+public class WorkmateHelper {
+    private static final String COLLECTION_NAME = "workmates";
+
+    // --- COLLECTION REFERENCE ---
+    public static CollectionReference getUsersCollection(){
+        return FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
+    }
+
+        // --- CREATE ---
+    public static Task<Void> createWorkmate(String username, String urlPicture, String email) {
+        Workmate workmateToCreate = new Workmate(username, "", urlPicture, email, false);
+        return WorkmateHelper.getUsersCollection().document(email).set(workmateToCreate);
+    }
+
+    // --- GET ---
+    public static Task<DocumentSnapshot> getWorkmate(String userUid) {
+        return WorkmateHelper.getUsersCollection().document(userUid).get();
+    }
+
+    public static String getStringInfoFrom(String information, QueryDocumentSnapshot document) {
+        return document.getString(information);
+    }
+    public static boolean getBooleanInfoFrom(String information, QueryDocumentSnapshot document) {
+        return document.getBoolean(information);
+    }
+
+    // --- UPDATE ---
+    public static Task<Void> updateWorkmateName(String username, String uid) {
+        return WorkmateHelper.getUsersCollection().document(uid).update("name", username);
+    }
+
+    public static Task<Void> updateWorkmatePicture(String picture, String uid) {
+        return WorkmateHelper.getUsersCollection().document(uid).update("pictureUrl", picture);
+    }
+
+    public static Task<Void> updateIsWorkmateEating(String uid, Boolean isEating) {
+    return WorkmateHelper.getUsersCollection().document(uid).update("eating", isEating);
+    }
+
+    public static void isWorkmateExist(OnCompleteListener<QuerySnapshot> listener) {
+        WorkmateHelper.getUsersCollection()
+                .get()
+                .addOnCompleteListener(listener);
+    }
+
+    // --- DELETE ---
+    public static Task<Void> deleteUser(String uid) {
+        return WorkmateHelper.getUsersCollection().document(uid).delete();
+    }
+}

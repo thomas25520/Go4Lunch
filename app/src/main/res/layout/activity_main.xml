@@ -62,7 +62,7 @@
                 android:layout_height="200dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_logogo4lunch_white" />
+                android:src="@drawable/ic_logo_go4lunch_white" />
         </RelativeLayout>
 
     </com.google.android.material.navigation.NavigationView>

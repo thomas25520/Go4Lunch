@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 showFragment(new ListViewFragment());
                 Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.i_m_hungry);
                 return true;
-            case R.id.workmates:
+            case R.id.workmate:
                 showFragment(new WorkmatesFragment());
                 Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.available_workmates);
                 return true;

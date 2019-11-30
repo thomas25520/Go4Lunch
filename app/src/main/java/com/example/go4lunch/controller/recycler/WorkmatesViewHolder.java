@@ -15,10 +15,8 @@ import butterknife.ButterKnife;
  * Created by Dutru Thomas on 13/09/2019.
  */
 public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
-
     @BindView(R.id.fragment_workmates_item_restaurant_name) TextView mRestaurantName;
     @BindView(R.id.fragment_workmates_item_user_name) TextView mUserName;
-    @BindView(R.id.fragment_workmates_item_restaurant_origin) TextView mRestaurantOrigin;
     @BindView(R.id.fragment_workmates_item_is_eating) TextView mIsEating;
     @BindView(R.id.fragment_workmates_item_user_picture) ImageView mUserPicture;
 

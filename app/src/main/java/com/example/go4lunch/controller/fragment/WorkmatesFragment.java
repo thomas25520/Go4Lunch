@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.R;
-import com.example.go4lunch.api.UserHelper;
-import com.example.go4lunch.controller.data.Workmates;
+import com.example.go4lunch.api.WorkmateHelper;
 import com.example.go4lunch.controller.recycler.WorkmatesRecyclerAdapter;
+import com.example.go4lunch.data.Workmate;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -31,7 +31,7 @@ import java.util.Objects;
  */
 public class WorkmatesFragment extends Fragment {
     private WorkmatesRecyclerAdapter mAdapter;
-    private List<Workmates> mWorkmatesList = new ArrayList<>();
+    private List<Workmate> mWorkmateList = new ArrayList<>();
     private RecyclerView mRecyclerView;
 
     @Override
@@ -46,19 +46,19 @@ public class WorkmatesFragment extends Fragment {
     }
 
     private void initData() {
-        UserHelper.getUsersCollection()
+        WorkmateHelper.getUsersCollection()
                 .get()
                 .addOnCompleteListener((Task<QuerySnapshot> task) -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                            Workmates workmates = new Workmates(
-                                    getInfoFrom("userName", document),
-                                    getInfoFrom("eating", document), // FIXME: 02/10/2019 : Convert all to boolean
-                                    "", // FIXME: 02/10/2019 : add restaurant info when available
-                                    "", // FIXME: 02/10/2019 : add restaurant info when available
-                                    getInfoFrom("userUrlProfilePicture", document)
+                            Workmate workmate = new Workmate(
+                                    WorkmateHelper.getStringInfoFrom("name", document),
+                                    "", // FIXME: 30/11/2019 Add restaurant when is available
+                                    WorkmateHelper.getStringInfoFrom("pictureUrl", document),
+                                    "",
+                                    WorkmateHelper.getBooleanInfoFrom("eating", document)
                             );
-                            mWorkmatesList.add(workmates);
+                            mWorkmateList.add(workmate);
                             mAdapter.notifyDataSetChanged();
                         }
                     } else {
@@ -67,12 +67,8 @@ public class WorkmatesFragment extends Fragment {
                 });
     }
 
-    private String getInfoFrom(String information, QueryDocumentSnapshot document) {
-        return Objects.requireNonNull(document.getData().get(information)).toString();
-    }
-
     private void configureRecyclerView() {
-        mAdapter = new WorkmatesRecyclerAdapter(mWorkmatesList);
+        mAdapter = new WorkmatesRecyclerAdapter(mWorkmateList);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), mLayoutManager.getOrientation()); // Make line between item elements
 

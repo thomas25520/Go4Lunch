@@ -1,4 +1,4 @@
-package com.example.go4lunch.controller.data;
+package com.example.go4lunch.data;
 
 import com.google.android.libraries.places.api.model.PhotoMetadata;
 

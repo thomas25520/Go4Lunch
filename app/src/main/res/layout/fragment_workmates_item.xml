@@ -41,17 +41,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/fragment_workmates_item_restaurant_origin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:text="origin"
-        android:textColor="@color/colorDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fragment_workmates_item_is_eating"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/fragment_workmates_item_restaurant_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,7 +48,7 @@
         android:text="restaurant"
         android:textColor="@color/colorDark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fragment_workmates_item_restaurant_origin"
+        app:layout_constraintStart_toEndOf="@+id/fragment_workmates_item_is_eating"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.R;
-import com.example.go4lunch.controller.data.Workmates;
+import com.example.go4lunch.data.Workmate;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -20,10 +20,10 @@ import java.util.List;
  * Created by Dutru Thomas on 13/09/2019.
  */
 public class WorkmatesRecyclerAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> {
-    private List<Workmates> mWorkmatesList;
+    private List<Workmate> mWorkmateList;
 
-    public WorkmatesRecyclerAdapter (List<Workmates> workmatesList) {
-        this.mWorkmatesList = workmatesList;
+    public WorkmatesRecyclerAdapter (List<Workmate> workmateList) {
+        this.mWorkmateList = workmateList;
     }
 
     @NonNull
@@ -36,14 +36,17 @@ public class WorkmatesRecyclerAdapter extends RecyclerView.Adapter<WorkmatesView
 
     @Override
     public void onBindViewHolder(@NonNull WorkmatesViewHolder holder, int position) {
-        Workmates workmates = mWorkmatesList.get(position);
+        Workmate workmate = mWorkmateList.get(position);
 
-        holder.mUserName.setText(workmates.getUserFirstName());
-        holder.mIsEating.setText(workmates.getUserIsEating());
-        holder.mRestaurantOrigin.setText(workmates.getRestaurantOrigin());
-        holder.mRestaurantName.setText(workmates.getRestaurantName());
+        holder.mUserName.setText(workmate.getName());
+        if (workmate.isEating())
+            holder.mIsEating.setText(R.string.is_eating);
+        else
+            holder.mIsEating.setText("");
 
-        roundImageDisplays(holder.mUserPicture, mWorkmatesList.get(position).getUserPictureUrl());
+        holder.mRestaurantName.setText(workmate.getRestaurantId());
+
+        roundImageDisplays(holder.mUserPicture, mWorkmateList.get(position).getPictureUrl());
     }
 
     private void roundImageDisplays (ImageView imageView, String urlPictureToDisplay) {
@@ -54,7 +57,7 @@ public class WorkmatesRecyclerAdapter extends RecyclerView.Adapter<WorkmatesView
                 .oval(true)
                 .build();
 
-        if(!urlPictureToDisplay.isEmpty())
+        if(urlPictureToDisplay != null)
             Picasso.get()
                     .load(urlPictureToDisplay)
                     .fit()
@@ -64,6 +67,6 @@ public class WorkmatesRecyclerAdapter extends RecyclerView.Adapter<WorkmatesView
 
     @Override
     public int getItemCount() {
-        return mWorkmatesList.size();
+        return mWorkmateList.size();
     }
 }

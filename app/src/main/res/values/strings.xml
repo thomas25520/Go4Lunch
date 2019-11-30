@@ -32,9 +32,9 @@
     <string name="unknown_error">Unknown error</string>
 
     <!--    OTHERS-->
-    <string name="participation_btn_info_user_true">Good! You joined these workmates to eat</string>
-    <string name="participation_btn_info_user_false">You leave these workmates to eat</string>
-    <string name="available_workmates">Available workmates</string>
+    <string name="participation_btn_info_user_true">Good! You joined these workmate to eat</string>
+    <string name="participation_btn_info_user_false">You leave these workmate to eat</string>
+    <string name="available_workmates">Available workmate</string>
     <string name="i_m_hungry">I\'m hungry!</string>
     <string name="log_out_message">You have logged out</string>
     <string name="error_permission_map">error permission location</string>

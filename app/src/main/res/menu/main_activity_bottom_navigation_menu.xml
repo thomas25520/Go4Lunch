@@ -14,7 +14,7 @@
         android:title="@string/bottom_navigation_menu_list_view"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/workmates"
+        android:id="@+id/workmate"
         android:enabled="true"
         android:icon="@drawable/ic_workmates"
         android:title="@string/bottom_navigation_menu_workmates"
