@@ -46,7 +46,7 @@ public class WorkmatesFragment extends Fragment {
     }
 
     private void initData() {
-        WorkmateHelper.getUsersCollection()
+        WorkmateHelper.getWorkmatesCollection()
                 .get()
                 .addOnCompleteListener((Task<QuerySnapshot> task) -> {
                     if (task.isSuccessful()) {

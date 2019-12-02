@@ -10,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.api.WorkmateHelper;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.PhotoMetadata;
@@ -22,6 +24,8 @@ import com.google.android.libraries.places.api.net.FetchPhotoRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -49,7 +53,7 @@ public class RestaurantDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_details);
         ButterKnife.bind(this); // apply the configuration with butterKnife for use @BindView, always use after setContentView
-        configureFloatingActionBtn();
+        actionParticipationBtn();
         initViews();
 
     }
@@ -144,9 +148,12 @@ public class RestaurantDetails extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void configureFloatingActionBtn() {
+    @Nullable
+    protected FirebaseUser getCurrentUser() { return FirebaseAuth.getInstance().getCurrentUser(); }
+
+    private void actionParticipationBtn() {
         AtomicBoolean participationBtnState = new AtomicBoolean(false);
-        // TODO: 16/09/2019 When API user is implemented dont forget to save btn position in function of user participation
+        // TODO: 02/12/2019 use current user eating state on db to set state of participationBtn and remove AtomicBoolean
         // Give user participation states to the lunch
         mParticipationBtn.setOnClickListener(v -> {
             if (participationBtnState.get()) {
@@ -155,15 +162,24 @@ public class RestaurantDetails extends AppCompatActivity {
                 Snackbar.make(v, R.string.participation_btn_info_user_false, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                // FIXME: 16/09/2019 Here delete user from the list of participant to the lunch
-            }
-            else {
+                // TODO: 02/12/2019 Delete user on list for recycler
+                // TODO: 02/12/2019 write change state on DB
+                WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),false); // Change eating status to false on DB
+                // TODO: 02/12/2019 Delete restaurantId on DB
+                WorkmateHelper.updateWorkmateRestaurantId("",getCurrentUser().getEmail()); // Del restaurant id on user in DB
+            } else {
+                String restaurantId = getIntent().getStringExtra("restaurantId");
+
                 mParticipationBtn.setImageResource(R.drawable.ic_cancel);
                 participationBtnState.set(true);
                 Snackbar.make(v, R.string.participation_btn_info_user_true, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                // FIXME: 16/09/2019 Here add user to the list of participant to the lunch
+                // TODO: 02/12/2019 Get all user have eating true and add it to a list for recycler
+                // TODO: 02/12/2019 write change state on DB
+                WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),true); // Change eating status to true on DB
+                // TODO: 02/12/2019 write restaurant ID on user in DB when participate
+                WorkmateHelper.updateWorkmateRestaurantId(restaurantId,getCurrentUser().getEmail()); // Save restaurant od on user on DB
             }
         });
     }
