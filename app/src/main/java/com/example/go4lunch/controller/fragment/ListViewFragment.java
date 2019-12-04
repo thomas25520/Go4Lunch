@@ -112,7 +112,6 @@ public class ListViewFragment extends Fragment {
                 assert response != null;
 
                 for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-                    System.out.println(placeLikelihood.getPlace());
 
                     if (placeLikelihood.getPlace().getTypes().toString().contains("RESTAURANT")) { // Display only Restaurant
                         getRestaurantDetails(placeLikelihood.getPlace().getId());
@@ -224,7 +223,6 @@ public class ListViewFragment extends Fragment {
                 Toast.makeText(getContext(), R.string.no_restaurant_found, Toast.LENGTH_LONG).show();
 
         }).addOnFailureListener((exception) -> {
-            System.out.println(exception.getMessage());
             if (exception instanceof ApiException) {
                 ApiException apiException = (ApiException) exception;
                 int statusCode = apiException.getStatusCode();
