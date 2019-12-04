@@ -31,10 +31,10 @@ public class WorkmateHelper {
         return WorkmateHelper.getWorkmatesCollection().document(userUid).get();
     }
 
-    public static String getStringInfoFrom(String information, QueryDocumentSnapshot document) {
+    public static String getStringInfoFrom(String information, DocumentSnapshot document) {
         return document.getString(information);
     }
-    public static boolean getBooleanInfoFrom(String information, QueryDocumentSnapshot document) {
+    public static boolean getBooleanInfoFrom(String information, DocumentSnapshot document) {
         return document.getBoolean(information);
     }
 

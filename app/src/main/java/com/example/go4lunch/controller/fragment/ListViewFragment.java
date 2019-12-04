@@ -112,7 +112,6 @@ public class ListViewFragment extends Fragment {
                 assert response != null;
 
                 for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-                    System.out.println(placeLikelihood.getPlace());
 
                     if (placeLikelihood.getPlace().getTypes().toString().contains("RESTAURANT")) { // Display only Restaurant
                         getRestaurantDetails(placeLikelihood.getPlace().getId());

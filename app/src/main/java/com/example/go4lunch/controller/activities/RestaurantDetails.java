@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import com.example.go4lunch.R;
 import com.example.go4lunch.api.WorkmateHelper;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.PhotoMetadata;
 import com.google.android.libraries.places.api.net.FetchPhotoRequest;
@@ -26,8 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.concurrent.atomic.AtomicBoolean;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +47,7 @@ public class RestaurantDetails extends AppCompatActivity {
     @BindView(R.id.activity_restaurant_details_like_logo) ImageView mRestaurantLike;
 
     private PlacesClient mPlacesClient;
+    boolean mParticipationBtnState = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,29 @@ public class RestaurantDetails extends AppCompatActivity {
         ButterKnife.bind(this); // apply the configuration with butterKnife for use @BindView, always use after setContentView
         actionParticipationBtn();
         initViews();
+        checkUserParticipation();
+    }
 
+    private void checkUserParticipation() {
+        Task<DocumentSnapshot> taskSnapshot = WorkmateHelper.getWorkmate(getCurrentUser().getEmail());
+        taskSnapshot.addOnCompleteListener(task -> { // access to DB
+            if (task.isSuccessful()) {
+                String userRestaurantId = WorkmateHelper.getStringInfoFrom("restaurantId", taskSnapshot.getResult());
+                if (userRestaurantId.isEmpty()) {
+                    mParticipationBtnState = false;
+                    mParticipationBtn.setImageResource(R.drawable.ic_check);
+
+                } else {
+                    if (userRestaurantId.equals(getIntent().getStringExtra("restaurantId"))) {
+                        mParticipationBtnState = true;
+                        mParticipationBtn.setImageResource(R.drawable.ic_cancel);
+                    } else {
+                        mParticipationBtnState = false;
+                        mParticipationBtn.setImageResource(R.drawable.ic_check);
+                    }
+                }
+            }
+        });
     }
 
     private void initViews() {
@@ -152,33 +175,29 @@ public class RestaurantDetails extends AppCompatActivity {
     protected FirebaseUser getCurrentUser() { return FirebaseAuth.getInstance().getCurrentUser(); }
 
     private void actionParticipationBtn() {
-        AtomicBoolean participationBtnState = new AtomicBoolean(false);
-        // TODO: 02/12/2019 use current user eating state on db to set state of participationBtn and remove AtomicBoolean
         // Give user participation states to the lunch
         mParticipationBtn.setOnClickListener(v -> {
-            if (participationBtnState.get()) {
+            if (mParticipationBtnState) {
                 mParticipationBtn.setImageResource(R.drawable.ic_check);
-                participationBtnState.set(false);
                 Snackbar.make(v, R.string.participation_btn_info_user_false, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                mParticipationBtnState = false;
 
                 // TODO: 02/12/2019 Delete user on list for recycler
-                // TODO: 02/12/2019 write change state on DB
+
                 WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),false); // Change eating status to false on DB
-                // TODO: 02/12/2019 Delete restaurantId on DB
                 WorkmateHelper.updateWorkmateRestaurantId("",getCurrentUser().getEmail()); // Del restaurant id on user in DB
             } else {
                 String restaurantId = getIntent().getStringExtra("restaurantId");
 
                 mParticipationBtn.setImageResource(R.drawable.ic_cancel);
-                participationBtnState.set(true);
+                mParticipationBtnState = true;
                 Snackbar.make(v, R.string.participation_btn_info_user_true, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 // TODO: 02/12/2019 Get all user have eating true and add it to a list for recycler
-                // TODO: 02/12/2019 write change state on DB
+
                 WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),true); // Change eating status to true on DB
-                // TODO: 02/12/2019 write restaurant ID on user in DB when participate
                 WorkmateHelper.updateWorkmateRestaurantId(restaurantId,getCurrentUser().getEmail()); // Save restaurant od on user on DB
             }
         });
