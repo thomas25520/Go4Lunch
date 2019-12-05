@@ -23,7 +23,7 @@
     <string name="website">WEBSITE</string>
 
     <!--    WORKMATES-->
-    <string name="is_eating">is eating</string>
+    <string name="is_eating">is eating at </string>
 
     <!--    LOG IN-->
     <string name="connection_succeed">Connection succeed</string>

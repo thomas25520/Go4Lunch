@@ -85,7 +85,6 @@ public class RestaurantDetails extends AppCompatActivity {
         Places.initialize(this, getString(R.string.google_api_key));
         // Create a new Places client instance
         mPlacesClient = Places.createClient(this);
-
         mRestaurantName.setText(getIntent().getStringExtra("name"));
         mRestaurantAddress.setText(getIntent().getStringExtra("address"));
         double restaurantRating = getIntent().getDoubleExtra("rating", 0);
@@ -104,7 +103,7 @@ public class RestaurantDetails extends AppCompatActivity {
             }).addOnFailureListener((exception) -> {
                 if (exception instanceof ApiException) {
                     ApiException apiException = (ApiException) exception;
-                    int statusCode = apiException.getStatusCode();
+                    apiException.getStatusCode();
                     // Handle error with given status code.
                     Log.e("ERROR", "Place not found: " + exception.getMessage());
                 }
@@ -187,8 +186,10 @@ public class RestaurantDetails extends AppCompatActivity {
 
                 WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),false); // Change eating status to false on DB
                 WorkmateHelper.updateWorkmateRestaurantId("",getCurrentUser().getEmail()); // Del restaurant id on user in DB
+                WorkmateHelper.updateWorkmateRestaurantName("",getCurrentUser().getEmail()); // Del restaurant name on user in DB
             } else {
                 String restaurantId = getIntent().getStringExtra("restaurantId");
+                String restaurantName = getIntent().getStringExtra("restaurantName");
 
                 mParticipationBtn.setImageResource(R.drawable.ic_cancel);
                 mParticipationBtnState = true;
@@ -198,7 +199,8 @@ public class RestaurantDetails extends AppCompatActivity {
                 // TODO: 02/12/2019 Get all user have eating true and add it to a list for recycler
 
                 WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),true); // Change eating status to true on DB
-                WorkmateHelper.updateWorkmateRestaurantId(restaurantId,getCurrentUser().getEmail()); // Save restaurant od on user on DB
+                WorkmateHelper.updateWorkmateRestaurantId(restaurantId,getCurrentUser().getEmail()); // Save restaurant Id on user on DB
+                WorkmateHelper.updateWorkmateRestaurantName(restaurantName, getCurrentUser().getEmail()); // Save restaurant name on user in DB
             }
         });
     }

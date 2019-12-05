@@ -22,7 +22,7 @@ public class WorkmateHelper {
 
         // --- CREATE ---
     public static Task<Void> createWorkmate(String username, String urlPicture, String email) {
-        Workmate workmateToCreate = new Workmate(username, "", urlPicture, email, false);
+        Workmate workmateToCreate = new Workmate(username, "", urlPicture, email, false,"");
         return WorkmateHelper.getWorkmatesCollection().document(email).set(workmateToCreate);
     }
 
@@ -48,6 +48,10 @@ public class WorkmateHelper {
     }
     public static Task<Void> updateWorkmateRestaurantId(String restaurantId, String uid) {
         return WorkmateHelper.getWorkmatesCollection().document(uid).update("restaurantId", restaurantId);
+    }
+
+    public static Task<Void> updateWorkmateRestaurantName(String restaurantName, String uid) {
+        return WorkmateHelper.getWorkmatesCollection().document(uid).update("restaurantName", restaurantName);
     }
 
     public static Task<Void> updateIsWorkmateEating(String uid, Boolean isEating) {

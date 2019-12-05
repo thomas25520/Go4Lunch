@@ -74,7 +74,7 @@ public class ListViewFragment extends Fragment {
     ListViewRecyclerHolderListener listViewRecyclerHolderListener = (viewHolder, item, pos) -> {
         Restaurant restaurant = (Restaurant) item;
         Intent intent = new Intent(getContext(), RestaurantDetails.class);
-        intent.putExtra("name", restaurant.getName());
+        intent.putExtra("restaurantName", restaurant.getName());
         intent.putExtra("address", restaurant.getAddress());
         intent.putExtra("rating", restaurant.getUserRating());
         intent.putExtra("picture", restaurant.getPhotoMetadata());
@@ -200,7 +200,6 @@ public class ListViewFragment extends Fragment {
             } else {
                 rating = 0.0;
             }
-
 
             // Construct the restaurant object
             Restaurant restaurant = new Restaurant(
