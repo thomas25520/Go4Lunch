@@ -204,6 +204,8 @@ public class RestaurantDetails extends AppCompatActivity {
                 WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),false); // Change eating status to false on DB
                 WorkmateHelper.updateWorkmateRestaurantId("",getCurrentUser().getEmail()); // Del restaurant id on user in DB
                 WorkmateHelper.updateWorkmateRestaurantName("",getCurrentUser().getEmail()); // Del restaurant name on user in DB
+                mWorkmateList.clear(); // Clear de lis before refresh data
+                initData(); // Refresh data for recycler
             } else {
                 String restaurantId = getIntent().getStringExtra("restaurantId");
                 String restaurantName = getIntent().getStringExtra("restaurantName");
@@ -216,6 +218,8 @@ public class RestaurantDetails extends AppCompatActivity {
                 WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),true); // Change eating status to true on DB
                 WorkmateHelper.updateWorkmateRestaurantId(restaurantId,getCurrentUser().getEmail()); // Save restaurant Id on user on DB
                 WorkmateHelper.updateWorkmateRestaurantName(restaurantName, getCurrentUser().getEmail()); // Save restaurant name on user in DB
+                mWorkmateList.clear();
+                initData();
             }
         });
     }
