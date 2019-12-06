@@ -19,7 +19,7 @@ import com.example.go4lunch.R;
 import com.example.go4lunch.api.ApiKeyManager;
 import com.example.go4lunch.controller.activities.RestaurantDetails;
 import com.example.go4lunch.controller.recycler.ListViewRecyclerAdapter;
-import com.example.go4lunch.controller.recycler.ListViewRecyclerHolderListener;
+import com.example.go4lunch.controller.recycler.RecyclerHolderListener;
 import com.example.go4lunch.data.Restaurant;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.LocationServices;
@@ -71,7 +71,7 @@ public class ListViewFragment extends Fragment {
     }
 
     // Click on item on listView, put the extra for restaurantDetails
-    ListViewRecyclerHolderListener listViewRecyclerHolderListener = (viewHolder, item, pos) -> {
+    RecyclerHolderListener recyclerHolderListener = (viewHolder, item, pos) -> {
         Restaurant restaurant = (Restaurant) item;
         Intent intent = new Intent(getContext(), RestaurantDetails.class);
         intent.putExtra("restaurantName", restaurant.getName());
@@ -87,13 +87,13 @@ public class ListViewFragment extends Fragment {
     };
 
     private void configureRecyclerView() {
-        mAdapter = new ListViewRecyclerAdapter(mRestaurantList, listViewRecyclerHolderListener, mPlacesClient);
+        mAdapter = new ListViewRecyclerAdapter(mRestaurantList, recyclerHolderListener, mPlacesClient);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(), mLayoutManager.getOrientation()); // Make line between item elements
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
-        mAdapter.setListener(listViewRecyclerHolderListener);
+        mAdapter.setListener(recyclerHolderListener);
 
     }
 

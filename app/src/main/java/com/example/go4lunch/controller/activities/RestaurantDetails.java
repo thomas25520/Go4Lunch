@@ -14,9 +14,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.R;
 import com.example.go4lunch.api.WorkmateHelper;
+import com.example.go4lunch.controller.recycler.RestaurantDetailsRecyclerAdapter;
+import com.example.go4lunch.data.Workmate;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -28,6 +34,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,15 +60,22 @@ public class RestaurantDetails extends AppCompatActivity {
 
     private PlacesClient mPlacesClient;
     boolean mParticipationBtnState = false;
+    private List<Workmate> mWorkmateList = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private RestaurantDetailsRecyclerAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_details);
+        mRecyclerView = findViewById(R.id.activity_restaurant_details_recycler);
         ButterKnife.bind(this); // apply the configuration with butterKnife for use @BindView, always use after setContentView
         actionParticipationBtn();
         initViews();
         checkUserParticipation();
+        configureRecyclerView();
+        initData();
     }
 
     private void checkUserParticipation() {
@@ -85,7 +104,7 @@ public class RestaurantDetails extends AppCompatActivity {
         Places.initialize(this, getString(R.string.google_api_key));
         // Create a new Places client instance
         mPlacesClient = Places.createClient(this);
-        mRestaurantName.setText(getIntent().getStringExtra("name"));
+        mRestaurantName.setText(getIntent().getStringExtra("restaurantName"));
         mRestaurantAddress.setText(getIntent().getStringExtra("address"));
         double restaurantRating = getIntent().getDoubleExtra("rating", 0);
         mRestaurantRatingBar.setRating((float)restaurantRating *3 /5);
@@ -182,8 +201,6 @@ public class RestaurantDetails extends AppCompatActivity {
                         .setAction("Action", null).show();
                 mParticipationBtnState = false;
 
-                // TODO: 02/12/2019 Delete user on list for recycler
-
                 WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),false); // Change eating status to false on DB
                 WorkmateHelper.updateWorkmateRestaurantId("",getCurrentUser().getEmail()); // Del restaurant id on user in DB
                 WorkmateHelper.updateWorkmateRestaurantName("",getCurrentUser().getEmail()); // Del restaurant name on user in DB
@@ -196,12 +213,47 @@ public class RestaurantDetails extends AppCompatActivity {
                 Snackbar.make(v, R.string.participation_btn_info_user_true, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                // TODO: 02/12/2019 Get all user have eating true and add it to a list for recycler
-
                 WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),true); // Change eating status to true on DB
                 WorkmateHelper.updateWorkmateRestaurantId(restaurantId,getCurrentUser().getEmail()); // Save restaurant Id on user on DB
                 WorkmateHelper.updateWorkmateRestaurantName(restaurantName, getCurrentUser().getEmail()); // Save restaurant name on user in DB
             }
         });
+    }
+
+    private void initData() {
+        WorkmateHelper.getWorkmatesCollection()
+                .get()
+                .addOnCompleteListener((Task<QuerySnapshot> task) -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                            Workmate workmate = new Workmate(
+                                    WorkmateHelper.getStringInfoFrom("name", document),
+                                    WorkmateHelper.getStringInfoFrom("restaurantName", document),
+                                    WorkmateHelper.getStringInfoFrom("pictureUrl", document),
+                                    "",
+                                    WorkmateHelper.getBooleanInfoFrom("eating", document),
+                                    WorkmateHelper.getStringInfoFrom("restaurantName", document)
+                            );
+
+                            // Add user on list only if eating on this restaurant
+                            if (WorkmateHelper.getStringInfoFrom("restaurantName", document).equals(getIntent().getStringExtra("restaurantName")))
+                                mWorkmateList.add(workmate);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        Log.d("ERROR", "Error getting documents: ", task.getException());
+                    }
+                });
+    }
+
+    private void configureRecyclerView() {
+        mAdapter = new RestaurantDetailsRecyclerAdapter(mWorkmateList);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, mLayoutManager.getOrientation()); // Make line between item elements
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

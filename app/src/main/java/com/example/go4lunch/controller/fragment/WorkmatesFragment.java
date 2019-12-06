@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.R;
 import com.example.go4lunch.api.WorkmateHelper;
-import com.example.go4lunch.controller.activities.RestaurantDetails;
 import com.example.go4lunch.controller.recycler.WorkmatesRecyclerAdapter;
 import com.example.go4lunch.data.Workmate;
 import com.google.android.gms.tasks.Task;

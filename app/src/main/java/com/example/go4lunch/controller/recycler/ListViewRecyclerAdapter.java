@@ -26,10 +26,10 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ListViewRecyclerAdapter extends RecyclerView.Adapter<ListViewViewHolder> {
     private List<Restaurant> mRestaurantList;
-    private ListViewRecyclerHolderListener mHolderListener;
+    private RecyclerHolderListener mHolderListener;
     private PlacesClient mPlacesClient;
 
-    public ListViewRecyclerAdapter (List<Restaurant> restaurantList, ListViewRecyclerHolderListener listener, PlacesClient placesClient) {
+    public ListViewRecyclerAdapter (List<Restaurant> restaurantList, RecyclerHolderListener listener, PlacesClient placesClient) {
         mPlacesClient = placesClient;
         mRestaurantList = restaurantList;
         mHolderListener = listener;
@@ -86,7 +86,7 @@ public class ListViewRecyclerAdapter extends RecyclerView.Adapter<ListViewViewHo
         holder.itemView.setOnClickListener(v -> mHolderListener.onItemClicked(holder, restaurant, position));
     }
 
-    public void setListener(ListViewRecyclerHolderListener listener) {
+    public void setListener(RecyclerHolderListener listener) {
         this.mHolderListener = listener;
     }
 
