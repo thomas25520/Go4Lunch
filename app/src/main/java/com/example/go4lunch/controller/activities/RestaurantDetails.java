@@ -201,25 +201,17 @@ public class RestaurantDetails extends AppCompatActivity {
                         .setAction("Action", null).show();
                 mParticipationBtnState = false;
 
-                WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),false); // Change eating status to false on DB
-                WorkmateHelper.updateWorkmateRestaurantId("",getCurrentUser().getEmail()); // Del restaurant id on user in DB
-                WorkmateHelper.updateWorkmateRestaurantName("",getCurrentUser().getEmail()); // Del restaurant name on user in DB
-                mWorkmateList.clear(); // Clear de lis before refresh data
-                initData(); // Refresh data for recycler
+                delWorkmate();
             } else {
-                String restaurantId = getIntent().getStringExtra("restaurantId");
-                String restaurantName = getIntent().getStringExtra("restaurantName");
+//                String restaurantId = getIntent().getStringExtra("restaurantId");
+//                String restaurantName = getIntent().getStringExtra("restaurantName");
 
                 mParticipationBtn.setImageResource(R.drawable.ic_cancel);
                 mParticipationBtnState = true;
                 Snackbar.make(v, R.string.participation_btn_info_user_true, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),true); // Change eating status to true on DB
-                WorkmateHelper.updateWorkmateRestaurantId(restaurantId,getCurrentUser().getEmail()); // Save restaurant Id on user on DB
-                WorkmateHelper.updateWorkmateRestaurantName(restaurantName, getCurrentUser().getEmail()); // Save restaurant name on user in DB
-                mWorkmateList.clear();
-                initData();
+                addWorkmate();
             }
         });
     }
@@ -259,5 +251,24 @@ public class RestaurantDetails extends AppCompatActivity {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+
+    // Update workmate status on DB and refresh list for recycler
+    private void addWorkmate() {
+        WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),true); // Change eating status to true on DB
+        WorkmateHelper.updateWorkmateRestaurantId(getIntent().getStringExtra("restaurantId"),getCurrentUser().getEmail()); // Save restaurant Id on user on DB
+        WorkmateHelper.updateWorkmateRestaurantName(getIntent().getStringExtra("restaurantName"), getCurrentUser().getEmail()); // Save restaurant name on user in DB
+        mWorkmateList.clear(); // Clear de lis before refresh data
+        initData(); // Refresh data for recycler
+    }
+
+    // Update workmate status on DB and refresh list for recycler
+    private void delWorkmate() {
+        WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),false); // Change eating status to false on DB
+        WorkmateHelper.updateWorkmateRestaurantId("",getCurrentUser().getEmail()); // Del restaurant id on user in DB
+        WorkmateHelper.updateWorkmateRestaurantName("",getCurrentUser().getEmail()); // Del restaurant name on user in DB
+        mWorkmateList.clear();
+        initData();
     }
 }
