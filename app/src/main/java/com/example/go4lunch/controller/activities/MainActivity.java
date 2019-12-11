@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -20,14 +21,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.api.WorkmateHelper;
 import com.example.go4lunch.controller.fragment.ListViewFragment;
 import com.example.go4lunch.controller.fragment.MapFragment;
 import com.example.go4lunch.controller.fragment.WorkmatesFragment;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -117,13 +121,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle Navigation Item Click
         switch (item.getItemId()) {
             case R.id.activity_main_drawer_lunch:
-                Toast.makeText(this, "function_under_development", Toast.LENGTH_LONG).show();
+                Task<DocumentSnapshot> taskSnapshot = WorkmateHelper.getWorkmate(getCurrentUser().getEmail());
+                taskSnapshot.addOnCompleteListener(task -> { // access to DB
+                    if (task.isSuccessful()) {
+                        String restaurantName = WorkmateHelper.getStringInfoFrom("restaurantName", taskSnapshot.getResult());
+                        if (restaurantName.isEmpty()) {
+                            new AlertDialog.Builder(this)
+                                    .setTitle(R.string.your_lunch)
+                                    .setMessage(getString(R.string.eating_anywhere))
+                                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                                    })
+                                    .show();
+                        } else {
+                            new AlertDialog.Builder(this)
+                                    .setTitle(R.string.your_lunch)
+                                    .setMessage(getString(R.string.eating_at )  + restaurantName)
+                                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                                    })
+                                    .show();
+                        }
+                    }
+                });
                 break;
             case R.id.activity_main_drawer_logout:
                 logOut();
                 break;
             case R.id.activity_main_drawer_settings:
                 Toast.makeText(this, "function_under_development", Toast.LENGTH_LONG).show();
+                // TODO: 11/12/2019 include notification on this settings menu
                 break;
             default:
                 Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_LONG).show();
