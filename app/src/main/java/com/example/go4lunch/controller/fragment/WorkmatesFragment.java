@@ -46,17 +46,18 @@ public class WorkmatesFragment extends Fragment {
     }
 
     private void initData() {
-        WorkmateHelper.getUsersCollection()
+        WorkmateHelper.getWorkmatesCollection()
                 .get()
                 .addOnCompleteListener((Task<QuerySnapshot> task) -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                             Workmate workmate = new Workmate(
                                     WorkmateHelper.getStringInfoFrom("name", document),
-                                    "", // FIXME: 30/11/2019 Add restaurant when is available
+                                    WorkmateHelper.getStringInfoFrom("restaurantName", document),
                                     WorkmateHelper.getStringInfoFrom("pictureUrl", document),
                                     "",
-                                    WorkmateHelper.getBooleanInfoFrom("eating", document)
+                                    WorkmateHelper.getBooleanInfoFrom("eating", document),
+                                    WorkmateHelper.getStringInfoFrom("restaurantName", document)
                             );
                             mWorkmateList.add(workmate);
                             mAdapter.notifyDataSetChanged();

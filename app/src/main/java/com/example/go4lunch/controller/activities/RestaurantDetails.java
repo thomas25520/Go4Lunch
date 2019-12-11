@@ -10,20 +10,36 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.api.WorkmateHelper;
+import com.example.go4lunch.controller.recycler.RestaurantDetailsRecyclerAdapter;
+import com.example.go4lunch.data.Workmate;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.PhotoMetadata;
 import com.google.android.libraries.places.api.net.FetchPhotoRequest;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,23 +59,52 @@ public class RestaurantDetails extends AppCompatActivity {
     @BindView(R.id.activity_restaurant_details_like_logo) ImageView mRestaurantLike;
 
     private PlacesClient mPlacesClient;
+    boolean mParticipationBtnState = false;
+    private List<Workmate> mWorkmateList = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private RestaurantDetailsRecyclerAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_details);
+        mRecyclerView = findViewById(R.id.activity_restaurant_details_recycler);
         ButterKnife.bind(this); // apply the configuration with butterKnife for use @BindView, always use after setContentView
-        configureFloatingActionBtn();
+        actionParticipationBtn();
         initViews();
+        checkUserParticipation();
+        configureRecyclerView();
+        initData();
+    }
 
+    private void checkUserParticipation() {
+        Task<DocumentSnapshot> taskSnapshot = WorkmateHelper.getWorkmate(getCurrentUser().getEmail());
+        taskSnapshot.addOnCompleteListener(task -> { // access to DB
+            if (task.isSuccessful()) {
+                String userRestaurantId = WorkmateHelper.getStringInfoFrom("restaurantId", taskSnapshot.getResult());
+                if (userRestaurantId.isEmpty()) {
+                    mParticipationBtnState = false;
+                    mParticipationBtn.setImageResource(R.drawable.ic_check);
+
+                } else {
+                    if (userRestaurantId.equals(getIntent().getStringExtra("restaurantId"))) {
+                        mParticipationBtnState = true;
+                        mParticipationBtn.setImageResource(R.drawable.ic_cancel);
+                    } else {
+                        mParticipationBtnState = false;
+                        mParticipationBtn.setImageResource(R.drawable.ic_check);
+                    }
+                }
+            }
+        });
     }
 
     private void initViews() {
         Places.initialize(this, getString(R.string.google_api_key));
         // Create a new Places client instance
         mPlacesClient = Places.createClient(this);
-
-        mRestaurantName.setText(getIntent().getStringExtra("name"));
+        mRestaurantName.setText(getIntent().getStringExtra("restaurantName"));
         mRestaurantAddress.setText(getIntent().getStringExtra("address"));
         double restaurantRating = getIntent().getDoubleExtra("rating", 0);
         mRestaurantRatingBar.setRating((float)restaurantRating *3 /5);
@@ -77,7 +122,7 @@ public class RestaurantDetails extends AppCompatActivity {
             }).addOnFailureListener((exception) -> {
                 if (exception instanceof ApiException) {
                     ApiException apiException = (ApiException) exception;
-                    int statusCode = apiException.getStatusCode();
+                    apiException.getStatusCode();
                     // Handle error with given status code.
                     Log.e("ERROR", "Place not found: " + exception.getMessage());
                 }
@@ -144,27 +189,86 @@ public class RestaurantDetails extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void configureFloatingActionBtn() {
-        AtomicBoolean participationBtnState = new AtomicBoolean(false);
-        // TODO: 16/09/2019 When API user is implemented dont forget to save btn position in function of user participation
+    @Nullable
+    protected FirebaseUser getCurrentUser() { return FirebaseAuth.getInstance().getCurrentUser(); }
+
+    private void actionParticipationBtn() {
         // Give user participation states to the lunch
         mParticipationBtn.setOnClickListener(v -> {
-            if (participationBtnState.get()) {
+            if (mParticipationBtnState) {
                 mParticipationBtn.setImageResource(R.drawable.ic_check);
-                participationBtnState.set(false);
                 Snackbar.make(v, R.string.participation_btn_info_user_false, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                mParticipationBtnState = false;
 
-                // FIXME: 16/09/2019 Here delete user from the list of participant to the lunch
-            }
-            else {
+                delWorkmate();
+            } else {
+//                String restaurantId = getIntent().getStringExtra("restaurantId");
+//                String restaurantName = getIntent().getStringExtra("restaurantName");
+
                 mParticipationBtn.setImageResource(R.drawable.ic_cancel);
-                participationBtnState.set(true);
+                mParticipationBtnState = true;
                 Snackbar.make(v, R.string.participation_btn_info_user_true, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                // FIXME: 16/09/2019 Here add user to the list of participant to the lunch
+                addWorkmate();
             }
         });
+    }
+
+    private void initData() {
+        WorkmateHelper.getWorkmatesCollection()
+                .get()
+                .addOnCompleteListener((Task<QuerySnapshot> task) -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                            Workmate workmate = new Workmate(
+                                    WorkmateHelper.getStringInfoFrom("name", document),
+                                    WorkmateHelper.getStringInfoFrom("restaurantName", document),
+                                    WorkmateHelper.getStringInfoFrom("pictureUrl", document),
+                                    "",
+                                    WorkmateHelper.getBooleanInfoFrom("eating", document),
+                                    WorkmateHelper.getStringInfoFrom("restaurantName", document)
+                            );
+
+                            // Add user on list only if eating on this restaurant
+                            if (WorkmateHelper.getStringInfoFrom("restaurantName", document).equals(getIntent().getStringExtra("restaurantName")))
+                                mWorkmateList.add(workmate);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        Log.d("ERROR", "Error getting documents: ", task.getException());
+                    }
+                });
+    }
+
+    private void configureRecyclerView() {
+        mAdapter = new RestaurantDetailsRecyclerAdapter(mWorkmateList);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, mLayoutManager.getOrientation()); // Make line between item elements
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+
+    // Update workmate status on DB and refresh list for recycler
+    private void addWorkmate() {
+        WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),true); // Change eating status to true on DB
+        WorkmateHelper.updateWorkmateRestaurantId(getIntent().getStringExtra("restaurantId"),getCurrentUser().getEmail()); // Save restaurant Id on user on DB
+        WorkmateHelper.updateWorkmateRestaurantName(getIntent().getStringExtra("restaurantName"), getCurrentUser().getEmail()); // Save restaurant name on user in DB
+        mWorkmateList.clear(); // Clear de lis before refresh data
+        initData(); // Refresh data for recycler
+    }
+
+    // Update workmate status on DB and refresh list for recycler
+    private void delWorkmate() {
+        WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),false); // Change eating status to false on DB
+        WorkmateHelper.updateWorkmateRestaurantId("",getCurrentUser().getEmail()); // Del restaurant id on user in DB
+        WorkmateHelper.updateWorkmateRestaurantName("",getCurrentUser().getEmail()); // Del restaurant name on user in DB
+        mWorkmateList.clear();
+        initData();
     }
 }

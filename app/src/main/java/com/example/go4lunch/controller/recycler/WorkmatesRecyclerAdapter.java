@@ -49,7 +49,7 @@ public class WorkmatesRecyclerAdapter extends RecyclerView.Adapter<WorkmatesView
         roundImageDisplays(holder.mUserPicture, mWorkmateList.get(position).getPictureUrl());
     }
 
-    private void roundImageDisplays (ImageView imageView, String urlPictureToDisplay) {
+    public static void roundImageDisplays (ImageView imageView, String urlPictureToDisplay) {
         Transformation transformation = new RoundedTransformationBuilder()
 //                .borderColor(Color.BLACK)
 //                .borderWidthDp(0)

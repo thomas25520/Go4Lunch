@@ -4,7 +4,7 @@ package com.example.go4lunch.data;
  * Created by Dutru Thomas on 13/09/2019.
  */
 public class Workmate {
-    private String mName, mRestaurantId, mPictureUrl, mEmail;
+    private String mName, mRestaurantId, mPictureUrl, mEmail, mRestaurantName;
     private boolean mEating;
 
     // GETTER
@@ -23,6 +23,9 @@ public class Workmate {
     public boolean isEating() {
         return mEating;
     }
+    public String getRestaurantName() {
+        return mRestaurantName;
+    }
 
     // SETTER
     public void setName(String name) {
@@ -40,13 +43,17 @@ public class Workmate {
     public void setEating(boolean eating) {
         mEating = eating;
     }
+    public void setRestaurantName(String restaurantName) {
+        this.mRestaurantName = restaurantName;
+    }
 
     // CONSTRUCTOR
-    public Workmate(String name, String restaurantId, String pictureUrl, String email, boolean eating) {
+    public Workmate(String name, String restaurantId, String pictureUrl, String email, boolean eating, String restaurantName) {
         mName = name;
         mRestaurantId = restaurantId;
         mPictureUrl = pictureUrl;
         mEmail = email;
         mEating = eating;
+        mRestaurantName = restaurantName;
     }
 }
