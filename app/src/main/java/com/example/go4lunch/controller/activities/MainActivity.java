@@ -24,6 +24,10 @@ import com.example.go4lunch.controller.fragment.ListViewFragment;
 import com.example.go4lunch.controller.fragment.MapFragment;
 import com.example.go4lunch.controller.fragment.WorkmatesFragment;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +36,8 @@ import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.ButterKnife;
@@ -104,7 +110,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.activity_main_toolbar_search_btn:
-                Toast.makeText(this, "function_under_development", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "function_under_development", Toast.LENGTH_LONG).show();
+                int AUTOCOMPLETE_REQUEST_CODE = 1;
+// Set the fields to specify which types of place data to
+// return after the user has made a selection.
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+
+// Start the autocomplete intent.
+                Intent intent = new Autocomplete.IntentBuilder(
+                        AutocompleteActivityMode.FULLSCREEN, fields)
+                        .setTypeFilter(TypeFilter.ESTABLISHMENT)
+                        .setCountry("FR")
+                        .build(this);
+                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
