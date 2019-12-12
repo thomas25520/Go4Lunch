@@ -48,4 +48,7 @@
     <string name="no_website_available">Pas de site internet</string>
     <string name="eating_anywhere">Vous mangez nulle part</string>
     <string name="eating_at">vous mangez à :\u0020</string>
+    <string name="notifications">Notifications</string>
+    <string name="hours">Heure
+    </string>
 </resources>

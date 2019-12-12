@@ -26,6 +26,7 @@
         <activity android:name=".controller.fragment.MapFragment" />
         <activity android:name=".controller.activities.RestaurantDetails" />
         <activity android:name=".controller.activities.WebViewActivity" />
+        <activity android:name=".controller.activities.SettingsActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
