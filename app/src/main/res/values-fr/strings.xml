@@ -49,6 +49,7 @@
     <string name="eating_anywhere">Vous mangez nulle part</string>
     <string name="eating_at">vous mangez à :\u0020</string>
     <string name="notifications">Notifications</string>
-    <string name="hours">Heure
-    </string>
+    <string name="hours">Heure</string>
+    <string name="you_eating_at">Vous mangez à :\u0020</string>
+
 </resources>
