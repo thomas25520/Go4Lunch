@@ -18,6 +18,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class AlarmReceiver extends BroadcastReceiver {
     private static final String CHANNEL_ID = "chanel_1";
     private static final int NOTIFICATION_ID = 1;
@@ -26,21 +29,32 @@ public class AlarmReceiver extends BroadcastReceiver {
     Context mContext;
     String mRestaurantName;
 
+    SimpleDateFormat mDayFormat = new SimpleDateFormat("dd");
+    Calendar calendar = Calendar.getInstance();
+    String mCurrentDay = mDayFormat.format(calendar.getTime());
+    String mDayFromSharedPref;
+
+
     @Nullable
     protected FirebaseUser getCurrentUser() { return FirebaseAuth.getInstance().getCurrentUser(); }
 
     public void onReceive(Context context, Intent intent) {
         mContext = context;
+        mDayFromSharedPref = SharedPreferencesManager.getString(mContext, "dayFromSharedPref");  // get day from shared pref
 
-        Task<DocumentSnapshot> taskSnapshot  = WorkmateHelper.getWorkmate(getCurrentUser().getEmail());
-        taskSnapshot.addOnCompleteListener(task -> { // access to DB
-            if (task.isSuccessful()) {
-                mRestaurantName = WorkmateHelper.getStringInfoFrom("restaurantName", taskSnapshot.getResult());
+        if (!mCurrentDay.equals(mDayFromSharedPref)) { // compare current day with day in sharedPref, if is different, the user is notify
+            Task<DocumentSnapshot> taskSnapshot  = WorkmateHelper.getWorkmate(getCurrentUser().getEmail());
+            taskSnapshot.addOnCompleteListener(task -> { // access to DB
+                if (task.isSuccessful()) {
+                    mRestaurantName = WorkmateHelper.getStringInfoFrom("restaurantName", taskSnapshot.getResult());
 
-                if (!mRestaurantName.isEmpty())
-                    createAndShowNotification(R.drawable.ic_logo_go4lunch, mContext.getString(R.string.you_eating_at), mRestaurantName, NotificationCompat.PRIORITY_DEFAULT, CHANNEL_ID, NOTIFICATION_ID, mContext); // notify user
-            }
-        });
+                    if (!mRestaurantName.isEmpty())
+                        createAndShowNotification(R.drawable.ic_logo_go4lunch, mContext.getString(R.string.you_eating_at), mRestaurantName, NotificationCompat.PRIORITY_DEFAULT, CHANNEL_ID, NOTIFICATION_ID, mContext); // notify user
+                    mDayFromSharedPref = mCurrentDay; // replace day in sharedPref by current day, this is to avoid to display again notification, the user is only notify once per day
+                    SharedPreferencesManager.putString(mContext, "dayFromSharedPref", mDayFromSharedPref); // save on sharedPref
+                }
+            });
+        }
     }
 
     // Step 1 : Create a channel with importance by default.

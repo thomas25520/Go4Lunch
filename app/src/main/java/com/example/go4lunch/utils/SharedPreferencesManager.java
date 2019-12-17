@@ -30,4 +30,16 @@ public class SharedPreferencesManager {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return mPreferences.getBoolean(key,false);
     }
+
+    // Save string in sharedPreferences
+    public static void putString(Context context, String key, String value) {
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        mPreferences.edit().putString(key, value).apply();
+    }
+
+    // Get string from sharedPreferences
+    public static String getString(Context context, String key) {
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return mPreferences.getString(key,"");
+    }
 }
