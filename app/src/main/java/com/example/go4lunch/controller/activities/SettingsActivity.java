@@ -1,40 +1,34 @@
 package com.example.go4lunch.controller.activities;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Switch;
 import android.widget.TimePicker;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.example.go4lunch.R;
-import com.example.go4lunch.api.WorkmateHelper;
+import com.example.go4lunch.utils.AlarmReceiver;
 import com.example.go4lunch.utils.SharedPreferencesManager;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.Calendar;
 
 public class SettingsActivity extends AppCompatActivity {
-    private static final String CHANNEL_ID = "notification";
     TimePicker mPicker;
     Switch mBtnNotification;
     int mHour, mMinute;
-
-    @Nullable
-    protected FirebaseUser getCurrentUser() { return FirebaseAuth.getInstance().getCurrentUser(); }
-
+    AlarmManager mAlarmManager;
+    PendingIntent mPendingIntent;
+    Intent mNotificationIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
         initViews();
     }
 
@@ -74,21 +68,17 @@ public class SettingsActivity extends AppCompatActivity {
                     mMinute = mPicker.getCurrentMinute();
                 }
 
-                SharedPreferencesManager.putInt(this, "mHour", mHour);
-                SharedPreferencesManager.putInt(this, "mMinute", mMinute);
-                SharedPreferencesManager.putBoolean(this, "notificationBtnState", true);
-                // TODO: 12/12/2019 Notification ON
-                enableNotification(true);
+                SharedPreferencesManager.putBoolean(this, "notificationBtnState", true); // Save btn notification state
+                scheduleNotification(mHour, mMinute, AlarmManager.INTERVAL_DAY); // Send info for notification if button is checked and enable alarm
+
             } else {
                 SharedPreferencesManager.putBoolean(this, "notificationBtnState", false);
-
-                // TODO: 12/12/2019 Notification OFF
-                enableNotification(false);
+                scheduleNotification(mHour, mMinute, AlarmManager.INTERVAL_DAY); // FIXME: 16/12/2019 recreate schedule for nothing prevent apk crash if uncheck notification btn
+                mAlarmManager.cancel(mPendingIntent); // Disable alarm
             }
-
         });
 
-        // Save hours without unchecked notification btn
+        // Save hours when picker changed
         mPicker.setOnTimeChangedListener((timePicker, i, i1) -> {
             if (Build.VERSION.SDK_INT >= 23) {
                 mHour = mPicker.getHour();
@@ -101,44 +91,22 @@ public class SettingsActivity extends AppCompatActivity {
 
             SharedPreferencesManager.putInt(this, "mHour", mHour);
             SharedPreferencesManager.putInt(this, "mMinute", mMinute);
+
+            if (SharedPreferencesManager.getBoolean(this, "notificationBtnState"))
+            scheduleNotification(mHour, mMinute, AlarmManager.INTERVAL_DAY); // Send info for notification if button is checked and enable alarm
         });
     }
 
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.notifications);
-            String description = getString(R.string.notifications);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
+    private void scheduleNotification(int hour, int minute, long intervalDay) {
+        mNotificationIntent = new Intent(this, AlarmReceiver.class);
+        mPendingIntent = PendingIntent.getBroadcast(this, 0, mNotificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-    private void enableNotification(boolean bool) {
-        if (bool) { // Enable notification
-            createNotificationChannel();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
 
-            Task<DocumentSnapshot> taskSnapshot  = WorkmateHelper.getWorkmate(getCurrentUser().getEmail());
-            taskSnapshot.addOnCompleteListener(task -> { // access to DB
-                if (task.isSuccessful()) {
-                    String restaurantName = WorkmateHelper.getStringInfoFrom("restaurantName", taskSnapshot.getResult());
-
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID) // Notification content
-                            .setSmallIcon(R.drawable.ic_logo_go4lunch)
-                            .setContentTitle("Your Lunch :")
-                            .setContentText(getString(R.string.you_eating_at) + restaurantName)
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-                    notificationManager.notify(1, builder.build()); // Display notification
-                }
-            });
-
-        } else { // Disable notification
-            // TODO: 12/12/2019 notification disable
-        }
+        mAlarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        mAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), intervalDay, mPendingIntent);
     }
 }
