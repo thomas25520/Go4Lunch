@@ -46,10 +46,10 @@
     <string name="no_phone_number_found">No phone number found</string>
     <string name="sorry">SORRY</string>
     <string name="no_website_available">No website available</string>
-    <string name="no_address_found">No address found</string>
     <string name="eating_anywhere">You are eating anywhere</string>
     <string name="eating_at">You are eating at :\u0020</string>
     <string name="notifications">Notifications</string>
     <string name="hours">Hour</string>
     <string name="you_eating_at">You eating at :\u0020</string>
+    <string name="no_address_found">No address found</string>
 </resources>
