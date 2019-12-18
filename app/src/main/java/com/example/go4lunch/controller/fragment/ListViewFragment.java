@@ -44,13 +44,15 @@ import java.util.Objects;
 /**
  * Created by Dutru Thomas on 06/09/2019.
  */
-public class ListViewFragment extends Fragment {
+public class ListViewFragment extends Fragment implements DoSearch{
     private ListViewRecyclerAdapter mAdapter;
     private List<Restaurant> mRestaurantList = new ArrayList<>();
     private RecyclerView mRecyclerView;
 
     private PlacesClient mPlacesClient;
     private ApiKeyManager mApiKeyManager = new ApiKeyManager();
+    private PhotoMetadata mPhotoMetadata = null;
+    private Place mPlace;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,7 +96,6 @@ public class ListViewFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
         mAdapter.setListener(recyclerHolderListener);
-
     }
 
     private void initPlaces() {
@@ -149,73 +150,21 @@ public class ListViewFragment extends Fragment {
         FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
 
         mPlacesClient.fetchPlace(request).addOnSuccessListener((response) -> {
-            Place place = response.getPlace();
-            if (place == null)
-                return;
-
-            // Format the address
-            String address = "" + place.getAddressComponents().asList().get(0).getName() + ", " + place.getAddressComponents().asList().get(1).getName() + ", " + place.getAddressComponents().asList().get(2).getName();
-
-            // Get the photo metadata.
-            PhotoMetadata photoMetadata = null;
-            if (place.getPhotoMetadatas() != null)
-                photoMetadata = place.getPhotoMetadatas().get(0);
-
-            // Get the distance from a restaurant
-            double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, place.getLatLng());
-            DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
-            String distance = df.format(distanceFrom) + " m";
-
-            // Get the website from a restaurant
-            String website;
-            if (place.getWebsiteUri() != null) { website = place.getWebsiteUri().toString();
-            } else { website = getString(R.string.no_website_available); }
-
-            // Get the opening hours of the day
-            String openingHours;
-            if (place.getOpeningHours() != null) {
-                openingHours = displayOpeningHoursForCurrentDay(place.getOpeningHours().getWeekdayText());
-            } else {
-                openingHours = "";
-            }
-
-            // Get user rating total
-            String userRatingTotal;
-            if (place.getUserRatingsTotal() != null) {
-                userRatingTotal = "(" + place.getUserRatingsTotal().toString() + ")";
-            } else {
-                userRatingTotal = "(0)";
-            }
-
-            // Get restaurant is open
-            boolean isOpen;
-            if (place.isOpen() != null) {
-                isOpen = place.isOpen();
-            } else {
-                isOpen = false;
-            }
-
-            // Place rating
-            Double rating;
-            if (place.getRating() != null) {
-                rating = place.getRating();
-            } else {
-                rating = 0.0;
-            }
+            mPlace = response.getPlace();
 
             // Construct the restaurant object
             Restaurant restaurant = new Restaurant(
-                    place.getName(),
-                    address,
-                    distance,
-                    userRatingTotal,
-                    openingHours,
-                    website,
-                    place.getPhoneNumber(),
-                    place.getId(),
-                    isOpen,
-                    rating,
-                    photoMetadata);
+                    mPlace.getName(),
+                    addressFormatter(),
+                    distanceFormatter(),
+                    userRatingTotalFormatter(),
+                    openingHoursFormatter(),
+                    websiteFormatter(),
+                    mPlace.getPhoneNumber(),
+                    mPlace.getId(),
+                    isOpenFormatter(),
+                    ratingFormatter(),
+                    photoMetadataFormatter());
 
             mRestaurantList.add(restaurant);
             if (!mRestaurantList.isEmpty())
@@ -225,8 +174,6 @@ public class ListViewFragment extends Fragment {
 
         }).addOnFailureListener((exception) -> {
             if (exception instanceof ApiException) {
-                ApiException apiException = (ApiException) exception;
-                int statusCode = apiException.getStatusCode();
                 // Handle error with given status code.
                 Log.e("ERROR", "Place not found: " + exception.getMessage());
             }
@@ -265,5 +212,99 @@ public class ListViewFragment extends Fragment {
                 break;
         }
         return Objects.requireNonNull(openingHoursForCurrentDay).substring(openingHoursForCurrentDay.indexOf(":") + 2); // Return string without "day"
+    }
+
+    @Override
+    public void getAutocompleteResult(Place place) {
+        mPlace = place;
+        mRestaurantList.clear(); // Clear list before display result
+
+        Restaurant restaurant = new Restaurant(
+                mPlace.getName(),
+                addressFormatter(),
+                distanceFormatter(),
+                userRatingTotalFormatter(),
+                openingHoursFormatter(),
+                websiteFormatter(),
+                mPlace.getPhoneNumber(),
+                mPlace.getId(),
+                isOpenFormatter(),
+                ratingFormatter(),
+                photoMetadataFormatter());
+
+        mRestaurantList.add(restaurant);
+        if (!mRestaurantList.isEmpty())
+            mAdapter.notifyDataSetChanged();
+        else
+            Toast.makeText(getContext(), R.string.no_restaurant_found, Toast.LENGTH_LONG).show();
+    }
+
+    private String addressFormatter() {
+        String address;
+        if (mPlace.getAddressComponents() != null)
+            address = "" + mPlace.getAddressComponents().asList().get(0).getName() + ", " + mPlace.getAddressComponents().asList().get(1).getName() + ", " + mPlace.getAddressComponents().asList().get(2).getName();
+        else address = getString(R.string.no_address_found);
+        return address;
+    }
+
+    private PhotoMetadata photoMetadataFormatter() {
+        if (mPlace.getPhotoMetadatas() != null)
+            mPhotoMetadata = mPlace.getPhotoMetadatas().get(0);
+        return mPhotoMetadata;
+    }
+
+    private String distanceFormatter() {
+        double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(mPlace.getLatLng()));
+        DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
+        return df.format(distanceFrom) + " m";
+    }
+
+    private String websiteFormatter() {
+        String website;
+
+        if (mPlace.getWebsiteUri() != null)
+            website = mPlace.getWebsiteUri().toString();
+        else website = getString(R.string.no_website_available);
+
+        return website;
+    }
+
+    private String openingHoursFormatter() {
+        String openingHours;
+
+        if (mPlace.getOpeningHours() != null)
+            openingHours = displayOpeningHoursForCurrentDay(mPlace.getOpeningHours().getWeekdayText());
+        else openingHours = "";
+
+        return openingHours;
+    }
+
+    private String userRatingTotalFormatter() {
+        String userRatingTotal;
+
+        if (mPlace.getUserRatingsTotal() != null)
+            userRatingTotal = "(" + mPlace.getUserRatingsTotal().toString() + ")";
+        else userRatingTotal = "(0)";
+
+        return userRatingTotal;
+    }
+
+    private boolean isOpenFormatter() {
+        boolean isOpen;
+
+        if (mPlace.isOpen() != null)
+            isOpen = mPlace.isOpen();
+        else isOpen = false;
+
+        return isOpen;
+    }
+
+    private double ratingFormatter() {
+        double rating;
+        if (mPlace.getRating() != null)
+            rating = mPlace.getRating();
+        else rating = 0.0;
+
+        return rating;
     }
 }
