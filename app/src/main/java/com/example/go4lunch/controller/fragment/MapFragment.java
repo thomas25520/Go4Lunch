@@ -48,7 +48,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearch {
     private double mLatitude;
     private double mLongitude;
 
@@ -57,6 +57,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient mFusedLocationClient;
     private PlacesClient mPlacesClient;
 
+    GoogleMap mGoogleMap;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,26 +78,32 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(Objects.requireNonNull(getContext()), R.raw.map_style));
+        this.mGoogleMap = googleMap;
+        mGoogleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(Objects.requireNonNull(getContext()), R.raw.map_style));
         // Dexter Runtime permission for location
         Dexter.withActivity(getActivity())
                 .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new PermissionListener() {
-                    @Override public void onPermissionGranted(PermissionGrantedResponse response) {
-                        googleMap.setMyLocationEnabled(true); // Enable MyLocation Button
-                        clientLocation(googleMap); // Locate user and move the camera to his position
-                        initPlaces(googleMap);
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        mGoogleMap.setMyLocationEnabled(true); // Enable MyLocation Button
+                        clientLocation(); // Locate user and move the camera to his position
+                        initPlaces();
                     }
-                    @Override public void onPermissionDenied(PermissionDeniedResponse response) {
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
                         Toast.makeText(getContext(), "Permission denied", Toast.LENGTH_SHORT).show();
                     }
-                    @Override public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
 
                     }
                 }).check();
     }
 
-    private void clientLocation(GoogleMap googleMap) {
+    private void clientLocation() {
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(Objects.requireNonNull(getActivity()), location -> {
                     if (location != null) {
@@ -104,19 +111,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         mLatitude = location.getLatitude();
                         mLongitude = location.getLongitude();
 
-                        moveCameraOnUser(googleMap); // Set camera position to user location
+                        moveCameraOnUser(); // Set camera position to user location
                     }
                 });
     }
 
-    private void moveCameraOnUser(GoogleMap googleMap) {
+    private void moveCameraOnUser() {
         mUserPosition = new LatLng(mLatitude, mLongitude); // Get User Latitude and longitude position
-        googleMap.setMaxZoomPreference(20);
-        googleMap.setMinZoomPreference(17);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(mUserPosition)); // Move the camera to user position
+        mGoogleMap.setMaxZoomPreference(20);
+        mGoogleMap.setMinZoomPreference(17);
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(mUserPosition)); // Move the camera to user position
     }
 
-    private void initPlaces(GoogleMap googleMap) {
+    private void initPlaces() {
         // Use fields to define the data types to return.
         List<Place.Field> placeFields = Arrays.asList(
                 Place.Field.LAT_LNG,
@@ -128,7 +135,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         Task<FindCurrentPlaceResponse> placeResponse = mPlacesClient.findCurrentPlace(request);
         placeResponse.addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
+            if (task.isSuccessful()) {
                 FindCurrentPlaceResponse response = task.getResult();
                 assert response != null;
 
@@ -137,8 +144,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                         LatLng placeLatLng = new LatLng(Objects.requireNonNull(placeLikelihood.getPlace().getLatLng()).latitude, placeLikelihood.getPlace().getLatLng().longitude);
 
-                        if(getContext() != null) { // Prevent application crash if switch too fast between map and list
-                            googleMap.addMarker(new MarkerOptions().position(placeLatLng)
+                        if (getContext() != null) { // Prevent application crash if switch too fast between map and list
+                            mGoogleMap.addMarker(new MarkerOptions().position(placeLatLng)
                                     .icon(bitmapDescriptorFromVector(getContext()))
                                     .title(placeLikelihood.getPlace().getName()));
                         }
@@ -162,5 +169,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    @Override
+    public void getAutocompleteResult(Place place) {
+        // Set marker for selected restaurant
+        mGoogleMap.addMarker(new MarkerOptions().position(place.getLatLng())
+                .icon(bitmapDescriptorFromVector(getContext()))
+                .title(place.getName()));
+
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng())); // Move the camera on selected restaurant
     }
 }

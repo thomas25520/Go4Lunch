@@ -20,13 +20,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.controller.fragment.DoSearch;
 import com.example.go4lunch.controller.fragment.ListViewFragment;
 import com.example.go4lunch.controller.fragment.MapFragment;
 import com.example.go4lunch.controller.fragment.WorkmatesFragment;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -46,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private TextView mUserName, mUserMailAddress;
     private ImageView mUserProfilePicture;
+    int AUTOCOMPLETE_REQUEST_CODE = 1;
+
+    DoSearch mCurrentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,15 +116,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.activity_main_toolbar_search_btn:
-//                Toast.makeText(this, "function_under_development", Toast.LENGTH_LONG).show();
-                int AUTOCOMPLETE_REQUEST_CODE = 1;
-// Set the fields to specify which types of place data to
-// return after the user has made a selection.
-                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
-
-// Start the autocomplete intent.
+            // Set the fields to specify which types of place data to
+            // return after the user has made a selection.
+                List<Place.Field> fields = Arrays.asList(
+                        Place.Field.NAME,
+                        Place.Field.LAT_LNG,
+                        Place.Field.RATING,
+                        Place.Field.PHONE_NUMBER,
+                        Place.Field.WEBSITE_URI,
+                        Place.Field.USER_RATINGS_TOTAL,
+                        Place.Field.RATING,
+                        Place.Field.ADDRESS,
+                        Place.Field.ADDRESS_COMPONENTS,
+                        Place.Field.PHOTO_METADATAS,
+                        Place.Field.UTC_OFFSET,
+                        Place.Field.ID,
+                        Place.Field.OPENING_HOURS);
+            // Start the autocomplete intent.
                 Intent intent = new Autocomplete.IntentBuilder(
-                        AutocompleteActivityMode.FULLSCREEN, fields)
+                        AutocompleteActivityMode.OVERLAY, fields)
                         .setTypeFilter(TypeFilter.ESTABLISHMENT)
                         .setCountry("FR")
                         .build(this);
@@ -227,5 +243,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .fit()
                 .transform(transformation)
                 .into(imageView);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                System.out.println(place);
+                if (mCurrentFragment != null)
+                    mCurrentFragment.getAutocompleteResult(place);
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                Status status = Autocomplete.getStatusFromIntent(data);
+                System.out.println(status);
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        if (fragment instanceof MapFragment || fragment instanceof ListViewFragment) {
+            mCurrentFragment = (DoSearch) fragment;
+
+        } else {
+            mCurrentFragment = null; // Reset current fragment, example when click on workmates
+        }
     }
 }

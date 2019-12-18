@@ -44,13 +44,18 @@ import java.util.Objects;
 /**
  * Created by Dutru Thomas on 06/09/2019.
  */
-public class ListViewFragment extends Fragment {
+public class ListViewFragment extends Fragment implements DoSearch{
     private ListViewRecyclerAdapter mAdapter;
     private List<Restaurant> mRestaurantList = new ArrayList<>();
     private RecyclerView mRecyclerView;
 
     private PlacesClient mPlacesClient;
     private ApiKeyManager mApiKeyManager = new ApiKeyManager();
+
+    private String mAddress, mDistance, mWebsite, mOpeningHours, mUserRatingTotal;
+    private PhotoMetadata mPhotoMetadata;
+    private boolean mIsOpen;
+    private double mRating;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -152,68 +157,63 @@ public class ListViewFragment extends Fragment {
             Place place = response.getPlace();
 
             // Format the address
-            String address = "" + place.getAddressComponents().asList().get(0).getName() + ", " + place.getAddressComponents().asList().get(1).getName() + ", " + place.getAddressComponents().asList().get(2).getName();
+            mAddress = "" + place.getAddressComponents().asList().get(0).getName() + ", " + place.getAddressComponents().asList().get(1).getName() + ", " + place.getAddressComponents().asList().get(2).getName();
 
             // Get the photo metadata.
-            PhotoMetadata photoMetadata = null;
+            mPhotoMetadata = null;
             if (place.getPhotoMetadatas() != null)
-                photoMetadata = place.getPhotoMetadatas().get(0);
+                mPhotoMetadata = place.getPhotoMetadatas().get(0);
 
             // Get the distance from a restaurant
             double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(place.getLatLng()));
             DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
-            String distance = df.format(distanceFrom) + " m";
+            mDistance = df.format(distanceFrom) + " m";
 
             // Get the website from a restaurant
-            String website;
-            if (place.getWebsiteUri() != null) { website = place.getWebsiteUri().toString();
-            } else { website = getString(R.string.no_website_available); }
+            if (place.getWebsiteUri() != null) { mWebsite = place.getWebsiteUri().toString();
+            } else { mWebsite = getString(R.string.no_website_available); }
 
             // Get the opening hours of the day
-            String openingHours;
             if (place.getOpeningHours() != null) {
-                openingHours = displayOpeningHoursForCurrentDay(place.getOpeningHours().getWeekdayText());
+                mOpeningHours = displayOpeningHoursForCurrentDay(place.getOpeningHours().getWeekdayText());
             } else {
-                openingHours = "";
+                mOpeningHours = "";
             }
 
             // Get user rating total
-            String userRatingTotal;
             if (place.getUserRatingsTotal() != null) {
-                userRatingTotal = "(" + place.getUserRatingsTotal().toString() + ")";
+                mUserRatingTotal = "(" + place.getUserRatingsTotal().toString() + ")";
             } else {
-                userRatingTotal = "(0)";
+                mUserRatingTotal = "(0)";
             }
 
             // Get restaurant is open
-            boolean isOpen;
             if (place.isOpen() != null) {
-                isOpen = place.isOpen();
+                mIsOpen = place.isOpen();
             } else {
-                isOpen = false;
+                mIsOpen = false;
             }
 
             // Place rating
-            Double rating;
             if (place.getRating() != null) {
-                rating = place.getRating();
+                mRating = place.getRating();
             } else {
-                rating = 0.0;
+                mRating = 0.0;
             }
 
             // Construct the restaurant object
             Restaurant restaurant = new Restaurant(
                     place.getName(),
-                    address,
-                    distance,
-                    userRatingTotal,
-                    openingHours,
-                    website,
+                    mAddress,
+                    mDistance,
+                    mUserRatingTotal,
+                    mOpeningHours,
+                    mWebsite,
                     place.getPhoneNumber(),
                     place.getId(),
-                    isOpen,
-                    rating,
-                    photoMetadata);
+                    mIsOpen,
+                    mRating,
+                    mPhotoMetadata);
 
             mRestaurantList.add(restaurant);
             if (!mRestaurantList.isEmpty())
@@ -263,5 +263,78 @@ public class ListViewFragment extends Fragment {
                 break;
         }
         return Objects.requireNonNull(openingHoursForCurrentDay).substring(openingHoursForCurrentDay.indexOf(":") + 2); // Return string without "day"
+    }
+
+    @Override
+    public void getAutocompleteResult(Place place) {
+        // FIXME: 18/12/2019 DUplicate code, see how to reduce
+        Toast.makeText(getContext(), place.getId(), Toast.LENGTH_LONG).show();
+        // maj la liste avec le seul item
+        mRestaurantList.clear();
+
+        // Format the address
+        mAddress = "" + place.getAddressComponents().asList().get(0).getName() + ", " + place.getAddressComponents().asList().get(1).getName() + ", " + place.getAddressComponents().asList().get(2).getName();
+
+        // Get the photo metadata.
+        mPhotoMetadata = null;
+        if (place.getPhotoMetadatas() != null)
+            mPhotoMetadata = place.getPhotoMetadatas().get(0);
+
+        // Get the distance from a restaurant
+        double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(place.getLatLng()));
+        DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
+        mDistance = df.format(distanceFrom) + " m";
+
+        // Get the website from a restaurant
+        if (place.getWebsiteUri() != null) { mWebsite = place.getWebsiteUri().toString();
+        } else { mWebsite = getString(R.string.no_website_available); }
+
+        // Get the opening hours of the day
+        if (place.getOpeningHours() != null) {
+            mOpeningHours = displayOpeningHoursForCurrentDay(place.getOpeningHours().getWeekdayText());
+        } else {
+            mOpeningHours = "";
+        }
+
+        // Get user rating total
+        if (place.getUserRatingsTotal() != null) {
+            mUserRatingTotal = "(" + place.getUserRatingsTotal().toString() + ")";
+        } else {
+            mUserRatingTotal = "(0)";
+        }
+
+        // Get restaurant is open
+        if (place.isOpen() != null) {
+            mIsOpen = place.isOpen();
+        } else {
+            mIsOpen = false;
+        }
+
+        // Place rating
+        if (place.getRating() != null) {
+            mRating = place.getRating();
+        } else {
+            mRating = 0.0;
+        }
+
+        // Construct the restaurant object
+        Restaurant restaurant = new Restaurant(
+                place.getName(),
+                mAddress,
+                mDistance,
+                mUserRatingTotal,
+                mOpeningHours,
+                mWebsite,
+                place.getPhoneNumber(),
+                place.getId(),
+                mIsOpen,
+                mRating,
+                mPhotoMetadata);
+
+        mRestaurantList.add(restaurant);
+        if (!mRestaurantList.isEmpty())
+            mAdapter.notifyDataSetChanged(); // Refresh data for update the list for the recycler
+        else
+            Toast.makeText(getContext(), R.string.no_restaurant_found, Toast.LENGTH_LONG).show();
     }
 }
