@@ -150,6 +150,8 @@ public class ListViewFragment extends Fragment {
 
         mPlacesClient.fetchPlace(request).addOnSuccessListener((response) -> {
             Place place = response.getPlace();
+            if (place == null)
+                return;
 
             // Format the address
             String address = "" + place.getAddressComponents().asList().get(0).getName() + ", " + place.getAddressComponents().asList().get(1).getName() + ", " + place.getAddressComponents().asList().get(2).getName();
@@ -160,7 +162,7 @@ public class ListViewFragment extends Fragment {
                 photoMetadata = place.getPhotoMetadatas().get(0);
 
             // Get the distance from a restaurant
-            double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(place.getLatLng()));
+            double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, place.getLatLng());
             DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
             String distance = df.format(distanceFrom) + " m";
 
