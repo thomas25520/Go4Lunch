@@ -26,6 +26,14 @@
         <activity android:name=".controller.fragment.MapFragment" />
         <activity android:name=".controller.activities.RestaurantDetails" />
         <activity android:name=".controller.activities.WebViewActivity" />
+        <activity android:name=".controller.activities.SettingsActivity" />
+
+        <receiver android:name=".utils.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

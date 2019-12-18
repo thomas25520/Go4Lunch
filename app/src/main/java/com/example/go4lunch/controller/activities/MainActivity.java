@@ -181,8 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logOut();
                 break;
             case R.id.activity_main_drawer_settings:
-                Toast.makeText(this, "function_under_development", Toast.LENGTH_LONG).show();
-                // TODO: 11/12/2019 include notification on this settings menu
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
                 break;
             default:
                 Toast.makeText(this, R.string.unknown_error, Toast.LENGTH_LONG).show();

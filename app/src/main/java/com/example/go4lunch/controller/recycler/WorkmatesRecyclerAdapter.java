@@ -44,7 +44,7 @@ public class WorkmatesRecyclerAdapter extends RecyclerView.Adapter<WorkmatesView
         else
             holder.mIsEating.setText("");
 
-        holder.mRestaurantName.setText(workmate.getRestaurantId());
+        holder.mRestaurantName.setText(workmate.getRestaurantName());
 
         roundImageDisplays(holder.mUserPicture, mWorkmateList.get(position).getPictureUrl());
     }

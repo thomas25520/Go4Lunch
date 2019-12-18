@@ -53,7 +53,7 @@ public class WorkmatesFragment extends Fragment {
                         for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                             Workmate workmate = new Workmate(
                                     WorkmateHelper.getStringInfoFrom("name", document),
-                                    WorkmateHelper.getStringInfoFrom("restaurantName", document),
+                                    WorkmateHelper.getStringInfoFrom("restaurantId", document),
                                     WorkmateHelper.getStringInfoFrom("pictureUrl", document),
                                     "",
                                     WorkmateHelper.getBooleanInfoFrom("eating", document),
