@@ -154,7 +154,7 @@ public class ListViewFragment extends Fragment implements DoSearch{
 
             // Construct the restaurant object
             Restaurant restaurant = new Restaurant(
-                    mPlace.getName(),
+                    nameFormatter(),
                     addressFormatter(),
                     distanceFormatter(),
                     userRatingTotalFormatter(),
@@ -220,7 +220,7 @@ public class ListViewFragment extends Fragment implements DoSearch{
         mRestaurantList.clear(); // Clear list before display result
 
         Restaurant restaurant = new Restaurant(
-                mPlace.getName(),
+                nameFormatter(),
                 addressFormatter(),
                 distanceFormatter(),
                 userRatingTotalFormatter(),
@@ -237,6 +237,28 @@ public class ListViewFragment extends Fragment implements DoSearch{
             mAdapter.notifyDataSetChanged();
         else
             Toast.makeText(getContext(), R.string.no_restaurant_found, Toast.LENGTH_LONG).show();
+    }
+
+    private String nameFormatter() {
+        String formattedName;
+        String name = mPlace.getName();
+        int dashIndex = name.indexOf("-");
+        int decimalPointIndex = name.indexOf(",");
+
+        if (dashIndex > -1 || decimalPointIndex > -1) { // "-" or "," is present
+            if (dashIndex > -1 && decimalPointIndex > -1) { // "-" and "," are present
+                formattedName = name.substring(0, Math.min(dashIndex, decimalPointIndex)); // The first character "-" or "," are present put the end of returned string
+                return formattedName;
+            }
+            if (decimalPointIndex > -1) { // only "," is present
+                formattedName = name.substring(0 , decimalPointIndex); // formatted string return up to ","
+            } else {
+                formattedName = name.substring(0, dashIndex); // formatted string return up to "-"
+            }
+        } else {
+            formattedName = name; // formatted string return string without changed
+        }
+        return formattedName;
     }
 
     private String addressFormatter() {

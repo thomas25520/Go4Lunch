@@ -44,24 +44,26 @@
 
     <TextView
         android:id="@+id/fragment_list_view_item_restaurant_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:layout_marginTop="2dp"
         android:ellipsize="end"
-        android:maxLines="1"
+        android:singleLine="true"
         android:text="restaurant"
-        android:textStyle="bold"
         android:textColor="@color/colorDark"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_list_view_item_distance_from_the_restaurant"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/fragment_list_view_item_restaurant_address"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="address"
         android:textColor="@color/colorDark"
+        app:layout_constraintEnd_toStartOf="@+id/fragment_list_view_item_distance_from_the_restaurant"
         app:layout_constraintStart_toStartOf="@+id/fragment_list_view_item_restaurant_name"
         app:layout_constraintTop_toBottomOf="@+id/fragment_list_view_item_restaurant_name" />
 
