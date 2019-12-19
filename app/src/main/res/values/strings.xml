@@ -52,4 +52,7 @@
     <string name="hours">Hour</string>
     <string name="you_eating_at">You eating at :\u0020</string>
     <string name="no_address_found">No address found</string>
+    <string name="are_you_sure_to_log_out">Are you sure to log out ?</string>
+    <string name="no">NO</string>
+    <string name="yes">YES</string>
 </resources>

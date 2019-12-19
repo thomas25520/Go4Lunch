@@ -21,19 +21,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.go4lunch.R;
-import com.example.go4lunch.controller.fragment.DoSearch;
 import com.example.go4lunch.api.WorkmateHelper;
+import com.example.go4lunch.controller.fragment.DoSearch;
 import com.example.go4lunch.controller.fragment.ListViewFragment;
 import com.example.go4lunch.controller.fragment.MapFragment;
 import com.example.go4lunch.controller.fragment.WorkmatesFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,6 +69,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (isCurrentUserLogged())
             updateUserInfoWhenConnecting();
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.are_you_sure_to_log_out)
+                .setPositiveButton(R.string.yes, (dialog, which) -> logOut())
+                .setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.cancel())
+                .setNegativeButton(R.string.close, null)
+                .show();
     }
 
     // Set Toolbar

@@ -52,5 +52,8 @@
     <string name="notifications">Notifications</string>
     <string name="hours">Heure</string>
     <string name="you_eating_at">Vous mangez à :\u0020</string>
+    <string name="are_you_sure_to_log_out">Êtes-vous sûr de vouloir vous déconnecter ?</string>
+    <string name="no">NON</string>
+    <string name="yes">OUI</string>
 
 </resources>
