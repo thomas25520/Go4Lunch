@@ -26,6 +26,7 @@ import com.example.go4lunch.controller.fragment.DoSearch;
 import com.example.go4lunch.controller.fragment.ListViewFragment;
 import com.example.go4lunch.controller.fragment.MapFragment;
 import com.example.go4lunch.controller.fragment.WorkmatesFragment;
+import com.example.go4lunch.data.Workmate;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.Task;
@@ -302,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (fragment instanceof MapFragment || fragment instanceof ListViewFragment) {
             mCurrentFragment = (DoSearch) fragment;
 
-        } else {
+        } else if (fragment instanceof WorkmatesFragment){
             mCurrentFragment = null; // Reset current fragment, example when click on workmates
         }
     }
