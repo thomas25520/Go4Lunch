@@ -154,10 +154,10 @@ public class ListViewFragment extends Fragment implements DoSearch{
 
             // Construct the restaurant object
             Restaurant restaurant = new Restaurant(
-                    nameFormatter(),
+                    nameFormatter(mPlace.getName()),
                     addressFormatter(),
-                    distanceFormatter(),
-                    userRatingTotalFormatter(),
+                    distanceFormatter(SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(mPlace.getLatLng()))),
+                    userRatingTotalFormatter(mPlace.getUserRatingsTotal().toString()),
                     openingHoursFormatter(),
                     websiteFormatter(),
                     mPlace.getPhoneNumber(),
@@ -181,7 +181,7 @@ public class ListViewFragment extends Fragment implements DoSearch{
     }
 
     // Use for display opening hours of current day
-    private String displayOpeningHoursForCurrentDay(List<String> listOfOpeningHours) {
+    public String displayOpeningHoursForCurrentDay(List<String> listOfOpeningHours) {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
         String openingHoursForCurrentDay = null;
@@ -220,10 +220,10 @@ public class ListViewFragment extends Fragment implements DoSearch{
         mRestaurantList.clear(); // Clear list before display result
 
         Restaurant restaurant = new Restaurant(
-                nameFormatter(),
+                nameFormatter(mPlace.getName()),
                 addressFormatter(),
-                distanceFormatter(),
-                userRatingTotalFormatter(),
+                distanceFormatter(SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(mPlace.getLatLng()))),
+                userRatingTotalFormatter(mPlace.getUserRatingsTotal().toString()),
                 openingHoursFormatter(),
                 websiteFormatter(),
                 mPlace.getPhoneNumber(),
@@ -239,9 +239,8 @@ public class ListViewFragment extends Fragment implements DoSearch{
             Toast.makeText(getContext(), R.string.no_restaurant_found, Toast.LENGTH_LONG).show();
     }
 
-    private String nameFormatter() {
+    public String nameFormatter(String name) {
         String formattedName;
-        String name = mPlace.getName();
         int dashIndex = name.indexOf("-");
         int decimalPointIndex = name.indexOf(",");
 
@@ -275,9 +274,10 @@ public class ListViewFragment extends Fragment implements DoSearch{
         return mPhotoMetadata;
     }
 
-    private String distanceFormatter() {
-        double distanceFrom = SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(mPlace.getLatLng()));
+    public String distanceFormatter(double distanceFrom) {
         DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
+        System.out.println(distanceFrom);
+        System.out.println(df.format(distanceFrom));
         return df.format(distanceFrom) + " m";
     }
 
@@ -301,11 +301,9 @@ public class ListViewFragment extends Fragment implements DoSearch{
         return openingHours;
     }
 
-    private String userRatingTotalFormatter() {
-        String userRatingTotal;
-
-        if (mPlace.getUserRatingsTotal() != null)
-            userRatingTotal = "(" + mPlace.getUserRatingsTotal().toString() + ")";
+    public String userRatingTotalFormatter(String userRatingTotal) {
+        if (userRatingTotal != null)
+            userRatingTotal = "(" + userRatingTotal + ")";
         else userRatingTotal = "(0)";
 
         return userRatingTotal;
