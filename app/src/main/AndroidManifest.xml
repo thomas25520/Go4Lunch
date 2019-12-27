@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".controller.activities.LoginActivity">
+        <activity android:name=".controller.activities.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,6 +27,7 @@
         <activity android:name=".controller.activities.RestaurantDetails" />
         <activity android:name=".controller.activities.WebViewActivity" />
         <activity android:name=".controller.activities.SettingsActivity" />
+        <activity android:name=".controller.activities.LoginActivity" />
 
         <receiver android:name=".utils.AlarmReceiver">
             <intent-filter>

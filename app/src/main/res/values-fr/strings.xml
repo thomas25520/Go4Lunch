@@ -2,6 +2,8 @@
     <!--    Login-->
     <string name="go4lunch">Go4Lunch</string>
     <string name="login_background_subtitle">Trouvez un bon restaurant et invitez vos collègues à déjeuner !</string>
+    <string name="tap_to_connect">Touchez pour vous connecter</string>
+
 
     <!--    Navigation drawer-->
     <string name="your_lunch">VOTRE REPAS</string>

@@ -26,7 +26,6 @@ import com.example.go4lunch.controller.fragment.DoSearch;
 import com.example.go4lunch.controller.fragment.ListViewFragment;
 import com.example.go4lunch.controller.fragment.MapFragment;
 import com.example.go4lunch.controller.fragment.WorkmatesFragment;
-import com.example.go4lunch.data.Workmate;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.Task;
@@ -111,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AuthUI.getInstance()
                 .signOut(this)
                 .addOnCompleteListener(task -> {
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class)); // Start LoginActivity after logOut
+                    startActivity(new Intent(getApplicationContext(), StartActivity.class)); // Start LoginActivity after logOut
                     Toast.makeText(getApplicationContext(), R.string.log_out_message, Toast.LENGTH_LONG).show();
                 });
     }

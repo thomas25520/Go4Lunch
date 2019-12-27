@@ -2,6 +2,7 @@
     <!--    Login-->
     <string name="go4lunch">Go4Lunch</string>
     <string name="login_background_subtitle">Find a nice restaurants and invite your co-workers for lunch !</string>
+    <string name="tap_to_connect">Tap to connect</string>
 
     <!--    Navigation drawer-->
     <string name="your_lunch">YOUR LUNCH</string>

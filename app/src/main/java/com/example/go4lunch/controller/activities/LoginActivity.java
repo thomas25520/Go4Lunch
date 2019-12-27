@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             } else { // ERRORS
                 if (response == null) {
                     Toast.makeText(this,getString(R.string.error_authentication_canceled), Toast.LENGTH_LONG).show() ;
+                    logOut();
                 } else if (Objects.requireNonNull(response.getError()).getErrorCode() == ErrorCodes.NO_NETWORK) {
                     Toast.makeText(this,getString(R.string.error_no_internet), Toast.LENGTH_LONG).show() ;
                 } else {
@@ -84,6 +85,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void logOut() {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnCompleteListener(task -> {
+                    startActivity(new Intent(getApplicationContext(), StartActivity.class)); // Start LoginActivity after logOut
+                });
     }
 
     @Override
