@@ -3,6 +3,8 @@ package com.example.go4lunch.controller.fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -33,6 +35,19 @@ public class WorkmatesFragment extends Fragment {
     private WorkmatesRecyclerAdapter mAdapter;
     private List<Workmate> mWorkmateList = new ArrayList<>();
     private RecyclerView mRecyclerView;
+
+    @Override // del search btn for workmates
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) { // del search btn for workmates
+        MenuItem item=menu.findItem(R.id.activity_main_toolbar_search_btn);
+        if(item!=null)
+            item.setVisible(false);
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
