@@ -22,4 +22,9 @@ public class StartActivity extends AppCompatActivity {
             this.startActivity(myIntent);
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
