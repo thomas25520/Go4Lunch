@@ -1,6 +1,7 @@
 package com.example.go4lunch.controller.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -159,7 +160,7 @@ public class ListViewFragment extends Fragment implements DoSearch{
                     distanceFormatter(SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(mPlace.getLatLng()))),
                     userRatingTotalFormatter(mPlace.getUserRatingsTotal().toString()),
                     openingHoursFormatter(),
-                    websiteFormatter(),
+                    websiteFormatter(mPlace.getWebsiteUri()),
                     mPlace.getPhoneNumber(),
                     mPlace.getId(),
                     isOpenFormatter(),
@@ -225,7 +226,7 @@ public class ListViewFragment extends Fragment implements DoSearch{
                 distanceFormatter(SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(mPlace.getLatLng()))),
                 userRatingTotalFormatter(mPlace.getUserRatingsTotal().toString()),
                 openingHoursFormatter(),
-                websiteFormatter(),
+                websiteFormatter(mPlace.getWebsiteUri()),
                 mPlace.getPhoneNumber(),
                 mPlace.getId(),
                 isOpenFormatter(),
@@ -281,11 +282,11 @@ public class ListViewFragment extends Fragment implements DoSearch{
         return df.format(distanceFrom) + " m";
     }
 
-    private String websiteFormatter() {
+    public String websiteFormatter(Uri websiteUri) {
         String website;
 
-        if (mPlace.getWebsiteUri() != null)
-            website = mPlace.getWebsiteUri().toString();
+        if (websiteUri != null)
+            website = websiteUri.toString();
         else website = getString(R.string.no_website_available);
 
         return website;
