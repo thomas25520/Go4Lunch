@@ -18,7 +18,7 @@
 
     <!--    RESTAURANT-->
     <string name="open">OPEN</string>
-    <string name="close">CLOSE</string>
+    <string name="closed">CLOSED</string>
     <string name="call">CALL</string>
     <string name="like">LIKE</string>
     <string name="website">WEBSITE</string>
@@ -56,4 +56,6 @@
     <string name="are_you_sure_to_log_out">Are you sure to log out ?</string>
     <string name="no">NO</string>
     <string name="yes">YES</string>
+    <string name="close">CLOSE</string>
+
 </resources>

@@ -48,7 +48,7 @@ import butterknife.ButterKnife;
  * Created by Dutru Thomas on 05/09/2019.
  *
  */
-public class RestaurantDetails extends AppCompatActivity {
+public class RestaurantDetailsActivity extends AppCompatActivity {
     @BindView(R.id.activity_restaurant_details_name) TextView mRestaurantName;
     @BindView(R.id.activity_restaurant_details_address) TextView mRestaurantAddress;
     @BindView(R.id.activity_restaurant_details_picture) ImageView mRestaurantPicture;
@@ -159,7 +159,7 @@ public class RestaurantDetails extends AppCompatActivity {
                     .setNegativeButton(R.string.close, null)
                     .show());
         } else {
-            Intent intentForWebsite = new Intent(RestaurantDetails.this, WebViewActivity.class);
+            Intent intentForWebsite = new Intent(RestaurantDetailsActivity.this, WebViewActivity.class);
             intentForWebsite.putExtra("website",getIntent().getStringExtra("website")); // Pass intent again for display on WebViewActivity.
 
             mRestaurantWebsiteUrl.setOnClickListener(v -> new AlertDialog.Builder(this)
@@ -173,7 +173,7 @@ public class RestaurantDetails extends AppCompatActivity {
         // Redirect user on google maps page, user can write a notice and vote.
         mRestaurantLike.setOnClickListener(v -> {
             String linkForGmToLike = "https://www.google.com/maps/place/?q=place_id:" + getIntent().getStringExtra("restaurantId");
-            Intent intentForWebsite = new Intent(RestaurantDetails.this, WebViewActivity.class);
+            Intent intentForWebsite = new Intent(RestaurantDetailsActivity.this, WebViewActivity.class);
             intentForWebsite.putExtra("website", linkForGmToLike); // Pass intent again for display on WebViewActivity.
             startActivity(intentForWebsite);
         });
@@ -232,7 +232,7 @@ public class RestaurantDetails extends AppCompatActivity {
                             );
 
                             // Add user on list only if eating on this restaurant
-                            if (WorkmateHelper.getStringInfoFrom("restaurantName", document).equals(getIntent().getStringExtra("restaurantName")))
+                            if (WorkmateHelper.getStringInfoFrom("restaurantId", document).equals(getIntent().getStringExtra("restaurantId")))
                                 mWorkmateList.add(workmate);
                             mAdapter.notifyDataSetChanged();
                         }

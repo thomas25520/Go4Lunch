@@ -56,7 +56,7 @@ public class ListViewRecyclerAdapter extends RecyclerView.Adapter<ListViewViewHo
             holder.mRestaurantIsOpen.setText(R.string.open);
             holder.mRestaurantIsOpen.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_green));
         } else {
-            holder.mRestaurantIsOpen.setText(R.string.close);
+            holder.mRestaurantIsOpen.setText(R.string.closed);
             holder.mRestaurantIsOpen.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.color_red));
         }
         holder.mRestaurantDistance.setText(restaurant.getDistance());

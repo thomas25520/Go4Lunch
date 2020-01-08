@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     // Identifier for Sign-In Activity
     private static final int RC_SIGN_IN = 123;
     private String mUserName, mUserMailAddress, mUserProfilePicture;
+    Context mContext = this;
 
     @Nullable
     protected FirebaseUser getCurrentUser() { return FirebaseAuth.getInstance().getCurrentUser(); }
@@ -50,7 +51,12 @@ public class LoginActivity extends AppCompatActivity {
                 RC_SIGN_IN);
     }
 
-    Context mContext = this;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 4 - Handle SignIn Activity response on activity result
+        this.handleResponseAfterSignIn(requestCode, resultCode, data);
+    }
 
     // Method that handles response after SignIn Activity close
     private void handleResponseAfterSignIn(int requestCode, int resultCode, Intent data) {
@@ -93,13 +99,6 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     startActivity(new Intent(getApplicationContext(), StartActivity.class)); // Start LoginActivity after logOut
                 });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // 4 - Handle SignIn Activity response on activity result
-        this.handleResponseAfterSignIn(requestCode, resultCode, data);
     }
 
     private void getUserInfoFromFirebaseAuth() {

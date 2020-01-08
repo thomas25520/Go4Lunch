@@ -243,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected Boolean isCurrentUserLogged() { return (this.getCurrentUser() != null); }
 
     private void updateUserInfoWhenConnecting() {
-
         if (this.getCurrentUser() != null){
 
 //            Get picture URL from Firebase
@@ -285,12 +284,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                System.out.println(place);
                 if (mCurrentFragment != null)
                     mCurrentFragment.getAutocompleteResult(place);
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 Status status = Autocomplete.getStatusFromIntent(data);
-                System.out.println(status);
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }

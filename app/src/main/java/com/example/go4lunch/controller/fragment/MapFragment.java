@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.go4lunch.R;
+import com.example.go4lunch.api.WorkmateHelper;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -37,6 +38,8 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -141,13 +144,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
 
                 for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
                     if (Objects.requireNonNull(placeLikelihood.getPlace().getTypes()).toString().contains("RESTAURANT")) { // Display only Restaurant
-
-                        LatLng placeLatLng = new LatLng(Objects.requireNonNull(placeLikelihood.getPlace().getLatLng()).latitude, placeLikelihood.getPlace().getLatLng().longitude);
-
                         if (getContext() != null) { // Prevent application crash if switch too fast between map and list
-                            mGoogleMap.addMarker(new MarkerOptions().position(placeLatLng)
-                                    .icon(bitmapDescriptorFromVector(getContext()))
-                                    .title(placeLikelihood.getPlace().getName()));
+                            addMarker(placeLikelihood.getPlace());
                         }
                     }
                 }
@@ -162,8 +160,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
     }
 
     // Convert vector image to bitmapDescriptor, here for marker icons on maps
-    private BitmapDescriptor bitmapDescriptorFromVector(Context context) {
-        Drawable vectorDrawable = ContextCompat.getDrawable(context, R.drawable.ic_restaurant_marker);
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, boolean isEating) {
+        Drawable vectorDrawable;
+        if (!isEating)
+            vectorDrawable = ContextCompat.getDrawable(context, R.drawable.ic_restaurant_marker_yellow);
+        else
+            vectorDrawable = ContextCompat.getDrawable(context, R.drawable.ic_restaurant_marker_green);
+
         Objects.requireNonNull(vectorDrawable).setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -171,13 +174,36 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
+    // Add marker
+    public void addMarker(Place place) {
+        WorkmateHelper.getWorkmatesCollection()
+                .get()
+                .addOnCompleteListener((Task<QuerySnapshot> task) -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                            // Check user is eating at this restaurant
+                            if (WorkmateHelper.getStringInfoFrom("restaurantId", document).equals(place.getId())){
+                                mGoogleMap.addMarker(new MarkerOptions().position(place.getLatLng())
+                                        .icon(bitmapDescriptorFromVector(getContext(), true))
+                                        .title(place.getName()));
+                                return;
+                            }
+                        }
+
+                        mGoogleMap.addMarker(new MarkerOptions().position(place.getLatLng())
+                                .icon(bitmapDescriptorFromVector(getContext(), false))
+                                .title(place.getName()));
+
+                    } else {
+                        Log.d("ERROR", "Error getting documents: ", task.getException());
+                    }
+                });
+    }
+
     @Override
     public void getAutocompleteResult(Place place) {
         // Set marker for selected restaurant
-        mGoogleMap.addMarker(new MarkerOptions().position(place.getLatLng())
-                .icon(bitmapDescriptorFromVector(getContext()))
-                .title(place.getName()));
-
+        addMarker(place);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng())); // Move the camera on selected restaurant
     }
 }

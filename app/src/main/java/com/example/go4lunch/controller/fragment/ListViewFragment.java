@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.go4lunch.BuildConfig;
 import com.example.go4lunch.R;
-import com.example.go4lunch.api.ApiKeyManager;
-import com.example.go4lunch.controller.activities.RestaurantDetails;
+import com.example.go4lunch.controller.activities.RestaurantDetailsActivity;
 import com.example.go4lunch.controller.recycler.ListViewRecyclerAdapter;
 import com.example.go4lunch.controller.recycler.RecyclerHolderListener;
 import com.example.go4lunch.data.Restaurant;
@@ -51,7 +51,6 @@ public class ListViewFragment extends Fragment implements DoSearch{
     private RecyclerView mRecyclerView;
 
     private PlacesClient mPlacesClient;
-    private ApiKeyManager mApiKeyManager = new ApiKeyManager();
     private PhotoMetadata mPhotoMetadata = null;
     private Place mPlace;
 
@@ -61,7 +60,7 @@ public class ListViewFragment extends Fragment implements DoSearch{
         mRecyclerView = listViewFragment.findViewById(R.id.fragment_list_view_recycler);
 
         // Initialize the SDK
-        Places.initialize(Objects.requireNonNull(getContext()), mApiKeyManager.getGoogleMapsApiKey());
+        Places.initialize(Objects.requireNonNull(getContext()), BuildConfig.GoogleMapsApiKey);
         // Create a new Places client instance
         mPlacesClient = Places.createClient(Objects.requireNonNull(getContext()));
         // Location Services
@@ -76,7 +75,7 @@ public class ListViewFragment extends Fragment implements DoSearch{
     // Click on item on listView, put the extra for restaurantDetails
     RecyclerHolderListener recyclerHolderListener = (viewHolder, item, pos) -> {
         Restaurant restaurant = (Restaurant) item;
-        Intent intent = new Intent(getContext(), RestaurantDetails.class);
+        Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
         intent.putExtra("restaurantName", restaurant.getName());
         intent.putExtra("address", restaurant.getAddress());
         intent.putExtra("rating", restaurant.getUserRating());
@@ -220,6 +219,10 @@ public class ListViewFragment extends Fragment implements DoSearch{
         mPlace = place;
         mRestaurantList.clear(); // Clear list before display result
 
+        if (mPlace.getLatLng() == null) {
+            Toast.makeText(getContext(), R.string.no_restaurant_found, Toast.LENGTH_LONG).show();
+            return;
+        }
         Restaurant restaurant = new Restaurant(
                 nameFormatter(mPlace.getName()),
                 addressFormatter(),
@@ -277,8 +280,6 @@ public class ListViewFragment extends Fragment implements DoSearch{
 
     public String distanceFormatter(double distanceFrom) {
         DecimalFormat df = new DecimalFormat("###"); // Format distance to avoid : .0 after the distance
-        System.out.println(distanceFrom);
-        System.out.println(df.format(distanceFrom));
         return df.format(distanceFrom) + " m";
     }
 

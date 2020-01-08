@@ -4,11 +4,10 @@
     <string name="login_background_subtitle">Trouvez un bon restaurant et invitez vos collègues à déjeuner !</string>
     <string name="tap_to_connect">Touchez pour vous connecter</string>
 
-
     <!--    Navigation drawer-->
     <string name="your_lunch">VOTRE REPAS</string>
     <string name="settings">OPTION</string>
-    <string name="logout">DECONNECTION</string>
+    <string name="logout">DECONNEXION</string>
     <string name="search">Recherche</string>
 
     <!-- BOTTOM NAVIGATION VIEW -->
@@ -19,7 +18,7 @@
 
     <!--    RESTAURANT-->
     <string name="open">OUVERT</string>
-    <string name="close">FERMER</string>
+    <string name="closed">FERMÉ</string>
     <string name="call">APPELER</string>
     <string name="like">AIMER</string>
     <string name="website">SITE WEB</string>
@@ -57,5 +56,6 @@
     <string name="are_you_sure_to_log_out">Êtes-vous sûr de vouloir vous déconnecter ?</string>
     <string name="no">NON</string>
     <string name="yes">OUI</string>
+    <string name="close">FERMER</string>
 
 </resources>
