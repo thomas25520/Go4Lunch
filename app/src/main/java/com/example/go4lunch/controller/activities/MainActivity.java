@@ -20,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.go4lunch.Constant;
 import com.example.go4lunch.R;
 import com.example.go4lunch.api.WorkmateHelper;
 import com.example.go4lunch.controller.fragment.DoSearch;
@@ -113,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(new Intent(getApplicationContext(), StartActivity.class)); // Start LoginActivity after logOut
                     Toast.makeText(getApplicationContext(), R.string.log_out_message, Toast.LENGTH_LONG).show();
                 });
+        this.finishAffinity(); // Close apk when back button is pressed on startActivity
     }
 
     @Override
@@ -168,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Task<DocumentSnapshot> taskSnapshot = WorkmateHelper.getWorkmate(getCurrentUser().getEmail());
                 taskSnapshot.addOnCompleteListener(task -> { // access to DB
                     if (task.isSuccessful()) {
-                        String restaurantName = WorkmateHelper.getStringInfoFrom("restaurantName", taskSnapshot.getResult());
+                        String restaurantName = WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_NAME, taskSnapshot.getResult());
                         if (restaurantName.isEmpty()) {
                             new AlertDialog.Builder(this)
                                     .setTitle(R.string.your_lunch)

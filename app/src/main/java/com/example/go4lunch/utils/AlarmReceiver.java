@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.go4lunch.Constant;
 import com.example.go4lunch.R;
 import com.example.go4lunch.api.WorkmateHelper;
 import com.google.android.gms.tasks.Task;
@@ -46,7 +47,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             Task<DocumentSnapshot> taskSnapshot  = WorkmateHelper.getWorkmate(getCurrentUser().getEmail());
             taskSnapshot.addOnCompleteListener(task -> { // access to DB
                 if (task.isSuccessful()) {
-                    mRestaurantName = WorkmateHelper.getStringInfoFrom("restaurantName", taskSnapshot.getResult());
+                    mRestaurantName = WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_NAME, taskSnapshot.getResult());
 
                     if (!mRestaurantName.isEmpty())
                         createAndShowNotification(R.drawable.ic_logo_go4lunch, mContext.getString(R.string.you_eating_at), mRestaurantName, NotificationCompat.PRIORITY_DEFAULT, CHANNEL_ID, NOTIFICATION_ID, mContext); // notify user

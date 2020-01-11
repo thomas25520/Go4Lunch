@@ -1,12 +1,12 @@
 package com.example.go4lunch.api;
 
+import com.example.go4lunch.Constant;
 import com.example.go4lunch.data.Workmate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 /**
@@ -47,11 +47,11 @@ public class WorkmateHelper {
         return WorkmateHelper.getWorkmatesCollection().document(uid).update("pictureUrl", picture);
     }
     public static Task<Void> updateWorkmateRestaurantId(String restaurantId, String uid) {
-        return WorkmateHelper.getWorkmatesCollection().document(uid).update("restaurantId", restaurantId);
+        return WorkmateHelper.getWorkmatesCollection().document(uid).update(Constant.RESTAURANT_ID, restaurantId);
     }
 
     public static Task<Void> updateWorkmateRestaurantName(String restaurantName, String uid) {
-        return WorkmateHelper.getWorkmatesCollection().document(uid).update("restaurantName", restaurantName);
+        return WorkmateHelper.getWorkmatesCollection().document(uid).update(Constant.RESTAURANT_NAME, restaurantName);
     }
 
     public static Task<Void> updateIsWorkmateEating(String uid, Boolean isEating) {

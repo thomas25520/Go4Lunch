@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.go4lunch.Constant;
 import com.example.go4lunch.R;
 import com.example.go4lunch.api.WorkmateHelper;
 import com.google.android.gms.common.api.ApiException;
@@ -122,7 +123,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
     private void moveCameraOnUser() {
         mUserPosition = new LatLng(mLatitude, mLongitude); // Get User Latitude and longitude position
         mGoogleMap.setMaxZoomPreference(20);
-        mGoogleMap.setMinZoomPreference(17);
+        mGoogleMap.setMinZoomPreference(16);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(mUserPosition)); // Move the camera to user position
     }
 
@@ -182,7 +183,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                             // Check user is eating at this restaurant
-                            if (WorkmateHelper.getStringInfoFrom("restaurantId", document).equals(place.getId())){
+                            if (WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_ID, document).equals(place.getId())){
                                 mGoogleMap.addMarker(new MarkerOptions().position(place.getLatLng())
                                         .icon(bitmapDescriptorFromVector(getContext(), true))
                                         .title(place.getName()));

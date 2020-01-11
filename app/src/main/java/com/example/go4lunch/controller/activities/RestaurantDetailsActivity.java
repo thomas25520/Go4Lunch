@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.go4lunch.Constant;
 import com.example.go4lunch.R;
 import com.example.go4lunch.api.WorkmateHelper;
 import com.example.go4lunch.controller.recycler.RestaurantDetailsRecyclerAdapter;
@@ -82,13 +83,13 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         Task<DocumentSnapshot> taskSnapshot = WorkmateHelper.getWorkmate(getCurrentUser().getEmail());
         taskSnapshot.addOnCompleteListener(task -> { // access to DB
             if (task.isSuccessful()) {
-                String userRestaurantId = WorkmateHelper.getStringInfoFrom("restaurantId", taskSnapshot.getResult());
+                String userRestaurantId = WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_ID, taskSnapshot.getResult());
                 if (userRestaurantId.isEmpty()) {
                     mParticipationBtnState = false;
                     mParticipationBtn.setImageResource(R.drawable.ic_check);
 
                 } else {
-                    if (userRestaurantId.equals(getIntent().getStringExtra("restaurantId"))) {
+                    if (userRestaurantId.equals(getIntent().getStringExtra(Constant.RESTAURANT_ID))) {
                         mParticipationBtnState = true;
                         mParticipationBtn.setImageResource(R.drawable.ic_cancel);
                     } else {
@@ -104,7 +105,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
         Places.initialize(this, getString(R.string.google_api_key));
         // Create a new Places client instance
         mPlacesClient = Places.createClient(this);
-        mRestaurantName.setText(getIntent().getStringExtra("restaurantName"));
+        mRestaurantName.setText(getIntent().getStringExtra(Constant.RESTAURANT_NAME));
         mRestaurantAddress.setText(getIntent().getStringExtra("address"));
         double restaurantRating = getIntent().getDoubleExtra("rating", 0);
         mRestaurantRatingBar.setRating((float)restaurantRating *3 /5);
@@ -172,7 +173,7 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
         // Redirect user on google maps page, user can write a notice and vote.
         mRestaurantLike.setOnClickListener(v -> {
-            String linkForGmToLike = "https://www.google.com/maps/place/?q=place_id:" + getIntent().getStringExtra("restaurantId");
+            String linkForGmToLike = "https://www.google.com/maps/place/?q=place_id:" + getIntent().getStringExtra(Constant.RESTAURANT_ID);
             Intent intentForWebsite = new Intent(RestaurantDetailsActivity.this, WebViewActivity.class);
             intentForWebsite.putExtra("website", linkForGmToLike); // Pass intent again for display on WebViewActivity.
             startActivity(intentForWebsite);
@@ -203,8 +204,6 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
 
                 delWorkmate();
             } else {
-//                String restaurantId = getIntent().getStringExtra("restaurantId");
-//                String restaurantName = getIntent().getStringExtra("restaurantName");
 
                 mParticipationBtn.setImageResource(R.drawable.ic_cancel);
                 mParticipationBtnState = true;
@@ -224,15 +223,15 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
                         for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                             Workmate workmate = new Workmate(
                                     WorkmateHelper.getStringInfoFrom("name", document),
-                                    WorkmateHelper.getStringInfoFrom("restaurantName", document),
+                                    WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_NAME, document),
                                     WorkmateHelper.getStringInfoFrom("pictureUrl", document),
                                     "",
                                     WorkmateHelper.getBooleanInfoFrom("eating", document),
-                                    WorkmateHelper.getStringInfoFrom("restaurantName", document)
+                                    WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_NAME, document)
                             );
 
                             // Add user on list only if eating on this restaurant
-                            if (WorkmateHelper.getStringInfoFrom("restaurantId", document).equals(getIntent().getStringExtra("restaurantId")))
+                            if (WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_ID, document).equals(getIntent().getStringExtra(Constant.RESTAURANT_ID)))
                                 mWorkmateList.add(workmate);
                             mAdapter.notifyDataSetChanged();
                         }
@@ -257,8 +256,8 @@ public class RestaurantDetailsActivity extends AppCompatActivity {
     // Update workmate status on DB and refresh list for recycler
     private void addWorkmate() {
         WorkmateHelper.updateIsWorkmateEating(getCurrentUser().getEmail(),true); // Change eating status to true on DB
-        WorkmateHelper.updateWorkmateRestaurantId(getIntent().getStringExtra("restaurantId"),getCurrentUser().getEmail()); // Save restaurant Id on user on DB
-        WorkmateHelper.updateWorkmateRestaurantName(getIntent().getStringExtra("restaurantName"), getCurrentUser().getEmail()); // Save restaurant name on user in DB
+        WorkmateHelper.updateWorkmateRestaurantId(getIntent().getStringExtra(Constant.RESTAURANT_ID),getCurrentUser().getEmail()); // Save restaurant Id on user on DB
+        WorkmateHelper.updateWorkmateRestaurantName(getIntent().getStringExtra(Constant.RESTAURANT_NAME), getCurrentUser().getEmail()); // Save restaurant name on user in DB
         mWorkmateList.clear(); // Clear de lis before refresh data
         initData(); // Refresh data for recycler
     }

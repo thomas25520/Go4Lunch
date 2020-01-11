@@ -32,7 +32,7 @@ public class ListViewFragmentTest {
 
     @Test
     public void getUserRatingTest() {
-        String actual = fragment.userRatingTotalFormatter("264");
+        String actual = fragment.userRatingTotalFormatter(264);
         String expected = "(264)";
         assertEquals(expected, actual);
     }

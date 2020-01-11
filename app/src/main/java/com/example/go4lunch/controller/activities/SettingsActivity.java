@@ -73,7 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             } else {
                 SharedPreferencesManager.putBoolean(this, "notificationBtnState", false);
-                scheduleNotification(mHour, mMinute, AlarmManager.INTERVAL_DAY); // FIXME: 16/12/2019 recreate schedule for nothing prevent apk crash if uncheck notification btn
+                scheduleNotification(mHour, mMinute, AlarmManager.INTERVAL_DAY); // Recreate schedule for nothing, prevent apk crash if notification btn is unchecked.
                 mAlarmManager.cancel(mPendingIntent); // Disable alarm
             }
         });

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.go4lunch.BuildConfig;
+import com.example.go4lunch.Constant;
 import com.example.go4lunch.R;
 import com.example.go4lunch.controller.activities.RestaurantDetailsActivity;
 import com.example.go4lunch.controller.recycler.ListViewRecyclerAdapter;
@@ -76,14 +77,14 @@ public class ListViewFragment extends Fragment implements DoSearch{
     RecyclerHolderListener recyclerHolderListener = (viewHolder, item, pos) -> {
         Restaurant restaurant = (Restaurant) item;
         Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
-        intent.putExtra("restaurantName", restaurant.getName());
+        intent.putExtra(Constant.RESTAURANT_NAME, restaurant.getName());
         intent.putExtra("address", restaurant.getAddress());
         intent.putExtra("rating", restaurant.getUserRating());
         intent.putExtra("picture", restaurant.getPhotoMetadata());
         intent.putExtra("rating", restaurant.getUserRating());
         intent.putExtra("phone", restaurant.getPhoneNumber());
         intent.putExtra("website", restaurant.getWebsiteUrl());
-        intent.putExtra("restaurantId", restaurant.getId());
+        intent.putExtra(Constant.RESTAURANT_ID, restaurant.getId());
 
         startActivity(intent);
     };
@@ -157,7 +158,7 @@ public class ListViewFragment extends Fragment implements DoSearch{
                     nameFormatter(mPlace.getName()),
                     addressFormatter(),
                     distanceFormatter(SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(mPlace.getLatLng()))),
-                    userRatingTotalFormatter(mPlace.getUserRatingsTotal().toString()),
+                    userRatingTotalFormatter(mPlace.getUserRatingsTotal()),
                     openingHoursFormatter(),
                     websiteFormatter(mPlace.getWebsiteUri()),
                     mPlace.getPhoneNumber(),
@@ -227,7 +228,7 @@ public class ListViewFragment extends Fragment implements DoSearch{
                 nameFormatter(mPlace.getName()),
                 addressFormatter(),
                 distanceFormatter(SphericalUtil.computeDistanceBetween(MapFragment.mUserPosition, Objects.requireNonNull(mPlace.getLatLng()))),
-                userRatingTotalFormatter(mPlace.getUserRatingsTotal().toString()),
+                userRatingTotalFormatter(mPlace.getUserRatingsTotal()),
                 openingHoursFormatter(),
                 websiteFormatter(mPlace.getWebsiteUri()),
                 mPlace.getPhoneNumber(),
@@ -303,12 +304,11 @@ public class ListViewFragment extends Fragment implements DoSearch{
         return openingHours;
     }
 
-    public String userRatingTotalFormatter(String userRatingTotal) {
+    public String userRatingTotalFormatter(Integer userRatingTotal) {
+        String rating = "(0)";
         if (userRatingTotal != null)
-            userRatingTotal = "(" + userRatingTotal + ")";
-        else userRatingTotal = "(0)";
-
-        return userRatingTotal;
+            rating = "(" + userRatingTotal.toString() + ")";
+        return rating;
     }
 
     private boolean isOpenFormatter() {

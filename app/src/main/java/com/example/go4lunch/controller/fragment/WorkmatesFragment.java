@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.go4lunch.Constant;
 import com.example.go4lunch.R;
 import com.example.go4lunch.api.WorkmateHelper;
 import com.example.go4lunch.controller.recycler.WorkmatesRecyclerAdapter;
@@ -68,11 +69,11 @@ public class WorkmatesFragment extends Fragment {
                         for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                             Workmate workmate = new Workmate(
                                     WorkmateHelper.getStringInfoFrom("name", document),
-                                    WorkmateHelper.getStringInfoFrom("restaurantId", document),
+                                    WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_ID, document),
                                     WorkmateHelper.getStringInfoFrom("pictureUrl", document),
                                     "",
                                     WorkmateHelper.getBooleanInfoFrom("eating", document),
-                                    WorkmateHelper.getStringInfoFrom("restaurantName", document)
+                                    WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_NAME, document)
                             );
                             mWorkmateList.add(workmate);
                             mAdapter.notifyDataSetChanged();
