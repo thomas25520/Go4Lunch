@@ -51,11 +51,14 @@
     <string name="eating_at">You are eating at :\u0020</string>
     <string name="notifications">Notifications</string>
     <string name="hours">Hour</string>
-    <string name="you_eating_at">You eating at :\u0020</string>
+    <string name="you_eating_at">You are eating at :\u0020</string>
     <string name="no_address_found">No address found</string>
     <string name="are_you_sure_to_log_out">Are you sure to log out ?</string>
     <string name="no">NO</string>
     <string name="yes">YES</string>
     <string name="close">CLOSE</string>
+    <string name="notification_info">You will be notified at 12:00, which restaurant you are eating in and which workmates are joining you.</string>
+    <string name="with">with</string>
+    <string name="test">test</string>
 
 </resources>

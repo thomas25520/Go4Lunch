@@ -8,9 +8,9 @@
     <Switch
         android:id="@+id/notification_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="20dp"
         android:text="@string/notifications"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,25 +19,15 @@
 
     <TextView
         android:id="@+id/textViewHours"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/hours"
-        android:textColor="@color/places_text_black_alpha_87"
-        app:layout_constraintEnd_toEndOf="@+id/notification_btn"
-        app:layout_constraintStart_toStartOf="@+id/notification_btn"
-        app:layout_constraintTop_toBottomOf="@+id/notification_btn" />
-
-    <TimePicker
-        android:id="@+id/datePickerNotification"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:timePickerMode="spinner"
-        app:layout_constraintEnd_toEndOf="@+id/textViewHours"
-        app:layout_constraintStart_toStartOf="@+id/textViewHours"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHours" />
+        android:text="@string/notification_info"
+        android:textColor="@color/quantum_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notification_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

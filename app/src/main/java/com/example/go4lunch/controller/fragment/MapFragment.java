@@ -2,9 +2,11 @@ package com.example.go4lunch.controller.fragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import com.example.go4lunch.Constant;
 import com.example.go4lunch.R;
 import com.example.go4lunch.api.WorkmateHelper;
+import com.example.go4lunch.controller.activities.RestaurantDetailsActivity;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -36,6 +39,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.PlaceLikelihood;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -48,6 +52,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -62,6 +67,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
     private PlacesClient mPlacesClient;
 
     GoogleMap mGoogleMap;
+
+    List<Place> placeList = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,6 +100,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
                         mGoogleMap.setMyLocationEnabled(true); // Enable MyLocation Button
                         clientLocation(); // Locate user and move the camera to his position
                         initPlaces();
+                        clickOnMarker();
                     }
 
                     @Override
@@ -146,6 +154,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
                 for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
                     if (Objects.requireNonNull(placeLikelihood.getPlace().getTypes()).toString().contains("RESTAURANT")) { // Display only Restaurant
                         if (getContext() != null) { // Prevent application crash if switch too fast between map and list
+                            placeList.add(placeLikelihood.getPlace());
                             addMarker(placeLikelihood.getPlace());
                         }
                     }
@@ -183,7 +192,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                             // Check user is eating at this restaurant
-                            if (WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_ID, document).equals(place.getId())){
+                            if (WorkmateHelper.getStringInfoFrom(Constant.RESTAURANT_ID, document).equals(place.getId())) {
                                 mGoogleMap.addMarker(new MarkerOptions().position(place.getLatLng())
                                         .icon(bitmapDescriptorFromVector(getContext(), true))
                                         .title(place.getName()));
@@ -206,5 +215,78 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
         // Set marker for selected restaurant
         addMarker(place);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(place.getLatLng())); // Move the camera on selected restaurant
+    }
+
+    private void clickOnMarker() {
+        mGoogleMap.setOnInfoWindowClickListener(marker -> {
+
+            LatLng latLon = marker.getPosition();
+            //Cycle through places array
+            for (Place place : placeList) {
+                if (latLon.equals(place.getLatLng())) {
+                    getPlaceDetails(place.getId());
+                }
+            }
+        });
+    }
+    private double ratingFormatter(Place mPlace) {
+        double rating;
+        if (mPlace.getRating() != null)
+            rating = mPlace.getRating();
+        else rating = 0.0;
+
+        return rating;
+    }
+
+    public String websiteFormatter(Uri websiteUri) {
+        String website;
+
+        if (websiteUri != null)
+            website = websiteUri.toString();
+        else website = getString(R.string.no_website_available);
+
+        return website;
+    }
+
+    private void getPlaceDetails(String placeId){
+        // Specify the fields to return.
+        List<Place.Field> placeFields = Arrays.asList(
+                Place.Field.NAME,
+                Place.Field.LAT_LNG,
+                Place.Field.RATING,
+                Place.Field.PHONE_NUMBER,
+                Place.Field.WEBSITE_URI,
+                Place.Field.USER_RATINGS_TOTAL,
+                Place.Field.RATING,
+                Place.Field.ADDRESS,
+                Place.Field.ADDRESS_COMPONENTS,
+                Place.Field.PHOTO_METADATAS,
+                Place.Field.UTC_OFFSET,
+                Place.Field.ID,
+                Place.Field.OPENING_HOURS);
+
+        // Construct a request object, passing the place ID and fields array.
+        FetchPlaceRequest request = FetchPlaceRequest.newInstance(placeId, placeFields);
+
+        mPlacesClient.fetchPlace(request).addOnSuccessListener((response) -> {
+            Place place = response.getPlace();
+            Intent intent = new Intent(getContext(), RestaurantDetailsActivity.class);
+            intent.putExtra(Constant.RESTAURANT_NAME, place.getName());
+            intent.putExtra("address", place.getAddress());
+            intent.putExtra("rating", ratingFormatter(place));
+            intent.putExtra("picture", place.getPhotoMetadatas().get(0));
+            intent.putExtra("phone", place.getPhoneNumber());
+            intent.putExtra("website",websiteFormatter(place.getWebsiteUri()));
+            intent.putExtra(Constant.RESTAURANT_ID, place.getId());
+
+            startActivity(intent);
+
+
+        }).addOnFailureListener((exception) -> {
+            if (exception instanceof ApiException) {
+                // Handle error with given status code.
+                Log.e("ERROR", "Place not found: " + exception.getMessage());
+            }
+        });
     }
 }

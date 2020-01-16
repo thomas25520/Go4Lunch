@@ -81,7 +81,6 @@ public class ListViewFragment extends Fragment implements DoSearch{
         intent.putExtra("address", restaurant.getAddress());
         intent.putExtra("rating", restaurant.getUserRating());
         intent.putExtra("picture", restaurant.getPhotoMetadata());
-        intent.putExtra("rating", restaurant.getUserRating());
         intent.putExtra("phone", restaurant.getPhoneNumber());
         intent.putExtra("website", restaurant.getWebsiteUrl());
         intent.putExtra(Constant.RESTAURANT_ID, restaurant.getId());

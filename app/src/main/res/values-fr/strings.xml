@@ -57,5 +57,7 @@
     <string name="no">NON</string>
     <string name="yes">OUI</string>
     <string name="close">FERMER</string>
+    <string name="notification_info">Vous serez notifié à 12h00 dans quelle restaurant vous mangez et quelles collègues se sont joint à vous.</string>
+    <string name="with">avec</string>
 
 </resources>
