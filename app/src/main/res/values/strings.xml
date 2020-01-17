@@ -24,7 +24,7 @@
     <string name="website">WEBSITE</string>
 
     <!--    WORKMATES-->
-    <string name="is_eating">is eating at </string>
+    <string name="is_eating">eat here :\u0020</string>
 
     <!--    LOG IN-->
     <string name="connection_succeed">Connection succeed</string>
@@ -59,6 +59,5 @@
     <string name="close">CLOSE</string>
     <string name="notification_info">You will be notified at 12:00, which restaurant you are eating in and which workmates are joining you.</string>
     <string name="with">with</string>
-    <string name="test">test</string>
 
 </resources>
