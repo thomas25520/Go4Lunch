@@ -99,6 +99,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, DoSearc
                     public void onPermissionGranted(PermissionGrantedResponse response) {
                         mGoogleMap.setMyLocationEnabled(true); // Enable MyLocation Button
                         clientLocation(); // Locate user and move the camera to his position
+                        moveCameraOnUser();
                         initPlaces();
                         clickOnMarker();
                     }

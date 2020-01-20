@@ -25,6 +25,6 @@ public class StartActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        this.finishAffinity(); // Close apk when back button is pressed
     }
 }

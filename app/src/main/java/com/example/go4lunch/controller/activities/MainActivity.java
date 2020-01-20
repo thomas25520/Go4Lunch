@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(new Intent(getApplicationContext(), StartActivity.class)); // Start LoginActivity after logOut
                     Toast.makeText(getApplicationContext(), R.string.log_out_message, Toast.LENGTH_LONG).show();
                 });
-        this.finishAffinity(); // Close apk when back button is pressed on startActivity
     }
 
     @Override
